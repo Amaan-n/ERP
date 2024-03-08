@@ -69,7 +69,12 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     });
 
     // =============== ROUTES FOR ASSETS MANAGEMENT =============== //
-    Route::group(['prefix' => 'assets-management'], function () {
+    Route::group(['prefix' => 'assets_management'], function () {
+        Route::get('home', 'HomeController@assetsManagementIndex')->name('assets_management.home');
+    });
 
+    // =============== ROUTES FOR WAREHOUSES MANAGEMENT =============== //
+    Route::group(['prefix' => 'warehouses_management'], function () {
+        Route::get('home', 'HomeController@warehousesManagementIndex')->name('warehouses_management.home');
     });
 });

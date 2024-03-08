@@ -26,6 +26,16 @@ class HomeController extends Controller
         return view('home.index');
     }
 
+    public function assetsManagementIndex(Request $request)
+    {
+        return view('home.assets_management_index');
+    }
+
+    public function warehousesManagementIndex(Request $request)
+    {
+        return view('home.warehouses_management_index');
+    }
+
     public function profile()
     {
         return view('profile');

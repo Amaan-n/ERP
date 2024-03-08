@@ -48,48 +48,71 @@
                 <li class="menu-item {{ get_active_class($current, ['home']) }}" aria-haspopup="true">
                     <a href="{{ route('home') }}" class="menu-link">
                         <i class="fa fa-chart-line mr-5"></i>
-                        <span class="menu-text">Dashboard</span>
+                        <span class="menu-text">Admin Dashboard</span>
                     </a>
                 </li>
 
-                @if($is_root_user == 1
+                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/admin')
+                    @if($is_root_user == 1
                         || (in_array('groups.index', $accesses_urls)
                             || in_array('users.index', $accesses_urls)
                             || in_array('configurations', $accesses_urls)))
-                    <li class="menu-section">
-                        <h4 class="menu-text">Administrative Links</h4>
-                        <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                    </li>
+                        <li class="menu-section">
+                            <h4 class="menu-text">Administrative Links</h4>
+                            <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('groups.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['groups.index', 'groups.edit', 'groups.create', 'groups.show']) }}"
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="{{ route('groups.index') }}" class="menu-link menu-toggle">
+                                <i class="fa fa-lock mr-5"></i>
+                                <span class="menu-text">User Groups ( Policies )</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('users.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['users.index', 'users.edit', 'users.create', 'users.show']) }}"
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="{{ route('users.index') }}" class="menu-link menu-toggle">
+                                <i class="fa fa-user mr-5"></i>
+                                <span class="menu-text">Users</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('configurations', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['configurations']) }}"
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="{{ route('configurations') }}" class="menu-link menu-toggle">
+                                <i class="fa fa-cog mr-5"></i>
+                                <span class="menu-text">Configurations</span>
+                            </a>
+                        </li>
+                    @endif
                 @endif
 
-                @if($is_root_user == 1 || in_array('groups.index', $accesses_urls))
-                    <li class="menu-item {{ get_active_class($current, ['groups.index', 'groups.edit', 'groups.create', 'groups.show']) }}"
-                        aria-haspopup="true" data-menu-toggle="hover">
-                        <a href="{{ route('groups.index') }}" class="menu-link menu-toggle">
-                            <i class="fa fa-lock mr-5"></i>
-                            <span class="menu-text">User Groups ( Policies )</span>
-                        </a>
-                    </li>
-                @endif
+                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/assets_management')
+                    @if($is_root_user == 1 || in_array('assets_management.home', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['assets_management.home']) }}" aria-haspopup="true">
+                            <a href="{{ route('assets_management.home') }}" class="menu-link">
+                                <i class="fa fa-chart-line mr-5"></i>
+                                <span class="menu-text">Dashboard</span>
+                            </a>
+                        </li>
+                    @endif
 
-                @if($is_root_user == 1 || in_array('users.index', $accesses_urls))
-                    <li class="menu-item {{ get_active_class($current, ['users.index', 'users.edit', 'users.create', 'users.show']) }}"
-                        aria-haspopup="true" data-menu-toggle="hover">
-                        <a href="{{ route('users.index') }}" class="menu-link menu-toggle">
-                            <i class="fa fa-user mr-5"></i>
-                            <span class="menu-text">Users</span>
-                        </a>
-                    </li>
-                @endif
-
-                @if($is_root_user == 1 || in_array('configurations', $accesses_urls))
-                    <li class="menu-item {{ get_active_class($current, ['configurations']) }}"
-                        aria-haspopup="true" data-menu-toggle="hover">
-                        <a href="{{ route('configurations') }}" class="menu-link menu-toggle">
-                            <i class="fa fa-cog mr-5"></i>
-                            <span class="menu-text">Configurations</span>
-                        </a>
-                    </li>
+                    @if($is_root_user == 1
+                        || (in_array('groups.index', $accesses_urls)
+                            || in_array('users.index', $accesses_urls)
+                            || in_array('configurations', $accesses_urls)))
+                        <li class="menu-section">
+                            <h4 class="menu-text">Masters</h4>
+                            <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                        </li>
+                    @endif
                 @endif
             </ul>
         </div>
