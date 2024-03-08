@@ -60,7 +60,7 @@
                             @if(isset($manufacturer) && !empty($manufacturer->attachment))
                                 <a href="{{ config('constants.s3.asset_url') . $manufacturer->attachment }}"
                                    target="_blank">
-                                    <i class="fa fa-image fa-10x"></i>
+                                    <i class="fa fa-image fa-5x"></i>
                                 </a>
                             @else
                                 <span>-</span>

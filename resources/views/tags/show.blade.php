@@ -1,13 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="card card-custom gutter-b">
-        <div class="card-header flex-wrap py-3">
-            <div class="card-title">
-                <h3 class="card-label">Tag Detail</h3>
-            </div>
-            <div class="card-toolbar">
-                <a href="{{ route('tags.index') }}" class="btn btn-primary font-weight-bolder">
+    <div class="d-flex flex-column-fluid">
+        <div class="container">
+            <div class="card card-custom gutter-b">
+                <div class="card-header flex-wrap py-3">
+                    <div class="card-title">
+                        <h3 class="card-label">Tag Detail</h3>
+                    </div>
+                    <div class="card-toolbar">
+                        <a href="{{ route('tags.index') }}" class="btn btn-primary font-weight-bolder">
                 <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -23,43 +25,46 @@
                         </svg>
                     <!--end::Svg Icon-->
                     </span>
-                    Back
-                </a>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <strong>Chip Order Name</strong><br>
-                    {{ !empty($tag->chip_order_name) ? $tag->chip_order_name : '-' }}
+                            Back
+                        </a>
+                    </div>
                 </div>
-            </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <strong>Chip Order Name</strong><br>
+                            {{ !empty($tag->chip_order_name) ? $tag->chip_order_name : '-' }}
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                    <strong>Value</strong><br>
-                    {{ !empty($tag->value) ? $tag->value : '-' }}
-                </div>
-            </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <strong>Value</strong><br>
+                            {{ !empty($tag->value) ? $tag->value : '-' }}
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                    <strong>Created Date</strong><br>
-                    {{ !empty($tag->created_at) ? \Carbon\Carbon::createFromTimestamp(strtotime($tag->created_at))->format('dS F, Y') : '-' }}
-                </div>
-            </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ !empty($tag->created_at) ? \Carbon\Carbon::createFromTimestamp(strtotime($tag->created_at))->format('dS F, Y') : '-' }}
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                    <strong>Attachment</strong><br>
-                    <a href="{{ config('constants.s3.asset_url') . $tag->attachment }}" target="_blank">
-                        <i class="fa fa-image fa-10x"> </i>
-                    </a>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <strong>Attachment</strong><br>
+                            <a href="{{ config('constants.s3.asset_url') . $tag->attachment }}" target="_blank">
+                                <i class="fa fa-image fa-5x"> </i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 @stop
+
 @section('page_js')
     <script>
         $(document).ready(function () {

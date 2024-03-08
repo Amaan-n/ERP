@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="is_active">
                 Is Active
@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="name">
                 Name
@@ -44,12 +44,12 @@
 <div class="row">
     <div class="col-md-3">
         <div class="form-group">
-            <label class="form-label" for="name">
-                Name
-                {!! info_circle(config('elements.content.manufacturers.name')) !!}
+            <label class="form-label" for="contact_person">
+                Contact Person
+                {!! info_circle(config('elements.content.manufacturers.contact_person')) !!}
             </label>
-            <input type="text" class="form-control" id="name" name="name"
-                   value="{{ !empty($manufacturer) && !empty($manufacturer->name) ? $manufacturer->name : old('name') }}">
+            <input type="text" class="form-control" id="contact_person" name="contact_person"
+                   value="{{ !empty($manufacturer) && !empty($manufacturer->contact_person) ? $manufacturer->contact_person : old('contact_person') }}">
         </div>
     </div>
     <div class="col-md-3">

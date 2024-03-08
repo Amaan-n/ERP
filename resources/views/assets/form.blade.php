@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="supplier_id">
                 Supplier
@@ -24,15 +24,15 @@
             </label>
             <select name="supplier_id" id="supplier_id" class="form-control">
                 <option value="">Please select a value</option>
-                @foreach(\App\Providers\FormList::getSuppliers() as $key => $value)
-                    <option value="{{ $key }}"
-                        {{ !empty($asset) && $asset->supplier_id == $key ? 'selected="selected"' : '' }}
-                    >{{ $value }}</option>
+                @foreach(\App\Providers\FormList::getSuppliers() as $supplier)
+                    <option value="{{ $supplier->id }}"
+                        {{ !empty($asset) && $asset->supplier_id == $supplier->id ? 'selected="selected"' : '' }}
+                    >{{ $supplier->name }}</option>
                 @endforeach
             </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="asset_model_id">
                 Asset Model
@@ -41,18 +41,15 @@
             </label>
             <select name="asset_model_id" id="asset_model_id" class="form-control">
                 <option value="">Please select a value</option>
-                @foreach(\App\Providers\FormList::getAssetModels() as $key => $value)
-                    <option value="{{ $key }}"
-                        {{ !empty($asset) && $asset->asset_model_id == $key ? 'selected="selected"' : '' }}
-                    >{{ $value }}</option>
+                @foreach(\App\Providers\FormList::getAssetModels() as $asset_model)
+                    <option value="{{ $asset_model->id }}"
+                        {{ !empty($asset) && $asset->asset_model_id == $asset_model->id ? 'selected="selected"' : '' }}
+                    >{{ $asset_model->name }}</option>
                 @endforeach
             </select>
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="name">
                 Name
@@ -101,7 +98,7 @@
                 <input type="number" class="form-control" id="purchase_cost" name="purchase_cost"
                        value="{{ !empty($asset) && !empty($asset->purchase_cost) ? $asset->purchase_cost : old('purchase_cost') }}">
                 <div class="input-group-append">
-                    <span class="input-group-text">INR</span>
+                    <span class="input-group-text">KWD</span>
                 </div>
             </div>
         </div>
@@ -184,13 +181,5 @@
         @else
             <p class="text-danger">Please select an asset model first.</p>
         @endif
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
     </div>
 </div>

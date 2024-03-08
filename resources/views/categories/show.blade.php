@@ -41,7 +41,7 @@
                             @if(isset($category) && !empty($category->attachment))
                                 <a href="{{ config('constants.s3.asset_url') . $category->attachment }}"
                                    target="_blank">
-                                    <i class="fa fa-image fa-10x"></i>
+                                    <i class="fa fa-image fa-5x"></i>
                                 </a>
                             @else
                                 <span>-</span>

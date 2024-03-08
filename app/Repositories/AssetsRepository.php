@@ -17,16 +17,17 @@ class AssetsRepository
 
     public function getAssets()
     {
-        return $this->asset
-            ->with('supplier', 'asset_model', 'parameters', 'allocation')
-            ->get();
+        return $this->asset->with('supplier', 'asset_model', 'parameters')->get();
     }
 
-    public function getAssetById($id)
+    public function getAssetById($slug)
     {
-        return $this->asset
-            ->with('supplier', 'asset_model', 'parameters', 'allocation')
-            ->findOrFail($id);
+        $asset = $this->asset->with('supplier', 'asset_model', 'parameters')->where('slug', $slug)->first();
+        if (!isset($asset)) {
+            throw new \Exception('No query results for model [App\Models\Asset] ' . $slug, 201);
+        }
+
+        return $asset;
     }
 
     public function store($data)

@@ -129,29 +129,34 @@ if (!function_exists('prepare_listing_action_buttons')) {
             $listing_action_button .= '<a href="' . route($module_name . ".show", $module->slug) . '">Show</a>';
         }
 
-        if ($is_root_user == 1
-            || (in_array($module_name . '.show', $accesses_urls)
-                && in_array($module_name . '.edit', $accesses_urls))) {
+        if (($is_root_user == 1
+                || (in_array($module_name . '.show', $accesses_urls)
+                    && in_array($module_name . '.edit', $accesses_urls)))
+            && !in_array($module_name, ['tags'])) {
             $listing_action_button .= '<span class="text-primary">&nbsp; | &nbsp;</span>';
         }
 
-        if ($is_root_user == 1 || in_array($module_name . '.edit', $accesses_urls)) {
-            $listing_action_button .= '<a href="' . route($module_name . ".edit", $module->slug) . '">Edit</a>';
+        if (($is_root_user == 1 || in_array($module_name . '.edit', $accesses_urls))
+            && !in_array($module_name, ['tags'])) {
+            $listing_action_button .= '<a href="' . route($module_name . ".edit", $module) . '">Edit</a>';
         }
 
-        if ($is_root_user == 1
-            || (in_array($module_name . '.edit', $accesses_urls)
-                && in_array($module_name . '.delete', $accesses_urls))) {
+        if (($is_root_user == 1
+                || (in_array($module_name . '.edit', $accesses_urls)
+                    && in_array($module_name . '.delete', $accesses_urls)))
+            && !in_array($module_name, ['tags'])) {
             $listing_action_button .= '<span class="text-primary">&nbsp; | &nbsp;</span>';
         }
 
-        if ($is_root_user == 1 || in_array($module_name . '.delete', $accesses_urls)) {
-            if ($module_name == 'groups' && $module->id <= 2) {
+        if (($is_root_user == 1
+                || in_array($module_name . '.delete', $accesses_urls))
+            && !in_array($module_name, ['tags'])) {
+            if ($module_name == 'groups' && $module->id <= 1) {
                 $listing_action_button .= '<span class="cursor-pointer" title="You can not delete default user groups">Delete</span>';
             } else {
                 $listing_action_button .= '<a href="javascript:void(0);" class="delete_item">Delete</a>
-                <form class="delete_item_form" action="' . route($module_name . ".destroy", $module->slug) . '" method="POST" style="display: none;">
-                <input type="hidden" name="_method" value="DELETE">' . csrf_field() . '</form>';
+                                    <form class="delete_item_form" action="' . route($module_name . ".destroy", $module->id) . '" method="POST" style="display: none;">
+                                    <input type="hidden" name="_method" value="DELETE">' . csrf_field() . '</form>';
             }
         }
 

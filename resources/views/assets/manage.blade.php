@@ -13,36 +13,45 @@
                 </div>
             </div>
 
-            <!--begin::Card-->
-            <div class="card card-custom gutter-b">
-                <div class="card-header flex-wrap py-3">
-                    <div class="card-title">
-                        <h3 class="card-label">Asset Manage</h3>
-                    </div>
-                    <div class="card-toolbar">
-                        {!! prepare_header_html('assets', 'manage') !!}
-                    </div>
-                </div>
-                <div class="card-body">
-                    <?php
-                    $redirect_route = !empty($asset)
-                        ? route('assets.update', $asset->id)
-                        : route('assets.store');
-                    ?>
-                    <form action="{{ $redirect_route }}" method="post"
-                          enctype="multipart/form-data" class="asset_form" id="asset_form">
-                        {{ csrf_field() }}
-                        @if(isset($asset) && !empty($asset))
-                            <input type="hidden" name="_method" value="put">
-                        @endif
+            <?php
+            $redirect_route = !empty($asset)
+                ? route('assets.update', $asset->id)
+                : route('assets.store');
+            ?>
+            <form action="{{ $redirect_route }}" method="post"
+                  enctype="multipart/form-data" class="asset_form" id="asset_form">
+                {{ csrf_field() }}
+                @if(isset($asset) && !empty($asset))
+                    <input type="hidden" name="_method" value="put">
+                @endif
 
-                        <input type="hidden" name="id" class="asset_id"
-                               value="{{ isset($asset) && isset($asset->id) && $asset->id > 0 ? $asset->id : 0 }}">
+                <input type="hidden" name="id" class="asset_id"
+                       value="{{ isset($asset) && isset($asset->id) && $asset->id > 0 ? $asset->id : 0 }}">
 
+                <div class="card card-custom gutter-b">
+                    <div class="card-header flex-wrap py-3">
+                        <div class="card-title">
+                            <h3 class="card-label">
+                                {!! isset($asset)
+                                        ? 'Edit Asset - ' . '<span class="border-bottom border-dark">' . $asset->name . '</span>'
+                                        : 'Create Asset' !!}
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            {!! prepare_header_html('assets', 'manage') !!}
+                        </div>
+                    </div>
+                    <div class="card-body">
                         @include('assets.form')
-                    </form>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
+                            Submit
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 @stop

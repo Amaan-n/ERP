@@ -19,25 +19,20 @@ class TagsRepository
         return $this->tag->with('mapping', 'mapping.asset')->orderBy('id', 'DESC')->get();
     }
 
-    public function getTagById($id)
+    public function getTagById($slug)
     {
-        return $this->tag->findOrFail($id);
+        $tag = $this->tag->where('slug', $slug)->first();
+        if (!isset($tag)) {
+            throw new \Exception('No query results for model [App\Models\Tag] ' . $slug, 201);
+        }
+
+        return $tag;
     }
 
     public function store($data)
     {
         $data['slug'] = $this->generateRandomUniqueIdentifier('slug');
         return $this->tag->create($data);
-    }
-
-    public function update($data, $id)
-    {
-        return $this->tag->findOrFail($id)->update($data);
-    }
-
-    public function delete($id)
-    {
-        return $this->tag->findOrFail($id)->delete();
     }
 
     public function generateRandomUniqueIdentifier($field_name = 'slug')

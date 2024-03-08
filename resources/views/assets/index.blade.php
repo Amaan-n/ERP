@@ -17,7 +17,7 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                     <div class="card-title">
-                        <h3 class="card-label">Assets</h3>
+                        <h3 class="card-label">List Of Assets</h3>
                     </div>
                     <div class="card-toolbar">
                         {!! prepare_header_html('assets', 'listing') !!}
@@ -32,7 +32,6 @@
                             <th>Asset Model</th>
                             <th>Category</th>
                             <th>Code</th>
-                            <th>Assigned To</th>
                             <th>Is Active?</th>
                             <th>Actions</th>
                         </tr>
@@ -41,27 +40,12 @@
                         @foreach($assets as $index => $asset)
                             <tr>
                                 <td>{{ ++$index }}</td>
-                                <td>{{ isset($asset) && isset($asset->supplier) && !empty($asset->supplier->name) ? $asset->supplier->name : '' }}</td>
-                                <td>{{ isset($asset) && isset($asset->asset_model) && !empty($asset->asset_model->name) ? $asset->asset_model->name : '' }}</td>
-                                <td>{{ isset($asset) && isset($asset->category) && !empty($asset->category->name) ? $asset->category->name : '' }}</td>
-                                <td>{{ isset($asset) && !empty($asset->code) ? $asset->code : '-' }}</td>
-                                <td>
-                                    @if(isset($asset) && !empty($asset->status) && $asset->status === 'allocated')
-                                        {{ isset($asset->allocation) && isset($asset->allocation->user) && !empty($asset->allocation->user->name)
-                                                ? $asset->allocation->user->name
-                                                : ''
-                                        }}
-                                    @else
-                                        Available (
-                                        <a href="{{ route('assets.allocation') }}" class="font-weight-bold">
-                                            <i class="fa fa-plus text-primary fa-1x"> </i>
-                                            Allocate
-                                        </a>
-                                        )
-                                    @endif
-                                </td>
+                                <td>{{ isset($asset->supplier) && !empty($asset->supplier->name) ? $asset->supplier->name : '' }}</td>
+                                <td>{{ isset($asset->asset_model) && !empty($asset->asset_model->name) ? $asset->asset_model->name : '' }}</td>
+                                <td>{{ isset($asset->category) && !empty($asset->category->name) ? $asset->category->name : '' }}</td>
+                                <td>{{ !empty($asset->code) ? $asset->code : '-' }}</td>
                                 <td>{!! prepare_active_button('assets', $asset) !!}</td>
-                                <td nowrap="nowrap">{!! prepare_listing_action_buttons('assets', $asset->id, $accesses_urls) !!}</td>
+                                <td nowrap="nowrap">{!! prepare_listing_action_buttons('assets', $asset, $accesses_urls) !!}</td>
                             </tr>
                         @endforeach
                         </tbody>
