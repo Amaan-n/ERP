@@ -11,6 +11,8 @@
         "php": "^7.3|^8.0",
         "ext-curl": "*",
         "ext-json": "*",
+        "bacon/bacon-qr-code": "^2.0",
+        "intervention/image": "^2.7",
         "aws/aws-sdk-php": "^3.255",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "carlos-meneses/laravel-mpdf": "^2.1",

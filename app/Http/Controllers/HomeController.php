@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Field;
 use App\Models\User;
 use App\Repositories\HomeRepository;
 use App\Repositories\UsersRepository;
@@ -94,7 +95,7 @@ class HomeController extends Controller
         try {
             $data      = $request->all();
             $validator = Validator::make($data, [
-                'table' => 'required|in:users',
+                'table' => 'required|in:users,fields',
                 'field' => 'required'
             ]);
             if ($validator->fails()) {
@@ -105,6 +106,9 @@ class HomeController extends Controller
             switch ($data['table']) {
                 case 'users':
                     $modal = new User();
+                    break;
+                case 'fields':
+                    $modal = new Field();
                     break;
                 default:
                     break;

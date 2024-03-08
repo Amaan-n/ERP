@@ -2,19 +2,33 @@
 
 namespace App\Repositories;
 
+use App\Models\AssetModel;
 use App\Models\Attachment;
+use App\Models\Category;
+use App\Models\Department;
+use App\Models\Field;
+use App\Models\FieldGroup;
 use App\Models\Group;
+use App\Models\Manufacturer;
+use App\Models\Supplier;
 use App\Models\User;
 
 class HomeRepository
 {
-    protected $group, $user, $attachment;
+    protected $group, $user, $manufacturer, $supplier, $department, $field, $field_group, $category, $asset_model, $attachment;
 
     public function __construct()
     {
-        $this->group      = new Group();
-        $this->user       = new User();
-        $this->attachment = new Attachment();
+        $this->group        = new Group();
+        $this->user         = new User();
+        $this->manufacturer = new Manufacturer();
+        $this->supplier     = new Supplier();
+        $this->department   = new Department();
+        $this->field        = new Field();
+        $this->field_group  = new FieldGroup();
+        $this->category     = new Category();
+        $this->asset_model  = new AssetModel();
+        $this->attachment   = new Attachment();
     }
 
     public function removeFile($request)
@@ -22,6 +36,41 @@ class HomeRepository
         switch ($request->get('module')) {
             case 'users':
                 $this->user
+                    ->where('id', $request->get('id'))
+                    ->update([
+                        $request->get('field') => ''
+                    ]);
+                break;
+            case 'manufacturers':
+                $this->manufacturer
+                    ->where('id', $request->get('id'))
+                    ->update([
+                        $request->get('field') => ''
+                    ]);
+                break;
+            case 'suppliers':
+                $this->supplier
+                    ->where('id', $request->get('id'))
+                    ->update([
+                        $request->get('field') => ''
+                    ]);
+                break;
+            case 'departments':
+                $this->department
+                    ->where('id', $request->get('id'))
+                    ->update([
+                        $request->get('field') => ''
+                    ]);
+                break;
+            case 'categories':
+                $this->category
+                    ->where('id', $request->get('id'))
+                    ->update([
+                        $request->get('field') => ''
+                    ]);
+                break;
+            case 'asset_models':
+                $this->asset_model
                     ->where('id', $request->get('id'))
                     ->update([
                         $request->get('field') => ''
@@ -46,6 +95,27 @@ class HomeRepository
                 break;
             case 'users':
                 $model = $this->user;
+                break;
+            case 'manufacturers':
+                $model = $this->manufacturer;
+                break;
+            case 'suppliers':
+                $model = $this->supplier;
+                break;
+            case 'departments':
+                $model = $this->department;
+                break;
+            case 'fields':
+                $model = $this->field;
+                break;
+            case 'field_groups':
+                $model = $this->field_group;
+                break;
+            case 'categories':
+                $model = $this->category;
+                break;
+            case 'asset_models':
+                $model = $this->asset_model;
                 break;
         }
 

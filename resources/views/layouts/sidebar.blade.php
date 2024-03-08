@@ -96,7 +96,8 @@
 
                 @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/assets_management')
                     @if($is_root_user == 1 || in_array('assets_management.home', $accesses_urls))
-                        <li class="menu-item {{ get_active_class($current, ['assets_management.home']) }}" aria-haspopup="true">
+                        <li class="menu-item {{ get_active_class($current, ['assets_management.home']) }}"
+                            aria-haspopup="true">
                             <a href="{{ route('assets_management.home') }}" class="menu-link">
                                 <i class="fa fa-chart-line mr-5"></i>
                                 <span class="menu-text">Dashboard</span>
@@ -105,12 +106,119 @@
                     @endif
 
                     @if($is_root_user == 1
-                        || (in_array('groups.index', $accesses_urls)
-                            || in_array('users.index', $accesses_urls)
-                            || in_array('configurations', $accesses_urls)))
+                        || (in_array('manufacturers.index', $accesses_urls)
+                            || in_array('suppliers.index', $accesses_urls)
+                            || in_array('departments.index', $accesses_urls)
+                            || in_array('fields.index', $accesses_urls)
+                            || in_array('field_groups.index', $accesses_urls)
+                            || in_array('categories.index', $accesses_urls)
+                            || in_array('asset_models.index', $accesses_urls)
+                            || in_array('assets.index', $accesses_urls)
+                            || in_array('tags.index', $accesses_urls)
+                            || in_array('tags.mapping', $accesses_urls)))
                         <li class="menu-section">
                             <h4 class="menu-text">Masters</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                        </li>
+                    @endif
+
+                        @if($is_root_user == 1 || in_array('manufacturers.index', $accesses_urls))
+                            <li class="menu-item {{ get_active_class($current, ['manufacturers.index', 'manufacturers.edit', 'manufacturers.create', 'manufacturers.show']) }}"
+                                aria-haspopup="true">
+                                <a href="{{ route('manufacturers.index') }}" class="menu-link">
+                                    <i class="fa fa-industry mr-5"></i>
+                                    <span class="menu-text">Manufacturers</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if($is_root_user == 1 || in_array('suppliers.index', $accesses_urls))
+                            <li class="menu-item {{ get_active_class($current, ['suppliers.index', 'suppliers.edit', 'suppliers.create', 'suppliers.show']) }}"
+                                aria-haspopup="true">
+                                <a href="{{ route('suppliers.index') }}" class="menu-link">
+                                    <i class="fa fa-building mr-5"></i>
+                                    <span class="menu-text">Suppliers</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if($is_root_user == 1 || in_array('departments.index', $accesses_urls))
+                            <li class="menu-item {{ get_active_class($current, ['departments.index', 'departments.edit', 'departments.create', 'departments.show']) }}"
+                                aria-haspopup="true">
+                                <a href="{{ route('departments.index') }}" class="menu-link">
+                                    <i class="fa fa-id-card mr-5"></i>
+                                    <span class="menu-text">Departments</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if($is_root_user == 1 || in_array('fields.index', $accesses_urls))
+                            <li class="menu-item {{ get_active_class($current, ['fields.index', 'fields.edit', 'fields.create', 'fields.show']) }}"
+                                aria-haspopup="true">
+                                <a href="{{ route('fields.index') }}" class="menu-link">
+                                    <i class="fa fa-pager mr-5"></i>
+                                    <span class="menu-text">Fields</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if($is_root_user == 1 || in_array('field_groups.index', $accesses_urls))
+                            <li class="menu-item {{ get_active_class($current, ['field_groups.index', 'field_groups.edit', 'field_groups.create', 'field_groups.show']) }}"
+                                aria-haspopup="true">
+                                <a href="{{ route('field_groups.index') }}" class="menu-link">
+                                    <i class="fa fa-file-code mr-5"></i>
+                                    <span class="menu-text">Field Groups</span>
+                                </a>
+                            </li>
+                        @endif
+
+                    @if($is_root_user == 1 || in_array('categories.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['categories.index', 'categories.edit', 'categories.create', 'categories.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('categories.index') }}" class="menu-link">
+                                <i class="fa fa-list mr-5"></i>
+                                <span class="menu-text">Categories</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('asset_models.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['asset_models.index', 'asset_models.edit', 'asset_models.create', 'asset_models.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('asset_models.index') }}" class="menu-link">
+                                <i class="fa fa-mobile-alt mr-5"></i>
+                                <span class="menu-text">Asset Models</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('assets.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['assets.index']) }}"
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="{{ route('assets.index') }}" class="menu-link menu-toggle">
+                                <i class="fa fa-mobile-alt mr-5"></i>
+                                <span class="menu-text">Assets</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('tags.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['tags.index', 'tags.edit', 'tags.create', 'tags.show', 'imports.tags', 'imports.parse.tags']) }}"
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="{{ route('tags.index') }}" class="menu-link menu-toggle">
+                                <i class="fa fa-qrcode mr-5"></i>
+                                <span class="menu-text">Tags</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('tags.mapping', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['tags.mapping']) }}"
+                            aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="{{route('tags.mapping')}}" class="menu-link">
+                                <i class="fa fa-link mr-5"></i>
+                                <span class="menu-text">Tags Mapping</span>
+                            </a>
                         </li>
                     @endif
                 @endif

@@ -193,6 +193,49 @@ if (!function_exists('upload_attachment')) {
     }
 }
 
+if (!function_exists('generate_slug')) {
+    function generate_slug($for = '')
+    {
+        $modal = new \App\Models\User();
+        switch ($for) {
+            case 'manufacturers':
+                $modal = new \App\Models\Manufacturer();
+                break;
+            case 'suppliers':
+                $modal = new \App\Models\Supplier();
+                break;
+            case 'departments':
+                $modal = new \App\Models\Department();
+                break;
+            case 'fields':
+                $modal = new \App\Models\Field();
+                break;
+            case 'field_groups':
+                $modal = new \App\Models\FieldGroup();
+                break;
+            case 'asset_models':
+                $modal = new \App\Models\AssetModel();
+                break;
+            case 'categories':
+                $modal = new \App\Models\Category();
+                break;
+            case 'assets':
+                $modal = new \App\Models\Asset();
+                break;
+            default:
+                break;
+        }
+
+        regenerate:
+        $random_string = strtoupper(substr(md5(uniqid(rand(), true)), 0, 5));
+        if ($modal->where('slug', $random_string)->count()) {
+            goto regenerate;
+        }
+
+        return $random_string;
+    }
+}
+
 if (!function_exists('prepare_active_button')) {
     function prepare_active_button($module_name, $module): string
     {

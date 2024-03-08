@@ -71,6 +71,20 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     // =============== ROUTES FOR ASSETS MANAGEMENT =============== //
     Route::group(['prefix' => 'assets_management'], function () {
         Route::get('home', 'HomeController@assetsManagementIndex')->name('assets_management.home');
+
+        Route::get('asset_model/parameters', 'AssetModelsController@getParametersByAssetModel')->name('asset_model.parameters');
+        Route::get('mappings/create', 'MappingsController@create')->name('tags.mapping');
+        Route::post('mappings/store', 'MappingsController@store')->name('mappings.store');
+
+        Route::resource('categories', 'CategoriesController');
+        Route::resource('manufacturers', 'ManufacturersController');
+        Route::resource('suppliers', 'SuppliersController');
+        Route::resource('departments', 'DepartmentsController');
+        Route::resource('asset_models', 'AssetModelsController');
+        Route::resource('field_groups', 'FieldGroupsController');
+        Route::resource('fields', 'FieldsController');
+        Route::resource('assets', 'AssetsController');
+        Route::resource('tags', 'TagsController')->only(['index', 'create', 'store', 'show']);
     });
 
     // =============== ROUTES FOR WAREHOUSES MANAGEMENT =============== //
