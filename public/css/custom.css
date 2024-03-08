@@ -1,0 +1,190 @@
+body {
+    zoom: 1.1;
+}
+
+label.invalid {
+    width: 100% !important;
+    margin-top: 0.50rem !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #F64E60 !important;
+}
+
+input.invalid, select.invalid, textarea.invalid {
+    border-color: #F64E60 !important;
+    padding-right: calc(1.5em + 1.3rem);
+    background-image: url('../images/invalid.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.325rem) center;
+    background-size: calc(0.75em + 0.65rem) calc(0.75em + 0.65rem);
+}
+
+select.invalid {
+    background-position: right calc(0.975em + 0.325rem) center
+}
+
+input[type="file"] {
+    padding: 0.40rem 0.70rem !important;
+}
+
+.datepicker-days .disabled {
+    cursor: not-allowed !important;
+}
+
+input[type="file"] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container .select2-search__field {
+    width: 100% !important;
+}
+
+.arabic_text {
+    letter-spacing: 2px;
+    font-family: 'Amiri', sans-serif;
+}
+
+.product_listing td {
+    vertical-align: middle !important;
+}
+
+.individual_inventory_html td {
+    padding: 0.25rem 0.75rem !important;
+    vertical-align: middle !important;
+}
+
+.individual_inventory_html .form-control {
+    height: 30px;
+    margin: 2px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.fc-unthemed .fc-event.fc-start .fc-content:before, .fc-unthemed .fc-event-dot.fc-start .fc-content:before {
+    display: none;
+}
+
+.fc-unthemed .fc-event .fc-content, .fc-unthemed .fc-event-dot .fc-content {
+    padding: 0.5rem;
+}
+
+.aside-minimize .brand .brand-logo span {
+    display: none;
+}
+
+.calories_container {
+    height: 50px;
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+}
+
+.calories_item {
+    border: 1px solid #EBEDF3;
+    background: transparent;
+    flex: 0 1 calc(20%); /* <-- adjusting for margin */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+}
+
+.swal2-container .swal2-html-container {
+    max-height: 350px;
+}
+
+.custom_subscription_detail.dropdown-menu.dropdown-menu-sm {
+    width: 240px;
+}
+
+.form-label {
+    font-weight: 500 !important;
+}
+
+.individual_menu_builder_html .card-label {
+    font-size: 1.10rem !important;
+}
+
+.logo {
+    position: absolute;
+    left: 25px;
+    top: 25px;
+    z-index: 9;
+}
+
+.left_card_form {
+    width: 60%;
+}
+
+.background_card {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.background_layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .06);
+}
+
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+    background: #ffeded !important;
+}
+
+.menu-link {
+    align-items: center !important;
+}
+
+.aside-menu .menu-nav {
+    padding: 15px 0 80px 0 !important;
+}
+
+@media print {
+    .hide_print {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .left_card {
+        width: 100% !important;
+    }
+
+    .left_card_form {
+        width: 75%;
+    }
+
+    .right_card {
+        display: none;
+    }
+
+    .logo {
+        display: block !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .header-fixed.subheader-fixed.subheader-enabled .wrapper {
+        padding-top: 100px;
+    }
+}
+
