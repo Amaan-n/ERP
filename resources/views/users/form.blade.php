@@ -96,19 +96,7 @@
                 Picture
                 {!! info_circle(config('elements.content.users.picture')) !!}
             </label>
-            @if(isset($user) && !empty($user->picture))
-                <div class="float-right input_action_buttons">
-                    <a href="javascript:void(0);" target="_blank" class="remove_attachment"
-                       data-module="users" data-field="picture" data-id="{{ $user->id }}">
-                        Remove
-                    </a>
-                    &nbsp; | &nbsp;
-                    <a href="{{ config('constants.s3.asset_url') . $user->picture }}"
-                       target="_blank" data-lightbox="image-1">
-                        Preview
-                    </a>
-                </div>
-            @endif
+            {!! preview_and_remove_buttons($user ?? null, 'users', 'picture') !!}
             <input type="file" class="form-control" id="picture" name="picture"
                    accept="image/*"
                    value="{{ !empty($user) && !empty($user->picture) ? $user->picture : '' }}">

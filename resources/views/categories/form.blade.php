@@ -32,19 +32,7 @@
                 Attachment
                 {!! info_circle(config('elements.content.categories.attachment')) !!}
             </label>
-            @if(isset($category) && !empty($category->attachment))
-                <div class="float-right input_action_buttons">
-                    <a href="javascript:void(0);" target="_blank" class="remove_attachment"
-                       data-module="categories" data-field="attachment" data-id="{{ $category->id }}">
-                        Remove
-                    </a>
-                    &nbsp; | &nbsp;
-                    <a href="{{ config('constants.s3.asset_url') . $category->attachment }}"
-                       target="_blank">
-                        Preview
-                    </a>
-                </div>
-            @endif
+            {!! preview_and_remove_buttons($category ?? null, 'categories', 'attachment') !!}
             <input type="file" class="form-control" id="attachment" name="attachment"
                    accept="image/*"
                    value="{{ !empty($category) && !empty($category->attachment) ? $category->attachment : '' }}">

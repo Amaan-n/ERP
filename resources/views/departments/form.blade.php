@@ -32,19 +32,7 @@
                 Attachment
                 {!! info_circle(config('elements.content.departments.attachment')) !!}
             </label>
-            @if(isset($department) && !empty($department->attachment))
-                <div class="float-right input_action_buttons">
-                    <a href="javascript:void(0);" target="_blank" class="remove_attachment"
-                       data-module="departments" data-field="attachment" data-id="{{ $department->id }}">
-                        Remove
-                    </a>
-                    &nbsp; | &nbsp;
-                    <a href="{{ config('constants.s3.asset_url') . $department->attachment }}"
-                       target="_blank">
-                        Preview
-                    </a>
-                </div>
-            @endif
+            {!! preview_and_remove_buttons($department ?? null, 'departments', 'attachment') !!}
             <input type="file" class="form-control" id="attachment" name="attachment"
                    accept="image/*"
                    value="{{ !empty($department) && !empty($department->attachment) ? $department->attachment : '' }}">

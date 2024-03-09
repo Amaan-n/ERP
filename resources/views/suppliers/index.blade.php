@@ -32,7 +32,6 @@
                             <th>Contact Person</th>
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Attachment</th>
                             <th>Is Active?</th>
                             <th>Actions</th>
                         </tr>
@@ -45,16 +44,6 @@
                                 <td>{{ !empty($supplier->contact_person) ? $supplier->contact_person : '-' }}</td>
                                 <td>{{ !empty($supplier->phone) ? $supplier->phone : '-' }}</td>
                                 <td>{{ !empty($supplier->email) ? $supplier->email : '-' }}</td>
-                                <td>
-                                    @if(isset($supplier) && !empty($supplier->attachment))
-                                        <a href="{{ config('constants.s3.asset_url') . $supplier->attachment }}"
-                                           target="_blank">
-                                            <i class="fa fa-image"> </i>
-                                        </a>
-                                    @else
-                                        <span>-</span>
-                                    @endif
-                                </td>
                                 <td>{!! prepare_active_button('suppliers', $supplier) !!}</td>
                                 <td nowrap="nowrap">{!! prepare_listing_action_buttons('suppliers', $supplier, $accesses_urls) !!}</td>
                             </tr>

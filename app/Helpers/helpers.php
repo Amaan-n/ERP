@@ -138,7 +138,7 @@ if (!function_exists('prepare_listing_action_buttons')) {
 
         if (($is_root_user == 1 || in_array($module_name . '.edit', $accesses_urls))
             && !in_array($module_name, ['tags'])) {
-            $listing_action_button .= '<a href="' . route($module_name . ".edit", $module) . '">Edit</a>';
+            $listing_action_button .= '<a href="' . route($module_name . ".edit", $module->slug) . '">Edit</a>';
         }
 
         if (($is_root_user == 1
@@ -293,5 +293,27 @@ if (!function_exists('prepare_imports_exports_button')) {
         }
 
         return $header_html;
+    }
+}
+
+if (!function_exists('preview_and_remove_buttons')) {
+    function preview_and_remove_buttons($module, $module_name, $field_name): string
+    {
+        $preview_and_remove_buttons = '';
+        if (isset($module) && !empty($module->{$field_name})) {
+            $preview_and_remove_buttons = '<div class="float-right input_action_buttons d-flex">
+                    <a href="javascript:void(0);" target="_blank" class="remove_attachment border border-danger d-flex align-items-center justify-content-center px-1 mr-2"
+                       data-module="' . $module_name . '" data-field="attachment" data-id="' . $module->id . '">
+                        <i class="fa fa-times text-danger"></i>
+                    </a>
+
+                    <a href="' . config('constants.s3.asset_url') . $module->{$field_name} . '"
+                       target="_blank" class="border border-primary d-flex align-items-center justify-content-center px-1">
+                           <i class="fa fa-image text-primary"></i>
+                    </a>
+                </div>';
+        }
+
+        return $preview_and_remove_buttons;
     }
 }
