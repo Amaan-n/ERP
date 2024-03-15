@@ -227,6 +227,9 @@ if (!function_exists('generate_slug')) {
             case 'assets':
                 $modal = new \App\Models\Asset();
                 break;
+            case 'products':
+                $modal = new \App\Models\Product();
+                break;
             default:
                 break;
         }

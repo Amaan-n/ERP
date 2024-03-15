@@ -9,6 +9,7 @@ use App\Models\Field;
 use App\Models\FieldGroup;
 use App\Models\Group;
 use App\Models\Manufacturer;
+use App\Models\ProductCategory;
 use App\Models\Supplier;
 use App\Models\Tag;
 use App\Models\User;
@@ -64,5 +65,10 @@ class FormList extends ServiceProvider
     public static function getTags()
     {
         return Tag::where('is_active', 1)->get();
+    }
+
+    public static function getProductCategories()
+    {
+        return ProductCategory::where('is_active', 1)->get();
     }
 }

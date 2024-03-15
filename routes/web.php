@@ -88,7 +88,11 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     });
 
     // =============== ROUTES FOR WAREHOUSES MANAGEMENT =============== //
-    Route::group(['prefix' => 'warehouses_management'], function () {
-        Route::get('home', 'HomeController@warehousesManagementIndex')->name('warehouses_management.home');
+    Route::group(['prefix' => 'warehouses'], function () {
+        Route::get('home', 'HomeController@warehousesManagementIndex')->name('warehouses.home');
+        Route::resource('locations', 'LocationsController');
+        Route::resource('measuring_units', 'MeasuringUnitsController');
+        Route::resource('product_categories', 'ProductCategoriesController');
+        Route::resource('products', 'ProductsController');
     });
 });

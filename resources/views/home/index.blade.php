@@ -31,7 +31,7 @@
                     Assets Management
                 </a>
 
-                <a href="{{ route('warehouses_management.home') }}"
+                <a href="{{ route('warehouses.home') }}"
                    class="border border-primary text-primary text-hover-primary rounded-pill p-5 px-10 mr-3 font-weight-bold font-size-h3 d-flex flex-column align-items-center">
                     <i class="fa fa-warehouse text-primary fa-2x mb-5"></i>
                     Warehouse Management

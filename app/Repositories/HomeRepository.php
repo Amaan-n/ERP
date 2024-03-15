@@ -10,27 +10,36 @@ use App\Models\Department;
 use App\Models\Field;
 use App\Models\FieldGroup;
 use App\Models\Group;
+use App\Models\Location;
 use App\Models\Manufacturer;
+use App\Models\MeasuringUnit;
+use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Supplier;
 use App\Models\User;
 
 class HomeRepository
 {
-    protected $group, $user, $manufacturer, $supplier, $department, $field, $field_group, $category, $asset_model, $asset, $attachment;
+    protected $group, $user, $manufacturer, $supplier, $department, $field, $field_group, $category, $asset_model,
+        $asset, $attachment, $location, $measuring_unit, $product_category, $product;
 
     public function __construct()
     {
-        $this->group        = new Group();
-        $this->user         = new User();
-        $this->manufacturer = new Manufacturer();
-        $this->supplier     = new Supplier();
-        $this->department   = new Department();
-        $this->field        = new Field();
-        $this->field_group  = new FieldGroup();
-        $this->category     = new Category();
-        $this->asset_model  = new AssetModel();
-        $this->asset        = new Asset();
-        $this->attachment   = new Attachment();
+        $this->group            = new Group();
+        $this->user             = new User();
+        $this->manufacturer     = new Manufacturer();
+        $this->supplier         = new Supplier();
+        $this->department       = new Department();
+        $this->field            = new Field();
+        $this->field_group      = new FieldGroup();
+        $this->category         = new Category();
+        $this->asset_model      = new AssetModel();
+        $this->asset            = new Asset();
+        $this->attachment       = new Attachment();
+        $this->location         = new Location();
+        $this->measuring_unit   = new MeasuringUnit();
+        $this->product_category = new ProductCategory();
+        $this->product          = new Product();
     }
 
     public function removeFile($request)
@@ -90,6 +99,11 @@ class HomeRepository
                     ->where('id', $request->get('id'))
                     ->delete();
                 break;
+            case 'products':
+                $this->product
+                    ->where('id', $request->get('id'))
+                    ->delete();
+                break;
             default:
                 break;
         }
@@ -128,6 +142,18 @@ class HomeRepository
                 break;
             case 'assets':
                 $model = $this->asset;
+                break;
+            case 'locations':
+                $model = $this->location;
+                break;
+            case 'measuring_units':
+                $model = $this->measuring_unit;
+                break;
+            case 'product_categories':
+                $model = $this->product_category;
+                break;
+            case 'products':
+                $model = $this->product;
                 break;
         }
 

@@ -122,55 +122,55 @@
                         </li>
                     @endif
 
-                        @if($is_root_user == 1 || in_array('manufacturers.index', $accesses_urls))
-                            <li class="menu-item {{ get_active_class($current, ['manufacturers.index', 'manufacturers.edit', 'manufacturers.create', 'manufacturers.show']) }}"
-                                aria-haspopup="true">
-                                <a href="{{ route('manufacturers.index') }}" class="menu-link">
-                                    <i class="fa fa-industry mr-5"></i>
-                                    <span class="menu-text">Manufacturers</span>
-                                </a>
-                            </li>
-                        @endif
+                    @if($is_root_user == 1 || in_array('manufacturers.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['manufacturers.index', 'manufacturers.edit', 'manufacturers.create', 'manufacturers.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('manufacturers.index') }}" class="menu-link">
+                                <i class="fa fa-industry mr-5"></i>
+                                <span class="menu-text">Manufacturers</span>
+                            </a>
+                        </li>
+                    @endif
 
-                        @if($is_root_user == 1 || in_array('suppliers.index', $accesses_urls))
-                            <li class="menu-item {{ get_active_class($current, ['suppliers.index', 'suppliers.edit', 'suppliers.create', 'suppliers.show']) }}"
-                                aria-haspopup="true">
-                                <a href="{{ route('suppliers.index') }}" class="menu-link">
-                                    <i class="fa fa-building mr-5"></i>
-                                    <span class="menu-text">Suppliers</span>
-                                </a>
-                            </li>
-                        @endif
+                    @if($is_root_user == 1 || in_array('suppliers.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['suppliers.index', 'suppliers.edit', 'suppliers.create', 'suppliers.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('suppliers.index') }}" class="menu-link">
+                                <i class="fa fa-building mr-5"></i>
+                                <span class="menu-text">Suppliers</span>
+                            </a>
+                        </li>
+                    @endif
 
-                        @if($is_root_user == 1 || in_array('departments.index', $accesses_urls))
-                            <li class="menu-item {{ get_active_class($current, ['departments.index', 'departments.edit', 'departments.create', 'departments.show']) }}"
-                                aria-haspopup="true">
-                                <a href="{{ route('departments.index') }}" class="menu-link">
-                                    <i class="fa fa-id-card mr-5"></i>
-                                    <span class="menu-text">Departments</span>
-                                </a>
-                            </li>
-                        @endif
+                    @if($is_root_user == 1 || in_array('departments.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['departments.index', 'departments.edit', 'departments.create', 'departments.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('departments.index') }}" class="menu-link">
+                                <i class="fa fa-id-card mr-5"></i>
+                                <span class="menu-text">Departments</span>
+                            </a>
+                        </li>
+                    @endif
 
-                        @if($is_root_user == 1 || in_array('fields.index', $accesses_urls))
-                            <li class="menu-item {{ get_active_class($current, ['fields.index', 'fields.edit', 'fields.create', 'fields.show']) }}"
-                                aria-haspopup="true">
-                                <a href="{{ route('fields.index') }}" class="menu-link">
-                                    <i class="fa fa-pager mr-5"></i>
-                                    <span class="menu-text">Fields</span>
-                                </a>
-                            </li>
-                        @endif
+                    @if($is_root_user == 1 || in_array('fields.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['fields.index', 'fields.edit', 'fields.create', 'fields.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('fields.index') }}" class="menu-link">
+                                <i class="fa fa-pager mr-5"></i>
+                                <span class="menu-text">Fields</span>
+                            </a>
+                        </li>
+                    @endif
 
-                        @if($is_root_user == 1 || in_array('field_groups.index', $accesses_urls))
-                            <li class="menu-item {{ get_active_class($current, ['field_groups.index', 'field_groups.edit', 'field_groups.create', 'field_groups.show']) }}"
-                                aria-haspopup="true">
-                                <a href="{{ route('field_groups.index') }}" class="menu-link">
-                                    <i class="fa fa-file-code mr-5"></i>
-                                    <span class="menu-text">Field Groups</span>
-                                </a>
-                            </li>
-                        @endif
+                    @if($is_root_user == 1 || in_array('field_groups.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['field_groups.index', 'field_groups.edit', 'field_groups.create', 'field_groups.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('field_groups.index') }}" class="menu-link">
+                                <i class="fa fa-file-code mr-5"></i>
+                                <span class="menu-text">Field Groups</span>
+                            </a>
+                        </li>
+                    @endif
 
                     @if($is_root_user == 1 || in_array('categories.index', $accesses_urls))
                         <li class="menu-item {{ get_active_class($current, ['categories.index', 'categories.edit', 'categories.create', 'categories.show']) }}"
@@ -218,6 +218,70 @@
                             <a href="{{route('tags.mapping')}}" class="menu-link">
                                 <i class="fa fa-link mr-5"></i>
                                 <span class="menu-text">Tags Mapping</span>
+                            </a>
+                        </li>
+                    @endif
+                @endif
+
+                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/warehouses')
+                    @if($is_root_user == 1 || in_array('warehouses.home', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['warehouses.home']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('warehouses.home') }}" class="menu-link">
+                                <i class="fa fa-chart-line mr-5"></i>
+                                <span class="menu-text">Dashboard</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1
+                        || (in_array('locations.index', $accesses_urls)
+                            || in_array('measuring_units.index', $accesses_urls)
+                            || in_array('product_categories.index', $accesses_urls)
+                            || in_array('products.index', $accesses_urls)
+                        ))
+                        <li class="menu-section">
+                            <h4 class="menu-text">Masters</h4>
+                            <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('locations.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['locations.index', 'locations.edit', 'locations.create', 'locations.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('locations.index') }}" class="menu-link">
+                                <i class="fa fa-map-marker-alt mr-5"></i>
+                                <span class="menu-text">Locations</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('measuring_units.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['measuring_units.index', 'measuring_units.edit', 'measuring_units.create', 'measuring_units.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('measuring_units.index') }}" class="menu-link">
+                                <i class="fa fa-filter mr-5"></i>
+                                <span class="menu-text">Measuring Units</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('product_categories.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['product_categories.index', 'product_categories.edit', 'product_categories.create', 'product_categories.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('product_categories.index') }}" class="menu-link">
+                                <i class="fa fa-list mr-5"></i>
+                                <span class="menu-text">Product Categories</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('products.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['products.index', 'products.edit', 'products.create', 'products.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('products.index') }}" class="menu-link">
+                                <i class="fa fa-shopping-basket mr-5"></i>
+                                <span class="menu-text">Products</span>
                             </a>
                         </li>
                     @endif
