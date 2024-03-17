@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="is_active">
                 Is Active
@@ -26,6 +26,20 @@
                    value="{{ !empty($supplier) && !empty($supplier->name) ? $supplier->name : old('name') }}">
         </div>
     </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="form-label" for="attachment">
+                Attachment
+                {!! info_circle(config('elements.content.suppliers.attachment')) !!}
+            </label>
+            {!! preview_and_remove_buttons($supplier ?? null, 'suppliers', 'attachment') !!}
+            <input type="file" class="form-control" id="attachment" name="attachment"
+                   accept="image/*"
+                   value="{{ !empty($supplier) && !empty($supplier->attachment) ? $supplier->attachment : '' }}">
+            <input type="hidden" name="old_attachment"
+                   value="{{ !empty($supplier) && !empty($supplier->attachment) ? $supplier->attachment : '' }}">
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -42,7 +56,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="contact_person">
                 Contact Person
@@ -52,7 +66,7 @@
                    value="{{ !empty($supplier) && !empty($supplier->contact_person) ? $supplier->contact_person : old('contact_person') }}">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="phone">
                 Phone
@@ -62,7 +76,7 @@
                    value="{{ !empty($supplier) && !empty($supplier->phone) ? $supplier->phone : old('phone') }}">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="email">
                 Email
@@ -70,20 +84,6 @@
             </label>
             <input type="text" class="form-control" id="email" name="email"
                    value="{{ !empty($supplier) && !empty($supplier->email) ? $supplier->email : old('email') }}">
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="form-label" for="attachment">
-                Attachment
-                {!! info_circle(config('elements.content.suppliers.attachment')) !!}
-            </label>
-            {!! preview_and_remove_buttons($supplier ?? null, 'suppliers', 'attachment') !!}
-            <input type="file" class="form-control" id="attachment" name="attachment"
-                   accept="image/*"
-                   value="{{ !empty($supplier) && !empty($supplier->attachment) ? $supplier->attachment : '' }}">
-            <input type="hidden" name="old_attachment"
-                   value="{{ !empty($supplier) && !empty($supplier->attachment) ? $supplier->attachment : '' }}">
         </div>
     </div>
 </div>

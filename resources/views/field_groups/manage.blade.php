@@ -21,12 +21,12 @@
             <form action="{{ $redirect_route }}" method="post"
                   enctype="multipart/form-data" class="field_group_form" id="field_group_form">
                 {{ csrf_field() }}
-                @if(isset($field_group) && !empty($field_group))
-                    <input type="hidden" name="_method" value="put">
-                @endif
 
-                <input type="hidden" name="id" class="field_group_id"
-                       value="{{ isset($field_group) && isset($field_group->id) && $field_group->id > 0 ? $field_group->id : 0 }}">
+                @if(isset($field_group))
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $field_group->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $field_group->slug ?? '' }}">
+                @endif
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
@@ -44,9 +44,9 @@
                     <div class="card-body">
                         @include('field_groups.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($field_group) ? 'Update Field Group' : 'Create Field Group' !!}
                         </button>
                     </div>
                 </div>

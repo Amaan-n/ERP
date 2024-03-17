@@ -21,12 +21,12 @@
             <form action="{{ $redirect_route }}" method="post"
                   enctype="multipart/form-data" class="department_form" id="department_form">
                 {{ csrf_field() }}
-                @if(isset($department) && !empty($department))
-                    <input type="hidden" name="_method" value="put">
-                @endif
 
-                <input type="hidden" name="id" class="department_id"
-                       value="{{ isset($department) && isset($department->id) && $department->id > 0 ? $department->id : 0 }}">
+                @if(isset($department))
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $department->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $department->slug ?? '' }}">
+                @endif
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
@@ -44,9 +44,9 @@
                     <div class="card-body">
                         @include('departments.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($department) ? 'Update Department' : 'Create Department' !!}
                         </button>
                     </div>
                 </div>

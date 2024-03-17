@@ -25,14 +25,6 @@
                             <strong>Name</strong><br>
                             {{ isset($department) && !empty($department->name) ? $department->name : '-' }}
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Created By</strong><br>
-                            {{ isset($department->created_by_user) && !empty($department->created_by_user) ? $department->created_by_user->name : 'System' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Updated By</strong><br>
-                            {{ isset($department->updated_by_user) && !empty($department->updated_by_user) ? $department->updated_by_user->name : 'System' }}
-                        </div>
                     </div>
 
                     <div class="row">
@@ -53,6 +45,25 @@
                             @else
                                 <span>-</span>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($department->created_by_user) && !empty($department->created_by_user) ? $department->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($department->updated_by_user) && !empty($department->updated_by_user) ? $department->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $department->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $department->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
                         </div>
                     </div>
                 </div>

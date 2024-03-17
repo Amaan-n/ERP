@@ -22,12 +22,11 @@
                   enctype="multipart/form-data" class="field_form" id="field_form">
                 {{ csrf_field() }}
 
-                @if(isset($field) && !empty($field))
+                @if(isset($field))
                     <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $field->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $field->slug ?? '' }}">
                 @endif
-
-                <input type="hidden" name="id" class="field_id"
-                       value="{{ isset($field) && isset($field->id) && $field->id > 0 ? $field->id : 0 }}">
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
@@ -45,9 +44,9 @@
                     <div class="card-body">
                         @include('fields.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($field) ? 'Update Field' : 'Create Field' !!}
                         </button>
                     </div>
                 </div>

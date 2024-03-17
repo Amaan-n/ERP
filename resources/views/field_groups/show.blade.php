@@ -25,14 +25,6 @@
                             <strong>Name</strong><br>
                             {{ isset($field_group) && !empty($field_group->name) ? $field_group->name : '-' }}
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Created By</strong><br>
-                            {{ isset($field_group->created_by_user) && !empty($field_group->created_by_user) ? $field_group->created_by_user->name : 'System' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Updated By</strong><br>
-                            {{ isset($field_group->updated_by_user) && !empty($field_group->updated_by_user) ? $field_group->updated_by_user->name : 'System' }}
-                        </div>
                     </div>
 
                     <div class="row">
@@ -52,6 +44,25 @@
                             @else
                                 <span>-</span>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($field_group->created_by_user) && !empty($field_group->created_by_user) ? $field_group->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($field_group->updated_by_user) && !empty($field_group->updated_by_user) ? $field_group->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $field_group->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $field_group->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
                         </div>
                     </div>
                 </div>

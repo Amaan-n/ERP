@@ -37,14 +37,6 @@
                             <strong>Email</strong><br>
                             {{ isset($supplier) && !empty($supplier->email) ? $supplier->email : '-' }}
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Created By</strong><br>
-                            {{ isset($supplier->created_by_user) && !empty($supplier->created_by_user) ? $supplier->created_by_user->name : 'System' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Updated By</strong><br>
-                            {{ isset($supplier->updated_by_user) && !empty($supplier->updated_by_user) ? $supplier->updated_by_user->name : 'System' }}
-                        </div>
                     </div>
 
                     <div class="row">
@@ -65,6 +57,25 @@
                             @else
                                 <span>-</span>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($supplier->created_by_user) && !empty($supplier->created_by_user) ? $supplier->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($supplier->updated_by_user) && !empty($supplier->updated_by_user) ? $supplier->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $supplier->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $supplier->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
                         </div>
                     </div>
                 </div>

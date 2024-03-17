@@ -13,7 +13,7 @@ return [
                 'key'          => 'name',
                 'display_text' => 'Name',
                 'is_visible'   => 1,
-                'value'        => 'Subah Al Nasser',
+                'value'        => 'Sabah Al Nasser',
                 'input_type'   => 'text',
             ],
             [

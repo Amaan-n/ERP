@@ -29,13 +29,17 @@
                             <strong>Element</strong><br>
                             {{ !empty($field->element) ? ucwords($field->element) : '-' }}
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Created By</strong><br>
-                            {{ isset($field->created_by_user) && !empty($field->created_by_user) ? $field->created_by_user->name : 'System' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Updated By</strong><br>
-                            {{ isset($field->updated_by_user) && !empty($field->updated_by_user) ? $field->updated_by_user->name : 'System' }}
+                        <div class="col-md-6 mb-5">
+                            <strong>Options</strong><br>
+                            @if(!empty($field->options) && count($field->options) > 0)
+                                @foreach($field->options as $option)
+                                    @if(!empty($option->text))
+                                        <span class="border border-light-dark px-3">{{ $option->text }}</span>
+                                    @endif
+                                @endforeach
+                            @else
+                                <span>-</span>
+                            @endif
                         </div>
                     </div>
 
@@ -47,15 +51,21 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 mb-5">
-                            <strong>Options</strong><br>
-                            @if(!empty($field->options) && count($field->options) > 0)
-                                @foreach($field->options as $option)
-                                    <span> - {{ $option->text ?? '' }}</span><br>
-                                @endforeach
-                            @else
-                                <span>-</span>
-                            @endif
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($field->created_by_user) && !empty($field->created_by_user) ? $field->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($field->updated_by_user) && !empty($field->updated_by_user) ? $field->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $field->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $field->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
                         </div>
                     </div>
                 </div>
