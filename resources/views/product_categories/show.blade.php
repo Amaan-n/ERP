@@ -33,6 +33,25 @@
                             {!! !empty($product_category->description) ? $product_category->description : '-' !!}
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($product_category->created_by_user) && !empty($product_category->created_by_user) ? $product_category->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($product_category->updated_by_user) && !empty($product_category->updated_by_user) ? $product_category->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $product_category->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $product_category->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

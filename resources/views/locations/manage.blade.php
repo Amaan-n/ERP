@@ -13,43 +13,46 @@
                 </div>
             </div>
 
-            <!--begin::Card-->
-            <div class="card card-custom gutter-b">
-                <div class="card-header flex-wrap py-3">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {!! isset($location)
-                                    ? 'Edit Location - ' . '<span class="border-bottom border-dark">' . $location->name . '</span>'
-                                    : 'Create Location' !!}
-                        </h3>
+            <?php
+            $redirect_route = !empty($location)
+                ? route('locations.update', $location->id)
+                : route('locations.store');
+            ?>
+            <form action="{{ $redirect_route }}" method="post"
+                  enctype="multipart/form-data" class="location_form" id="location_form">
+                {{ csrf_field() }}
+
+                @if(isset($location))
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $location->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $location->slug ?? '' }}">
+                @endif
+
+                <div class="card card-custom gutter-b">
+                    <div class="card-header flex-wrap py-3">
+                        <div class="card-title">
+                            <h3 class="card-label">
+                                {!! isset($location)
+                                        ? 'Edit Location - ' . '<span class="border-bottom border-dark">' . $location->name . '</span>'
+                                        : 'Create Location' !!}
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            {!! prepare_header_html('locations', 'manage') !!}
+                        </div>
                     </div>
-                    <div class="card-toolbar">
-                        {!! prepare_header_html('locations', 'manage') !!}
-                    </div>
-                </div>
-                <div class="card-body">
-                    <?php
-                    $redirect_route = !empty($location)
-                        ? route('locations.update', $location->id)
-                        : route('locations.store');
-                    ?>
-                    <form action="{{ $redirect_route }}" method="post"
-                          enctype="multipart/form-data" class="location_form" id="location_form">
-                        {{ csrf_field() }}
-                        @if(isset($location) && !empty($location))
-                            <input type="hidden" name="_method" value="put">
-                        @endif
-
-                        <input type="hidden" name="id" class="locations_id"
-                               value="{{ isset($location) && isset($location->id) && $location->id > 0 ? $location->id : 0 }}">
-
-                        <input type="hidden" name="slug"
-                               value="{{ isset($location) && !empty($location->slug) ? $location->slug : '' }}">
-
+                    <div class="card-body">
                         @include('locations.form')
-                    </form>
+                    </div>
+                    <div class="card-footer py-5">
+                        <button type="submit"
+                                class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($location) ? 'Update Location' : 'Create Location' !!}
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 @stop

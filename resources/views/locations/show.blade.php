@@ -56,6 +56,25 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($location->created_by_user) && !empty($location->created_by_user) ? $location->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($location->updated_by_user) && !empty($location->updated_by_user) ? $location->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $location->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $location->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -13,42 +13,46 @@
                 </div>
             </div>
 
-            <div class="card card-custom gutter-b">
-                <div class="card-header flex-wrap py-3">
-                    <div class="card-title">
-                        <h3 class="card-label">
-                            {!! isset($measuring_unit)
-                                    ? 'Edit Measuring Unit - <span class="border-bottom border-dark">' . $measuring_unit->name . '</span>'
-                                    : 'Create Measuring Unit' !!}
-                        </h3>
+            <?php
+            $redirect_route = !empty($measuring_unit)
+                ? route('measuring_units.update', $measuring_unit->id)
+                : route('measuring_units.store');
+            ?>
+            <form action="{{ $redirect_route }}" method="post"
+                  enctype="multipart/form-data" class="measuring_unit_form" id="measuring_unit_form">
+                {{ csrf_field() }}
+
+                @if(isset($measuring_unit))
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $measuring_unit->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $measuring_unit->slug ?? '' }}">
+                @endif
+
+                <div class="card card-custom gutter-b">
+                    <div class="card-header flex-wrap py-3">
+                        <div class="card-title">
+                            <h3 class="card-label">
+                                {!! isset($measuring_unit)
+                                        ? 'Edit Measuring Unit - <span class="border-bottom border-dark">' . $measuring_unit->name . '</span>'
+                                        : 'Create Measuring Unit' !!}
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            {!! prepare_header_html('measuring_units', 'manage') !!}
+                        </div>
                     </div>
-                    <div class="card-toolbar">
-                        {!! prepare_header_html('measuring_units', 'manage') !!}
-                    </div>
-                </div>
-                <div class="card-body">
-                    <?php
-                    $redirect_route = !empty($measuring_unit)
-                        ? route('measuring_units.update', $measuring_unit->id)
-                        : route('measuring_units.store');
-                    ?>
-                    <form action="{{ $redirect_route }}" method="post"
-                          enctype="multipart/form-data" class="measuring_unit_form" id="measuring_unit_form">
-                        {{ csrf_field() }}
-                        @if(isset($measuring_unit) && !empty($measuring_unit))
-                            <input type="hidden" name="_method" value="put">
-                        @endif
-
-                        <input type="hidden" name="id" class="measuring_unit_id"
-                               value="{{ isset($measuring_unit) && isset($measuring_unit->id) && $measuring_unit->id > 0 ? $measuring_unit->id : 0 }}">
-
-                        <input type="hidden" name="slug"
-                               value="{{ isset($measuring_unit) && !empty($measuring_unit->slug) ? $measuring_unit->slug : '' }}">
-
+                    <div class="card-body">
                         @include('measuring_units.form')
-                    </form>
+                    </div>
+                    <div class="card-footer py-5">
+                        <button type="submit"
+                                class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($measuring_unit) ? 'Update Measuring Unit' : 'Create Measuring Unit' !!}
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 @stop

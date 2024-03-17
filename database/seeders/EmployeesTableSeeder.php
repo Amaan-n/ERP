@@ -14,7 +14,6 @@ class EmployeesTableSeeder extends Seeder
     public function run()
     {
         $user = new \App\Models\User();
-        $user->truncate();
 
         $user
             ->create([

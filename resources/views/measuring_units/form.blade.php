@@ -40,11 +40,3 @@
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-            Submit
-        </button>
-    </div>
-</div>

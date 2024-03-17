@@ -21,12 +21,12 @@
             <form action="{{ $redirect_route }}" method="post"
                   enctype="multipart/form-data" class="product_form" id="product_form">
                 {{ csrf_field() }}
-                @if(isset($product) && !empty($product))
-                    <input type="hidden" name="_method" value="put">
-                @endif
 
-                <input type="hidden" name="id" class="product_id"
-                       value="{{ isset($product) && isset($product->id) && $product->id > 0 ? $product->id : 0 }}">
+                @if(isset($product))
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $product->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $product->slug ?? '' }}">
+                @endif
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
@@ -44,9 +44,10 @@
                     <div class="card-body">
                         @include('products.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit"
+                                class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($product) ? 'Update Product' : 'Create Product' !!}
                         </button>
                     </div>
                 </div>

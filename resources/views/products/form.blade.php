@@ -53,13 +53,8 @@
                 <span class="text-danger">*</span>
                 {!! info_circle(config('elements.content.products.price')) !!}
             </label>
-            <div class="input-group">
-                <input type="number" class="form-control" id="price" name="price"
-                       value="{{ !empty($product) && !empty($product->price) ? $product->price : old('price') }}">
-                <div class="input-group-append">
-                    <span class="input-group-text">KWD</span>
-                </div>
-            </div>
+            <input type="number" class="form-control" id="price" name="price"
+                   value="{{ !empty($product) && !empty($product->price) ? $product->price : old('price') }}">
         </div>
     </div>
     <div class="col-md-4">

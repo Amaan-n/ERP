@@ -27,6 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AssetCategoriesTableSeeder::class);
         $this->call(AssetModelsTableSeeder::class);
 
-
+        $this->call(LocationsTableSeeder::class);
+        $this->call(MeasuringUnitsTableSeeder::class);
+        $this->call(ProductCategoriesTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
     }
 }
