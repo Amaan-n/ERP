@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex flex-column-fluid">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                     <div class="card-title">
@@ -75,23 +75,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!empty($group->users) && count($group->users) > 0)
-                            @foreach($group->users as $index => $user)
-                                <tr>
-                                    <td>{{ ++$index }}</td>
-                                    <td>{{ !empty($user->name) ? $user->name : '-' }}</td>
-                                    <td>{{ !empty($user->email) ? $user->email : '-' }}</td>
-                                    <td>{{ !empty($user->phone) ? $user->phone : '-' }}</td>
-                                    <td>{!! prepare_active_button('users', $user) !!}</td>
-                                    <td>{{ isset($user->created_by_user) && !empty($user->created_by_user) ? $user->created_by_user->name : 'System' }}</td>
-                                    <td nowrap="nowrap">{!! prepare_listing_action_buttons('users', $user, $accesses_urls) !!}</td>
-                                </tr>
-                            @endforeach
-                        @else
+                        @foreach($group->users as $index => $user)
                             <tr>
-                                <td colspan="7">No record found.</td>
+                                <td>{{ ++$index }}</td>
+                                <td>{{ !empty($user->name) ? $user->name : '-' }}</td>
+                                <td>{{ !empty($user->email) ? $user->email : '-' }}</td>
+                                <td>{{ !empty($user->phone) ? $user->phone : '-' }}</td>
+                                <td>{!! prepare_active_button('users', $user) !!}</td>
+                                <td>{{ isset($user->created_by_user) && !empty($user->created_by_user) ? $user->created_by_user->name : 'System' }}</td>
+                                <td nowrap="nowrap">{!! prepare_listing_action_buttons('users', $user, $accesses_urls) !!}</td>
                             </tr>
-                        @endif
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

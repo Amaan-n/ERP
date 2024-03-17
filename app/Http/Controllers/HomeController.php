@@ -27,9 +27,9 @@ class HomeController extends Controller
         return view('home.index');
     }
 
-    public function assetsManagementIndex(Request $request)
+    public function humanResourceManagementIndex(Request $request)
     {
-        return view('home.assets_management_index');
+        return view('home.human_resources_index');
     }
 
     public function warehousesManagementIndex(Request $request)
@@ -227,5 +227,35 @@ class HomeController extends Controller
                 ->route('auth.lock')
                 ->with('notification', $notification);
         }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $validator = Validator::make($request->all(), ['password' => 'required',]);
+            if ($validator->fails()) {
+                throw new \Exception($validator->getMessageBag()->first(), 201);
+            }
+
+            $user_id = $request->get('user_id', 0);
+            if ($user_id == 0) {
+                throw new \Exception('Something went wrong, please try again later.');
+            }
+
+            $user           = $this->users_repository->getUser($user_id);
+            $user->password = bcrypt($request->get('password'));
+            $user->save();
+
+            DB::commit();
+            $notification = prepare_notification_array('success', 'Password has been reset.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $notification = prepare_notification_array('danger', $e->getMessage());
+        }
+
+        return redirect()
+            ->back()
+            ->with('notification', $notification);
     }
 }

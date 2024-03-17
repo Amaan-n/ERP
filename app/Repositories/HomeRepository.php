@@ -46,6 +46,7 @@ class HomeRepository
     {
         switch ($request->get('module')) {
             case 'users':
+            case 'employees':
                 $this->user
                     ->where('id', $request->get('id'))
                     ->update([
@@ -117,6 +118,7 @@ class HomeRepository
                 $model = $this->group;
                 break;
             case 'users':
+            case 'employees':
                 $model = $this->user;
                 break;
             case 'manufacturers':

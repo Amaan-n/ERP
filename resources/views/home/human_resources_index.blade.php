@@ -25,7 +25,7 @@
             </div>
 
             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-                <h1>Assets Management Dashboard</h1>
+                <h1>Human Resource Management Dashboard</h1>
             </div>
         </div>
     </div>

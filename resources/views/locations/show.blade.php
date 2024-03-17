@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex flex-column-fluid">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                     <div class="card-title">

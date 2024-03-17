@@ -16,10 +16,10 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                     <div class="card-title">
-                        <h3 class="card-label">List Of Users</h3>
+                        <h3 class="card-label">List Of Employees</h3>
                     </div>
                     <div class="card-toolbar">
-                        {!! prepare_header_html('users', 'listing') !!}
+                        {!! prepare_header_html('employees', 'listing') !!}
                     </div>
                 </div>
                 <div class="card-body">
@@ -27,50 +27,31 @@
                         <thead>
                         <tr>
                             <th>Index</th>
-
-                            @if($is_root_user == 1 || auth()->user()->group_id == 1)
-                                <th>Group</th>
-                            @endif
-
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Phone</th>
+                            <th>Email</th>
                             <th>Is Active?</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($users as $index => $user)
+                        @foreach($employees as $index => $employee)
                             <tr>
                                 <td>{{ ++$index }}</td>
-
-                                @if($is_root_user == 1 || auth()->user()->group_id == 1)
-                                    <td>
-                                        @if(isset($user->group_id) && $user->group_id > 0)
-                                            <a href="{{ route('groups.show', [$user->group->slug]) }}"
-                                               class="text-decoration-none text-primary text-hover-primary">
-                                                <u>{{ isset($user->group) ? $user->group->name : '-' }}</u>
-                                            </a>
-                                        @else
-                                            <span>-</span>
-                                        @endif
-                                    </td>
-                                @endif
-
-                                <td>{{ !empty($user->name) ? $user->name : '-' }}</td>
-                                <td>{{ !empty($user->email) ? $user->email : '-' }}</td>
-                                <td>{{ !empty($user->phone) ? $user->phone : '-' }}</td>
-                                <td>{!! prepare_active_button('users', $user) !!}</td>
+                                <td>{{ !empty($employee->name) ? $employee->name : '-' }}</td>
+                                <td>{{ !empty($employee->phone) ? $employee->phone : '-' }}</td>
+                                <td>{{ !empty($employee->email) ? $employee->email : '-' }}</td>
+                                <td>{!! prepare_active_button('employees', $employee) !!}</td>
                                 <td nowrap="nowrap">
                                     @if($is_root_user == 1 || auth()->user()->group_id === 1)
                                         <a href="javascript:void(0);" class="reset_password"
-                                           data-user-id="{{ $user->id }}">
+                                           data-user-id="{{ $employee->id }}">
                                             Reset Password
                                         </a>
                                         <span class="text-primary">&nbsp; | &nbsp;</span>
                                     @endif
 
-                                    {!! prepare_listing_action_buttons('users', $user, $accesses_urls) !!}
+                                    {!! prepare_listing_action_buttons('employees', $employee, $accesses_urls) !!}
                                 </td>
                             </tr>
                         @endforeach

@@ -18,7 +18,7 @@ class GroupsTableSeeder extends Seeder
         GroupHasAccess::truncate();
         Group::truncate();
 
-        $groups = ['super_admins'];
+        $groups = ['super_admins', 'employees'];
 
         foreach ($groups as $index => $group_individual) {
             $group_response = Group::create([

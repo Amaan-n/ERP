@@ -305,13 +305,13 @@ if (!function_exists('preview_and_remove_buttons')) {
         $preview_and_remove_buttons = '';
         if (isset($module) && !empty($module->{$field_name})) {
             $preview_and_remove_buttons = '<div class="float-right input_action_buttons d-flex">
-                    <a href="javascript:void(0);" target="_blank" class="remove_attachment border border-danger d-flex align-items-center justify-content-center px-1 mr-2"
+                    <a href="javascript:void(0);" target="_blank" class="remove_attachment px-1 mr-2"
                        data-module="' . $module_name . '" data-field="attachment" data-id="' . $module->id . '">
                         <i class="fa fa-times text-danger"></i>
                     </a>
 
                     <a href="' . config('constants.s3.asset_url') . $module->{$field_name} . '"
-                       target="_blank" class="border border-primary d-flex align-items-center justify-content-center px-1">
+                       target="_blank" class="px-1">
                            <i class="fa fa-image text-primary"></i>
                     </a>
                 </div>';

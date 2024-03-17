@@ -3,6 +3,7 @@
 return [
     'masters' => [
         'note'             => ['notes.index', 'notes.create', 'notes.edit', 'notes.delete'],
+        'employee'         => ['employees.index', 'employees.create', 'employees.show', 'employees.edit', 'employees.delete'],
         'manufacturer'     => ['manufacturers.index', 'manufacturers.create', 'manufacturers.show', 'manufacturers.edit', 'manufacturers.delete'],
         'supplier'         => ['suppliers.index', 'suppliers.create', 'suppliers.show', 'suppliers.edit', 'suppliers.delete'],
         'department'       => ['departments.index', 'departments.create', 'departments.show', 'departments.edit', 'departments.delete'],

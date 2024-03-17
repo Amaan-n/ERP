@@ -102,7 +102,35 @@
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
+    let isFormDirty = false;
+    $('form').submit(function (event) {
+        isFormDirty = false;
+    });
+
+    $('input, textarea, select').change(function () {
+        isFormDirty = true;
+    });
+
+    $(window).bind('beforeunload', function () {
+        if (isFormDirty) {
+            return false;
+        }
+    });
+
     $(document).ready(function () {
+        $(document).off('click', '.submit_button');
+        $(document).on('click', '.submit_button', function (e) {
+            e.preventDefault();
+            $(this).attr('disabled', true);
+
+            if (!$(this).closest('form').valid()) {
+                $(this).removeAttr('disabled');
+                return false;
+            }
+
+            $(this).closest('form').submit();
+        });
+
         $(document).off('click', '.remove_attachment');
         $(document).on('click', '.remove_attachment', function (e) {
             e.preventDefault();
@@ -304,21 +332,6 @@
         });
     });
 
-    let isFormDirty = false;
-    $('form').submit(function (event) {
-        isFormDirty = false;
-    });
-
-    $('input, textarea, select').change(function () {
-        isFormDirty = true;
-    });
-
-    $(window).bind('beforeunload', function () {
-        if (isFormDirty) {
-            return false;
-        }
-    });
-
     function init_data_table() {
         $('.data_table').DataTable({
             responsive: true,
@@ -326,7 +339,7 @@
             search: true,
             bSearch: true,
             dom: `<'row'<'col-sm-12'ftr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
-            lengthMenu: [10, 25, 50],
+            lengthMenu: [10, 25, 50, 100],
             pageLength: 25,
             language: {
                 'lengthMenu': 'Display _MENU_',

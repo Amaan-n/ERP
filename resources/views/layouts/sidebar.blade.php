@@ -52,7 +52,8 @@
                     </a>
                 </li>
 
-                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/admin')
+                @if(!empty(request()->route()->action)
+                        && in_array(request()->route()->action['prefix'], ['/admin', 'admin/configurations']))
                     @if($is_root_user == 1
                         || (in_array('groups.index', $accesses_urls)
                             || in_array('users.index', $accesses_urls)
@@ -94,11 +95,11 @@
                     @endif
                 @endif
 
-                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/assets_management')
-                    @if($is_root_user == 1 || in_array('assets_management.home', $accesses_urls))
-                        <li class="menu-item {{ get_active_class($current, ['assets_management.home']) }}"
+                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/hrms')
+                    @if($is_root_user == 1 || in_array('hrms.home', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['hrms.home']) }}"
                             aria-haspopup="true">
-                            <a href="{{ route('assets_management.home') }}" class="menu-link">
+                            <a href="{{ route('hrms.home') }}" class="menu-link">
                                 <i class="fa fa-chart-line mr-5"></i>
                                 <span class="menu-text">Dashboard</span>
                             </a>
@@ -106,7 +107,8 @@
                     @endif
 
                     @if($is_root_user == 1
-                        || (in_array('manufacturers.index', $accesses_urls)
+                        || (in_array('employees.index', $accesses_urls)
+                            || in_array('manufacturers.index', $accesses_urls)
                             || in_array('suppliers.index', $accesses_urls)
                             || in_array('departments.index', $accesses_urls)
                             || in_array('fields.index', $accesses_urls)
@@ -119,6 +121,16 @@
                         <li class="menu-section">
                             <h4 class="menu-text">Masters</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('employees.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['employees.index', 'employees.edit', 'employees.create', 'employees.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('employees.index') }}" class="menu-link">
+                                <i class="fa fa-users mr-5"></i>
+                                <span class="menu-text">Employees</span>
+                            </a>
                         </li>
                     @endif
 

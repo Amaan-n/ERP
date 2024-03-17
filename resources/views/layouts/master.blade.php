@@ -14,7 +14,7 @@ $is_RTL_enabled = \Illuminate\Support\Facades\App::getLocale() === 'ar' ? 'rtl' 
 @php $current = \Route::currentRouteName(); @endphp
 <body id="kt_body"
       class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading
-                {{ in_array($current, ['']) ? 'aside-minimize' : '' }}">
+                {{ in_array($current, ['']) ? 'aside-minimize' : '' }} aside-minimize">
 
 @include('layouts.header')
 

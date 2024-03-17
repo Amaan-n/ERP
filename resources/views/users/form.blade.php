@@ -1,6 +1,6 @@
 @if(!isset($request_from))
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label" for="is_active">
                     Is Active
@@ -17,7 +17,7 @@
 @endif
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="group_id">
                 Group
@@ -35,7 +35,6 @@
                         @if(($is_root_user == 0 || auth()->user()->group_id != 1) && in_array($group->id, [1]))
                             <?php continue; ?>
                         @endif
-
                         <option value="{{ $group->id }}"
                             {{ !empty($user) && $user->group_id == $group->id ? 'selected="selected"' : '' }}
                         >{{ $group->name }}</option>
@@ -47,7 +46,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="name">
                 Name
@@ -58,7 +57,7 @@
                    value="{{ isset($user) && !empty($user->name) ? $user->name : old('name') }}">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="phone">
                 Phone
@@ -69,7 +68,7 @@
                    value="{{ !empty($user) && !empty($user->phone) ? $user->phone : old('phone') }}">
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="email">
                 Email
@@ -80,17 +79,7 @@
                    value="{{ !empty($user) && !empty($user->email) ? $user->email : old('email') }}">
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="form-label" for="designation">
-                Designation
-                {!! info_circle(config('elements.content.users.designation')) !!}
-            </label>
-            <input type="text" class="form-control" id="designation" name="designation"
-                   value="{{ !empty($user) && !empty($user->designation) ? $user->designation : old('designation') }}">
-        </div>
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="picture">
                 Picture
@@ -104,11 +93,9 @@
                    value="{{ !empty($user) && !empty($user->picture) ? $user->picture : '' }}">
         </div>
     </div>
-</div>
 
-@if(!isset($user))
-    <div class="row">
-        <div class="col-md-3">
+    @if(!isset($user))
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label" for="password">
                     Password
@@ -117,7 +104,7 @@
                 <input type="password" class="form-control" id="password" name="password" value="">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label" for="confirm_password">
                     Confirm Password
@@ -126,40 +113,7 @@
                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" value="">
             </div>
         </div>
-    </div>
-@endif
-
-<div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="form-label" for="LinkedIn_URL">
-                LinkedIn
-                {!! info_circle(config('elements.content.users.LinkedIn_URL')) !!}
-            </label>
-            <input type="text" class="form-control" id="LinkedIn_URL" name="LinkedIn_URL"
-                   value="{{ !empty($user) && !empty($user->LinkedIn_URL) ? $user->LinkedIn_URL : old('LinkedIn_URL') }}">
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="form-label" for="twitter_URL">
-                Twitter
-                {!! info_circle(config('elements.content.users.twitter_URL')) !!}
-            </label>
-            <input type="text" class="form-control" id="twitter_URL" name="twitter_URL"
-                   value="{{ !empty($user) && !empty($user->twitter_URL) ? $user->twitter_URL : old('twitter_URL') }}">
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="form-label" for="instagram_URL">
-                Instagram
-                {!! info_circle(config('elements.content.users.instagram_URL')) !!}
-            </label>
-            <input type="text" class="form-control" id="instagram_URL" name="instagram_URL"
-                   value="{{ !empty($user) && !empty($user->instagram_URL) ? $user->instagram_URL : old('instagram_URL') }}">
-        </div>
-    </div>
+    @endif
 </div>
 
 <div class="row">

@@ -15,7 +15,7 @@
     </div>
 
     <div class="d-flex flex-column-fluid mt-5">
-        <div class="container">
+        <div class="container-fluid">
             <div class="d-flex flex-row">
                 <div class="flex-row-fluid ml-lg-8">
 

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex flex-column-fluid">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     @if(\Illuminate\Support\Facades\Session::has('notification'))
@@ -13,22 +13,21 @@
                 </div>
             </div>
 
-            <div class="card card-custom gutter-b">
+            <form action="{{ route('configurations.update') }}" method="post"
+                  enctype="multipart/form-data" class="configuration_form" id="configuration_form">
+                {{ csrf_field() }}
 
-                <div class="card-header flex-wrap py-3">
-                    <div class="card-title">
-                        <h3 class="card-label">Configurations</h3>
+                <div class="card card-custom gutter-b">
+                    <div class="card-header flex-wrap py-3">
+                        <div class="card-title">
+                            <h3 class="card-label">Configurations</h3>
+                        </div>
+                        <div class="card-toolbar">
+                            {!! prepare_header_html('configurations', 'configurations') !!}
+                        </div>
                     </div>
-                    <div class="card-toolbar">
-                        {!! prepare_header_html('configurations', 'configurations') !!}
-                    </div>
-                </div>
 
-                <div class="card-body">
-                    <form action="{{ route('configurations.update') }}" method="post"
-                          enctype="multipart/form-data" class="configuration_form" id="configuration_form">
-                        {{ csrf_field() }}
-
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
                                 <ul class="nav nav-tabs tabs" role="tablist">
@@ -121,7 +120,8 @@
                                                                         @if(isset($child->value) && !empty($child->value))
                                                                             <a
                                                                                 href="{{ config('constants.s3.asset_url') . $child->value }}"
-                                                                                target="_blank" class="float-right" data-lightbox="image-1">
+                                                                                target="_blank" class="float-right"
+                                                                                data-lightbox="image-1">
                                                                                 <i class="fa fa-image"></i>
                                                                             </a>
                                                                         @endif
@@ -155,16 +155,6 @@
                                                             @endif
                                                         @endforeach
                                                     </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary">
-                                                                    Submit
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 @endif
                                             </div>
                                         @endforeach
@@ -172,9 +162,17 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="card-footer py-5">
+                        <button type="submit"
+                                class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            Update Configurations
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 @stop

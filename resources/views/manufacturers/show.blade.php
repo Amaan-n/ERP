@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex flex-column-fluid">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                     <div class="card-title">
@@ -37,14 +37,6 @@
                             <strong>Email</strong><br>
                             {{ !empty($manufacturer->email) ? $manufacturer->email : '-' }}
                         </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Created By</strong><br>
-                            {{ isset($manufacturer->created_by_user) && !empty($manufacturer->created_by_user) ? $manufacturer->created_by_user->name : 'System' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Updated By</strong><br>
-                            {{ isset($manufacturer->updated_by_user) && !empty($manufacturer->updated_by_user) ? $manufacturer->updated_by_user->name : 'System' }}
-                        </div>
                     </div>
 
                     <div class="row">
@@ -65,6 +57,25 @@
                             @else
                                 <span>-</span>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($manufacturer->created_by_user) && !empty($manufacturer->created_by_user) ? $manufacturer->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($manufacturer->updated_by_user) && !empty($manufacturer->updated_by_user) ? $manufacturer->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $manufacturer->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $manufacturer->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
                         </div>
                     </div>
                 </div>

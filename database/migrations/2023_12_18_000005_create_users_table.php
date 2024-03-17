@@ -20,12 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('designation')->nullable();
             $table->string('picture')->nullable();
             $table->string('password')->nullable();
-            $table->string('LinkedIn_URL')->nullable();
-            $table->string('twitter_URL')->nullable();
-            $table->string('instagram_URL')->nullable();
             $table->boolean('is_active')->nullable()->default(0);
             $table->boolean('is_root_user')->nullable()->default(0);
             $table->timestamp('email_verified_at')->nullable();

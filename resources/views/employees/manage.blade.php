@@ -14,39 +14,42 @@
             </div>
 
             <?php
-            $redirect_route = !empty($user)
-                ? route('users.update', $user->id)
-                : route('users.store');
+            $redirect_route = !empty($employee)
+                ? route('employees.update', $employee->id)
+                : route('employees.store');
             ?>
             <form action="{{ $redirect_route }}" method="post"
-                  enctype="multipart/form-data" class="user_form" id="user_form" autocomplete="off">
+                  enctype="multipart/form-data" class="employee_form" id="employee_form" autocomplete="off">
                 {{ csrf_field() }}
 
-                @if(isset($user))
+                <input type="hidden" name="group_id" value="2">
+
+                @if(isset($employee))
                     <input type="hidden" name="_method" value="put">
-                    <input type="hidden" name="id" value="{{ $user->id ?? 0 }}">
-                    <input type="hidden" name="slug" value="{{ $user->slug ?? '' }}">
+                    <input type="hidden" name="id" value="{{ $employee->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $employee->slug ?? '' }}">
                 @endif
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
                         <div class="card-title">
                             <h3 class="card-label">
-                                {!! isset($user)
-                                        ? 'Edit User - ' . '<span class="border-bottom border-dark">' . $user->name . '</span>'
-                                        : 'Create User' !!}
+                                {!! isset($employee)
+                                        ? 'Edit Employee - ' . '<span class="border-bottom border-dark">' . $employee->name . '</span>'
+                                        : 'Create Employee' !!}
                             </h3>
                         </div>
                         <div class="card-toolbar">
-                            {!! prepare_header_html('users', 'manage') !!}
+                            {!! prepare_header_html('employees', 'manage') !!}
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('users.form')
+                        @include('employees.form')
                     </div>
                     <div class="card-footer py-5">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
-                            {!! isset($user) ? 'Update User' : 'Create User' !!}
+                        <button type="submit"
+                                class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($employee) ? 'Update Employee' : 'Create Employee' !!}
                         </button>
                     </div>
                 </div>
@@ -59,11 +62,10 @@
 @section('page_js')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.user_form').validate({
+            $('.employee_form').validate({
                 ignore: ':hidden',
                 errorClass: "invalid",
                 rules: {
-                    group_id: 'required',
                     name: 'required',
                     phone: {
                         required: true,

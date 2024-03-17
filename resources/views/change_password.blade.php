@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="d-flex flex-column-fluid">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     @if(\Illuminate\Support\Facades\Session::has('notification'))

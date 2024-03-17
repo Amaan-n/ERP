@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex flex-column-fluid">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     @if(\Illuminate\Support\Facades\Session::has('notification'))
@@ -19,14 +19,13 @@
                 : route('groups.store');
             ?>
             <form action="{{ $redirect_route }}" method="post"
-                  enctype="multipart/form-data" class="group_form" id="group_form">
+                  enctype="multipart/form-data" class="group_form" id="group_form" autocomplete="off">
                 {{ csrf_field() }}
-                @if(isset($group) && !empty($group))
+
+                @if(isset($group))
                     <input type="hidden" name="_method" value="put">
-                    <input type="hidden" name="id" class="group_id"
-                           value="{{ isset($group) && !empty($group) ? $group->id : 0 }}">
-                    <input type="hidden" name="slug"
-                           value="{{ isset($group) && !empty($group->slug) ? $group->slug : '' }}">
+                    <input type="hidden" name="id" value="{{ $group->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $group->slug ?? '' }}">
                 @endif
 
                 <div class="card card-custom gutter-b">
@@ -45,9 +44,10 @@
                     <div class="card-body">
                         @include('groups.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit"
+                                class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($group) ? 'Update Group' : 'Create Group' !!}
                         </button>
                     </div>
                 </div>
