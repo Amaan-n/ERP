@@ -32,9 +32,9 @@ class HomeController extends Controller
         return view('home.human_resources_index');
     }
 
-    public function warehousesManagementIndex(Request $request)
+    public function ordersManagementIndex(Request $request)
     {
-        return view('home.warehouses_management_index');
+        return view('home.orders_management_index');
     }
 
     public function profile()

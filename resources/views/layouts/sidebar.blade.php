@@ -235,13 +235,23 @@
                     @endif
                 @endif
 
-                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/warehouses')
-                    @if($is_root_user == 1 || in_array('warehouses.home', $accesses_urls))
-                        <li class="menu-item {{ get_active_class($current, ['warehouses.home']) }}"
+                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/orders')
+                    @if($is_root_user == 1 || in_array('orders.home', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['orders.home']) }}"
                             aria-haspopup="true">
-                            <a href="{{ route('warehouses.home') }}" class="menu-link">
+                            <a href="{{ route('orders.home') }}" class="menu-link">
                                 <i class="fa fa-chart-line mr-5"></i>
                                 <span class="menu-text">Dashboard</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('pos.create', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['pos.create']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('pos.create') }}" class="menu-link">
+                                <i class="fa fa-desktop mr-5"></i>
+                                <span class="menu-text">POS</span>
                             </a>
                         </li>
                     @endif

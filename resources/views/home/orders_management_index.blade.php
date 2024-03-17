@@ -25,7 +25,7 @@
             </div>
 
             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-                <h1>Warehouses Management Dashboard</h1>
+                <h1>Orders Management Dashboard</h1>
             </div>
         </div>
     </div>

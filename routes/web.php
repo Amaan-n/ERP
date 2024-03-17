@@ -90,11 +90,34 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     });
 
     // =============== ROUTES FOR WAREHOUSES MANAGEMENT =============== //
-    Route::group(['prefix' => 'warehouses'], function () {
-        Route::get('home', 'HomeController@warehousesManagementIndex')->name('warehouses.home');
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('home', 'HomeController@ordersManagementIndex')->name('orders.home');
         Route::resource('locations', 'LocationsController');
         Route::resource('measuring_units', 'MeasuringUnitsController');
         Route::resource('product_categories', 'ProductCategoriesController');
         Route::resource('products', 'ProductsController');
+    });
+
+    // =============== ROUTES FOR POS =============== //
+    Route::group(['prefix' => 'pos'], function () {
+        Route::get('pos/ajax', 'PosController@getBookings')->name('pos.bookings.ajax');
+        Route::post('update/payment_type', 'PosController@updatePaymentType')->name('pos.update_payment_type');
+        Route::post('pos/update_status', 'PosController@updateBookingStatus')->name('pos.update_status');
+        Route::get('/', 'PosController@index')->name('pos.index');
+        Route::get('calendar_booking_data', 'PosController@getCalendarBookingData')->name('calendar.booking_data');
+        Route::get('create', 'PosController@create')->name('pos.create');
+        Route::get('items_details', 'PosController@getItemData')->name('items.details');
+        Route::get('item_categories_details', 'PosController@getItemCategoryData')->name('item_categories.details');
+        Route::get('worker_details', 'PosController@getWorkerData')->name('workers.details');
+        Route::get('customers', 'PosController@getCustomers')->name('pos.customers');
+        Route::get('customer/package/services', 'PosController@getCustomerPackages')->name('customer.package.services');
+        Route::get('customer/detail', 'PosController@getCustomerDetail')->name('pos.customer.detail');
+        Route::post('store', 'PosController@store')->name('pos.store');
+        Route::post('cancel', 'PosController@cancelBooking')->name('pos.cancel_booking');
+        Route::post('receive/payment', 'PosController@receivePayment')->name('pos.receive.payment');
+        Route::get('{booking_slug}', 'PosController@show')->name('pos.show');
+        Route::get('print/invoice', 'PosController@printInvoice')->name('pos.print.invoice');
+        Route::get('coupon/validate', 'PosController@validateCoupon')->name('coupon.validate');
+        Route::get('voucher/validate', 'PosController@validateVoucher')->name('voucher.validate');
     });
 });

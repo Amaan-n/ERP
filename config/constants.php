@@ -5,4 +5,6 @@ return [
     's3' => [
         'asset_url' => env('APP_URL')
     ],
+
+    'DISCOUNT_TYPES' => ['fixed', 'percentage']
 ];
