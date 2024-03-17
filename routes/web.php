@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
         Route::resource('asset_models', 'AssetModelsController');
         Route::resource('field_groups', 'FieldGroupsController');
         Route::resource('fields', 'FieldsController');
-        Route::resource('categories', 'CategoriesController');
+        Route::resource('asset_categories', 'AssetCategoriesController');
         Route::resource('assets', 'AssetsController');
         Route::resource('tags', 'TagsController')->only(['index', 'create', 'store', 'show']);
     });

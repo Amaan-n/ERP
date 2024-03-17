@@ -18,13 +18,13 @@ class AssetModelsRepository
     public function getAssetModels()
     {
         return $this->asset_model
-            ->with('manufacturer', 'category', 'field_group', 'assets')
+            ->with('manufacturer', 'asset_category', 'field_group', 'assets')
             ->get();
     }
 
     public function getAssetModelById($slug)
     {
-        $asset_model = $this->asset_model->with('manufacturer', 'category', 'field_group')->where('slug', $slug)->first();
+        $asset_model = $this->asset_model->with('manufacturer', 'asset_category', 'field_group')->where('slug', $slug)->first();
         if (!isset($asset_model)) {
             throw new \Exception('No query results for model [App\Models\Asset Model] ' . $slug, 201);
         }

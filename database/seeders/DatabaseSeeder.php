@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AssetCategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,5 +17,16 @@ class DatabaseSeeder extends Seeder
         $this->call(GroupsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(ConfigurationsTableSeeder::class);
+
+        $this->call(EmployeesTableSeeder::class);
+        $this->call(ManufacturersTableSeeder::class);
+        $this->call(SuppliersTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
+        $this->call(FieldsTableSeeder::class);
+        $this->call(FieldGroupsTableSeeder::class);
+        $this->call(AssetCategoriesTableSeeder::class);
+        $this->call(AssetModelsTableSeeder::class);
+
+
     }
 }

@@ -51,17 +51,17 @@ class AssetsRepository
     private function prepare_asset_code($data)
     {
         $asset_model = $this->asset_model
-            ->with('category')
+            ->with('asset_category')
             ->where('id', $data['asset_model_id'])
             ->first();
 
         if (isset($asset_model)) {
-            $configurations      = get_configurations_data();
-            $company_code        = $configurations['company_code'] ?? 'AL';
-            $asset_count         = $this->asset->where('category_id', $asset_model->category_id)->get()->count();
-            $asset_number        = str_pad(($asset_count + 1), 4, '0', STR_PAD_LEFT);
-            $data['code']        = $company_code . '-' . strtoupper(str_replace(' ', '-', $asset_model->category->name)) . '-' . $asset_number;
-            $data['category_id'] = $asset_model->category_id;
+            $configurations            = get_configurations_data();
+            $company_code              = $configurations['company_code'] ?? 'AL';
+            $asset_count               = $this->asset->where('asset_category_id', $asset_model->asset_category_id)->get()->count();
+            $asset_number              = str_pad(($asset_count + 1), 4, '0', STR_PAD_LEFT);
+            $data['code']              = $company_code . '-' . strtoupper(str_replace(' ', '-', $asset_model->asset_category->name)) . '-' . $asset_number;
+            $data['asset_category_id'] = $asset_model->asset_category_id;
         }
 
         return $data;

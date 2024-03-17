@@ -14,39 +14,39 @@
             </div>
 
             <?php
-            $redirect_route = !empty($category)
-                ? route('categories.update', $category->id)
-                : route('categories.store');
+            $redirect_route = !empty($asset_category)
+                ? route('asset_categories.update', $asset_category->id)
+                : route('asset_categories.store');
             ?>
             <form action="{{ $redirect_route }}" method="post"
                   enctype="multipart/form-data" class="category_form" id="category_form">
                 {{ csrf_field() }}
 
-                @if(isset($category))
+                @if(isset($asset_category))
                     <input type="hidden" name="_method" value="put">
-                    <input type="hidden" name="id" class="category_id"
-                           value="{{ $category->id > 0 ? $category->id : 0 }}">
+                    <input type="hidden" name="id" value="{{ $asset_category->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $asset_category->slug ?? '' }}">
                 @endif
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
                         <div class="card-title">
                             <h3 class="card-label">
-                                {!! isset($category)
-                                        ? 'Edit Category - ' . '<span class="border-bottom border-dark">' . $category->name . '</span>'
-                                        : 'Create Category' !!}
+                                {!! isset($asset_category)
+                                        ? 'Edit Asset Category - ' . '<span class="border-bottom border-dark">' . $asset_category->name . '</span>'
+                                        : 'Create Asset Category' !!}
                             </h3>
                         </div>
                         <div class="card-toolbar">
-                            {!! prepare_header_html('categories', 'manage') !!}
+                            {!! prepare_header_html('asset_categories', 'manage') !!}
                         </div>
                     </div>
                     <div class="card-body">
-                        @include('categories.form')
+                        @include('asset_categories.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($asset_category) ? 'Update Asset Category' : 'Create Asset Category' !!}
                         </button>
                     </div>
                 </div>

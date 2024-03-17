@@ -30,9 +30,9 @@ class Asset extends Model
         return $this->hasOne(AssetModel::class, 'id', 'asset_model_id');
     }
 
-    public function category()
+    public function asset_category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->hasOne(AssetCategory::class, 'id', 'category_id');
     }
 
     public function parameters()

@@ -18,9 +18,9 @@ class AssetModel extends Model
         return $this->hasOne(Manufacturer::class, 'id', 'manufacturer_id');
     }
 
-    public function category()
+    public function asset_category()
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->hasOne(AssetCategory::class, 'id', 'asset_category_id');
     }
 
     public function field_group()

@@ -17,10 +17,10 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header flex-wrap py-3">
                     <div class="card-title">
-                        <h3 class="card-label">List Of Categories</h3>
+                        <h3 class="card-label">List Of Asset Categories</h3>
                     </div>
                     <div class="card-toolbar">
-                        {!! prepare_header_html('categories', 'listing') !!}
+                        {!! prepare_header_html('asset_categories', 'listing') !!}
                     </div>
                 </div>
                 <div class="card-body">
@@ -35,13 +35,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($categories as $index => $category)
+                        @foreach($asset_categories as $index => $asset_category)
                             <tr>
                                 <td>{{ ++$index }}</td>
-                                <td>{{ !empty($category->name) ? $category->name : '-' }}</td>
-                                <td>{!! prepare_active_button('categories', $category) !!}</td>
-                                <td>{{ isset($category->created_by_user) && !empty($category->created_by_user) ? $category->created_by_user->name : 'System' }}</td>
-                                <td nowrap="nowrap">{!! prepare_listing_action_buttons('categories', $category, $accesses_urls) !!}</td>
+                                <td>{{ !empty($asset_category->name) ? $asset_category->name : '-' }}</td>
+                                <td>{!! prepare_active_button('asset_categories', $asset_category) !!}</td>
+                                <td>{{ isset($asset_category->created_by_user) && !empty($asset_category->created_by_user) ? $asset_category->created_by_user->name : 'System' }}</td>
+                                <td nowrap="nowrap">{!! prepare_listing_action_buttons('asset_categories', $asset_category, $accesses_urls) !!}</td>
                             </tr>
                         @endforeach
                         </tbody>

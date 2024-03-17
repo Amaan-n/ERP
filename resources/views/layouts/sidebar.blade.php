@@ -113,7 +113,7 @@
                             || in_array('departments.index', $accesses_urls)
                             || in_array('fields.index', $accesses_urls)
                             || in_array('field_groups.index', $accesses_urls)
-                            || in_array('categories.index', $accesses_urls)
+                            || in_array('asset_categories.index', $accesses_urls)
                             || in_array('asset_models.index', $accesses_urls)
                             || in_array('assets.index', $accesses_urls)
                             || in_array('tags.index', $accesses_urls)
@@ -184,12 +184,12 @@
                         </li>
                     @endif
 
-                    @if($is_root_user == 1 || in_array('categories.index', $accesses_urls))
-                        <li class="menu-item {{ get_active_class($current, ['categories.index', 'categories.edit', 'categories.create', 'categories.show']) }}"
+                    @if($is_root_user == 1 || in_array('asset_categories.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['asset_categories.index', 'asset_categories.edit', 'asset_categories.create', 'asset_categories.show']) }}"
                             aria-haspopup="true">
-                            <a href="{{ route('categories.index') }}" class="menu-link">
+                            <a href="{{ route('asset_categories.index') }}" class="menu-link">
                                 <i class="fa fa-list mr-5"></i>
-                                <span class="menu-text">Categories</span>
+                                <span class="menu-text">Asset Categories</span>
                             </a>
                         </li>
                     @endif

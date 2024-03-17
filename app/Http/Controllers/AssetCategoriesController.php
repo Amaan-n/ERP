@@ -7,31 +7,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class CategoriesController extends Controller
+class AssetCategoriesController extends Controller
 {
-    protected $categories_repository;
+    protected $asset_categories_repository;
 
     public function __construct()
     {
-        $this->categories_repository = new CategoriesRepository();
+        $this->asset_categories_repository = new CategoriesRepository();
     }
 
     public function index()
     {
         try {
-            $categories = $this->categories_repository->getCategories();
-            return view('categories.index', compact('categories'));
+            $asset_categories = $this->asset_categories_repository->getAssetCategories();
+            return view('asset_categories.index', compact('asset_categories'));
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
             return redirect()
-                ->route('categories.index')
+                ->route('asset_categories.index')
                 ->with('notification', $notification);
         }
     }
 
     public function create()
     {
-        return view('categories.manage');
+        return view('asset_categories.manage');
     }
 
     public function store(Request $request)
@@ -43,16 +43,16 @@ class CategoriesController extends Controller
             if ($validator->fails()) {
                 $notification = prepare_notification_array('danger', implode('<br>', $validator->getMessageBag()->all()));
                 return redirect()
-                    ->route('categories.create')
+                    ->route('asset_categories.create')
                     ->withInput()
                     ->with('notification', $notification);
             }
 
             $data['is_active']  = isset($data['is_active']) ? 1 : 0;
-            $data['attachment'] = upload_attachment($request, 'attachment', 'uploads/categories');
-            $this->categories_repository->store($data);
+            $data['attachment'] = upload_attachment($request, 'attachment', 'uploads/asset_categories');
+            $this->asset_categories_repository->store($data);
 
-            $notification = prepare_notification_array('success', 'Category has been added.');
+            $notification = prepare_notification_array('success', 'Asset category has been added.');
             DB::commit();
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
@@ -60,19 +60,19 @@ class CategoriesController extends Controller
         }
 
         return redirect()
-            ->route('categories.index')
+            ->route('asset_categories.index')
             ->with('notification', $notification);
     }
 
     public function show($id)
     {
         try {
-            $category = $this->categories_repository->getCategoryById($id);
-            return view('categories.show', compact('category'));
+            $asset_category = $this->asset_categories_repository->getAssetCategoryById($id);
+            return view('asset_categories.show', compact('asset_category'));
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
             return redirect()
-                ->route('categories.index')
+                ->route('asset_categories.index')
                 ->with('notification', $notification);
         }
     }
@@ -80,12 +80,12 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         try {
-            $category = $this->categories_repository->getCategoryById($id);
-            return view('categories.manage', compact('category'));
+            $asset_category = $this->asset_categories_repository->getAssetCategoryById($id);
+            return view('asset_categories.manage', compact('asset_category'));
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
             return redirect()
-                ->route('categories.index')
+                ->route('asset_categories.index')
                 ->with('notification', $notification);
         }
     }
@@ -99,16 +99,16 @@ class CategoriesController extends Controller
             if ($validator->fails()) {
                 $notification = prepare_notification_array('danger', implode('<br>', $validator->getMessageBag()->all()));
                 return redirect()
-                    ->route('categories.edit', [$id])
+                    ->route('asset_categories.edit', [$id])
                     ->withInput()
                     ->with('notification', $notification);
             }
 
             $data['is_active']  = isset($data['is_active']) ? 1 : 0;
-            $data['attachment'] = upload_attachment($request, 'attachment', 'uploads/categories');
-            $this->categories_repository->update($data, $id);
+            $data['attachment'] = upload_attachment($request, 'attachment', 'uploads/asset_categories');
+            $this->asset_categories_repository->update($data, $id);
 
-            $notification = prepare_notification_array('success', 'Category has been updated.');
+            $notification = prepare_notification_array('success', 'Asset category has been updated.');
             DB::commit();
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
@@ -116,21 +116,21 @@ class CategoriesController extends Controller
         }
 
         return redirect()
-            ->route('categories.index')
+            ->route('asset_categories.index')
             ->with('notification', $notification);
     }
 
     public function destroy($id)
     {
         try {
-            $this->categories_repository->delete($id);
-            $notification = prepare_notification_array('success', 'Category has been deleted.');
+            $this->asset_categories_repository->delete($id);
+            $notification = prepare_notification_array('success', 'Asset category has been deleted.');
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
         }
 
         return redirect()
-            ->route('categories.index')
+            ->route('asset_categories.index')
             ->with('notification', $notification);
     }
 }

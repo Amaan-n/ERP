@@ -16,7 +16,7 @@ class CreateAssetModelsTable extends Migration
         Schema::create('asset_models', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('manufacturer_id')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('asset_category_id')->nullable();
             $table->unsignedBigInteger('field_group_id')->nullable();
             $table->string('slug')->nullable();
             $table->string('name')->nullable();

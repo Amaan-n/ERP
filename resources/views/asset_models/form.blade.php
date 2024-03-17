@@ -34,17 +34,17 @@
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            <label class="form-label" for="category_id">
-                Category
+            <label class="form-label" for="asset_category_id">
+                Asset Category
                 <span class="text-danger">*</span>
-                {!! info_circle(config('elements.content.asset_models.category_id')) !!}
+                {!! info_circle(config('elements.content.asset_models.asset_category_id')) !!}
             </label>
-            <select name="category_id" id="category_id" class="form-control">
+            <select name="asset_category_id" id="asset_category_id" class="form-control">
                 <option value="">Please select a value</option>
-                @foreach(\App\Providers\FormList::getCategories() as $category)
-                    <option value="{{ $category->id }}"
-                        {{ !empty($asset_model) && $asset_model->category_id == $category->id ? 'selected="selected"' : '' }}
-                    >{{ $category->name }}</option>
+                @foreach(\App\Providers\FormList::getAssetCategories() as $asset_category)
+                    <option value="{{ $asset_category->id }}"
+                        {{ !empty($asset_model) && $asset_model->asset_category_id == $asset_category->id ? 'selected="selected"' : '' }}
+                    >{{ $asset_category->name }}</option>
                 @endforeach
             </select>
         </div>

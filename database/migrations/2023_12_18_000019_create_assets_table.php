@@ -17,7 +17,7 @@ class CreateAssetsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('asset_model_id')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('asset_category_id')->nullable();
             $table->string('code')->nullable();
             $table->string('slug')->nullable();
             $table->string('name')->nullable();

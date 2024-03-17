@@ -3,11 +3,11 @@
         <div class="form-group">
             <label class="form-label" for="is_active">
                 Is Active
-                {!! info_circle(config('elements.content.categories.is_active')) !!}
+                {!! info_circle(config('elements.content.asset_categories.is_active')) !!}
             </label><br>
             <label class="checkbox mb-2">
                 <input type="checkbox" value="1" name="is_active"
-                    {{ (!isset($category) ? 'checked="checked"' : (!empty($category) && isset($category->is_active) && $category->is_active == 1 ? 'checked="checked"' : '')) }}>
+                    {{ (!isset($asset_category) ? 'checked="checked"' : (!empty($asset_category) && isset($asset_category->is_active) && $asset_category->is_active == 1 ? 'checked="checked"' : '')) }}>
                 <span class="mr-3"></span>
             </label>
         </div>
@@ -20,24 +20,24 @@
             <label class="form-label" for="name">
                 Name
                 <span class="text-danger">*</span>
-                {!! info_circle(config('elements.content.categories.name')) !!}
+                {!! info_circle(config('elements.content.asset_categories.name')) !!}
             </label>
             <input type="text" class="form-control" id="name" name="name"
-                   value="{{ !empty($category) && !empty($category->name) ? $category->name : old('name') }}">
+                   value="{{ !empty($asset_category) && !empty($asset_category->name) ? $asset_category->name : old('name') }}">
         </div>
     </div>
     <div class="col-md-4">
         <div class="form-group">
             <label class="form-label" for="attachment">
                 Attachment
-                {!! info_circle(config('elements.content.categories.attachment')) !!}
+                {!! info_circle(config('elements.content.asset_categories.attachment')) !!}
             </label>
-            {!! preview_and_remove_buttons($category ?? null, 'categories', 'attachment') !!}
+            {!! preview_and_remove_buttons($asset_category ?? null, 'asset_categories', 'attachment') !!}
             <input type="file" class="form-control" id="attachment" name="attachment"
                    accept="image/*"
-                   value="{{ !empty($category) && !empty($category->attachment) ? $category->attachment : '' }}">
+                   value="{{ !empty($asset_category) && !empty($asset_category->attachment) ? $asset_category->attachment : '' }}">
             <input type="hidden" name="old_attachment"
-                   value="{{ !empty($category) && !empty($category->attachment) ? $category->attachment : '' }}">
+                   value="{{ !empty($asset_category) && !empty($asset_category->attachment) ? $asset_category->attachment : '' }}">
         </div>
     </div>
 </div>
@@ -47,10 +47,10 @@
         <div class="form-group">
             <label class="form-label" for="description">
                 Description
-                {!! info_circle(config('elements.content.categories.description')) !!}
+                {!! info_circle(config('elements.content.asset_categories.description')) !!}
             </label>
             <textarea rows="3" cols="5" class="form-control" name="description" id="description"
-                      placeholder="Type here something...">{{ !empty($category) && !empty($category->description) ? $category->description : old('description') }}</textarea>
+                      placeholder="Type here something...">{{ !empty($asset_category) && !empty($asset_category->description) ? $asset_category->description : old('description') }}</textarea>
         </div>
     </div>
 </div>

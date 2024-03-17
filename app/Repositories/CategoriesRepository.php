@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Category;
+use App\Models\AssetCategory;
 
 class CategoriesRepository
 {
@@ -10,19 +10,19 @@ class CategoriesRepository
 
     public function __construct()
     {
-        $this->category = new Category();
+        $this->category = new AssetCategory();
     }
 
-    public function getCategories()
+    public function getAssetCategories()
     {
         return $this->category->where('parent_id', 0)->get();
     }
 
-    public function getCategoryById($slug)
+    public function getAssetCategoryById($slug)
     {
         $category = $this->category->where('slug', $slug)->first();
         if (!isset($category)) {
-            throw new \Exception('No query results for model [App\Models\Category] ' . $slug, 201);
+            throw new \Exception('No query results for model [App\Models\Asset Category] ' . $slug, 201);
         }
 
         return $category;

@@ -29,7 +29,7 @@
                         <tr>
                             <th>Index</th>
                             <th>Manufacturer</th>
-                            <th>Category</th>
+                            <th>Asset Category</th>
                             <th>Name</th>
                             <th>Is Active?</th>
                             <th>Actions</th>
@@ -40,7 +40,7 @@
                             <tr>
                                 <td>{{ ++$index }}</td>
                                 <td>{{ isset($asset_model->manufacturer) && !empty($asset_model->manufacturer->name) ? $asset_model->manufacturer->name : '' }}</td>
-                                <td>{{ isset($asset_model->category) && !empty($asset_model->category->name) ? $asset_model->category->name : '' }}</td>
+                                <td>{{ isset($asset_model->asset_category) && !empty($asset_model->asset_category->name) ? $asset_model->asset_category->name : '' }}</td>
                                 <td>{{ !empty($asset_model->name) ? $asset_model->name : '-' }}</td>
                                 <td>{!! prepare_active_button('asset_models', $asset_model) !!}</td>
                                 <td nowrap="nowrap">{!! prepare_listing_action_buttons('asset_models', $asset_model, $accesses_urls) !!}</td>

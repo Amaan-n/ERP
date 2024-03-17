@@ -21,12 +21,12 @@
             <form action="{{ $redirect_route }}" method="post"
                   enctype="multipart/form-data" class="asset_form" id="asset_form">
                 {{ csrf_field() }}
-                @if(isset($asset) && !empty($asset))
-                    <input type="hidden" name="_method" value="put">
-                @endif
 
-                <input type="hidden" name="id" class="asset_id"
-                       value="{{ isset($asset) && isset($asset->id) && $asset->id > 0 ? $asset->id : 0 }}">
+                @if(isset($asset))
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="{{ $asset->id ?? 0 }}">
+                    <input type="hidden" name="slug" value="{{ $asset->slug ?? '' }}">
+                @endif
 
                 <div class="card card-custom gutter-b">
                     <div class="card-header flex-wrap py-3">
@@ -44,9 +44,9 @@
                     <div class="card-body">
                         @include('assets.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($asset) ? 'Update Asset' : 'Create Asset' !!}
                         </button>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Models\Asset;
 use App\Models\AssetModel;
-use App\Models\Category;
+use App\Models\AssetCategory;
 use App\Models\Field;
 use App\Models\FieldGroup;
 use App\Models\Group;
@@ -37,9 +37,9 @@ class FormList extends ServiceProvider
         return Supplier::where('is_active', 1)->get();
     }
 
-    public static function getCategories()
+    public static function getAssetCategories()
     {
-        return Category::where('is_active', 1)->get();
+        return AssetCategory::where('is_active', 1)->get();
     }
 
     public static function getFields()

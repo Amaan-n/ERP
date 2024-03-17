@@ -26,8 +26,8 @@
                             {{ isset($asset_model) && isset($asset_model->manufacturer) && !empty($asset_model->manufacturer->name) ? $asset_model->manufacturer->name : '' }}
                         </div>
                         <div class="col-md-3 mb-4">
-                            <strong>Category</strong><br>
-                            {{ isset($asset_model) && isset($asset_model->category) && !empty($asset_model->category->name) ? $asset_model->category->name : '' }}
+                            <strong>Asset Category</strong><br>
+                            {{ isset($asset_model) && isset($asset_model->asset_category) && !empty($asset_model->asset_category->name) ? $asset_model->asset_category->name : '' }}
                         </div>
                     </div>
 
@@ -39,14 +39,6 @@
                         <div class="col-md-3 mb-4">
                             <strong>Model Number</strong><br>
                             {{ isset($asset_model) && !empty($asset_model->model_number) ? $asset_model->model_number : '-' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Created By</strong><br>
-                            {{ isset($asset_model->created_by_user) && !empty($asset_model->created_by_user) ? $asset_model->created_by_user->name : 'System' }}
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <strong>Updated By</strong><br>
-                            {{ isset($asset_model->updated_by_user) && !empty($asset_model->updated_by_user) ? $asset_model->updated_by_user->name : 'System' }}
                         </div>
                     </div>
 
@@ -68,6 +60,25 @@
                             @else
                                 <span>-</span>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-4">
+                            <strong>Created By</strong><br>
+                            {{ isset($asset_model->created_by_user) && !empty($asset_model->created_by_user) ? $asset_model->created_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated By</strong><br>
+                            {{ isset($asset_model->updated_by_user) && !empty($asset_model->updated_by_user) ? $asset_model->updated_by_user->name : 'System' }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Created Date</strong><br>
+                            {{ $asset_model->created_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <strong>Updated Date</strong><br>
+                            {{ $asset_model->updated_at->tz('Asia/Kolkata')->format('dS F, Y h:i A') }}
                         </div>
                     </div>
                 </div>

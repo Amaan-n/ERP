@@ -44,9 +44,9 @@
                     <div class="card-body">
                         @include('tags.form')
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg">
-                            Submit
+                    <div class="card-footer py-5">
+                        <button type="submit" class="btn btn-outline-primary font-weight-bold font-size-lg submit_button">
+                            {!! isset($tag) ? 'Update Tag' : 'Create Tag' !!}
                         </button>
                     </div>
                 </div>

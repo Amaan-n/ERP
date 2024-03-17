@@ -222,7 +222,7 @@ if (!function_exists('generate_slug')) {
                 $modal = new \App\Models\AssetModel();
                 break;
             case 'categories':
-                $modal = new \App\Models\Category();
+                $modal = new \App\Models\AssetCategory();
                 break;
             case 'assets':
                 $modal = new \App\Models\Asset();

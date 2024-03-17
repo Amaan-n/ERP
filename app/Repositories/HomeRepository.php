@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Asset;
 use App\Models\AssetModel;
 use App\Models\Attachment;
-use App\Models\Category;
+use App\Models\AssetCategory;
 use App\Models\Department;
 use App\Models\Field;
 use App\Models\FieldGroup;
@@ -20,7 +20,7 @@ use App\Models\User;
 
 class HomeRepository
 {
-    protected $group, $user, $manufacturer, $supplier, $department, $field, $field_group, $category, $asset_model,
+    protected $group, $user, $manufacturer, $supplier, $department, $field, $field_group, $asset_category, $asset_model,
         $asset, $attachment, $location, $measuring_unit, $product_category, $product;
 
     public function __construct()
@@ -32,7 +32,7 @@ class HomeRepository
         $this->department       = new Department();
         $this->field            = new Field();
         $this->field_group      = new FieldGroup();
-        $this->category         = new Category();
+        $this->asset_category   = new AssetCategory();
         $this->asset_model      = new AssetModel();
         $this->asset            = new Asset();
         $this->attachment       = new Attachment();
@@ -74,8 +74,8 @@ class HomeRepository
                         $request->get('field') => ''
                     ]);
                 break;
-            case 'categories':
-                $this->category
+            case 'asset_categories':
+                $this->asset_category
                     ->where('id', $request->get('id'))
                     ->update([
                         $request->get('field') => ''
@@ -136,8 +136,8 @@ class HomeRepository
             case 'field_groups':
                 $model = $this->field_group;
                 break;
-            case 'categories':
-                $model = $this->category;
+            case 'asset_categories':
+                $model = $this->asset_category;
                 break;
             case 'asset_models':
                 $model = $this->asset_model;
