@@ -43,10 +43,6 @@
                         <a class="btn float-right close_pos cursor-pointer">
                             <i class="fa fa-times text-white fa-2x"> </i>
                         </a>
-                        <a class=" btn float-right full_screen cursor-pointer" title="Full Screen">
-                            <i class="fas fa-expand text-white fa-2x fa_expand"></i>
-                            <i class="fas fa-compress text-white fa-2x d-none fa_compress d-none"></i>
-                        </a>
 
                         <div class="row">
                             <div class="col-md-4 pl-0">
@@ -82,10 +78,6 @@
 
                                                     <div>
                                                         <a href="javascript:void(0);"
-                                                           class="btn btn-icon customer_purchase">
-                                                            <i class="fa fa-comment-dollar"> </i>
-                                                        </a>
-                                                        <a href="javascript:void(0);"
                                                            class="btn btn-icon search_customer">
                                                             <i class="fa fa-search"> </i>
                                                         </a>
@@ -103,27 +95,21 @@
 
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
+                                                    <span class="font-weight-bold">
+                                                        Invoice Number
+                                                    </span>
                                                     <span
-                                                        class="font-weight-bold">{{ __('locale.invoice_number') }}</span>
-                                                    <span class="text-secondary"
-                                                          id="pos_invoice_number">{{ $bill_number }}</span>
+                                                        class="text-secondary pos_invoice_number">
+                                                        {{ $invoice_number }}
+                                                    </span>
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
-                                                    <span class="font-weight-bold">{{ __('locale.date') }}</span>
+                                                    <span class="font-weight-bold">Date</span>
                                                     <span class="text-secondary">
-                                                    {{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('dS F Y h:i A') }}
-                                                </span>
+                                                        {{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('dS F Y h:i A') }}
+                                                    </span>
                                                     <input type="hidden" class="item_booking_date"
                                                            value="{{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('Y-m-d') }}">
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0"
-                                                    style="display: none !important">
-                                                    <span class="font-weight-bold">{{ __('locale.worker') }}</span>
-                                                    <label class="local_storage_worker">-</label>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
-                                                    <span class="font-weight-bold">{{ __('locale.notes') }}</span>
-                                                    <label class="customer_notes">-</label>
                                                 </li>
                                             </ul>
                                         </div>
@@ -135,7 +121,7 @@
                                 <div class="w-50">
                                     <input type="text" name="item_keyword"
                                            class="form-control form-control-xs item_keyword"
-                                           placeholder="{{__('locale.type_here_for_search')}}"
+                                           placeholder="Type here for search"
                                            style="">
                                 </div>
                             </div>
@@ -150,7 +136,7 @@
                 <div class="row">
                     <div class="col-md-4 mt-3">
                         <input type="hidden" name="booking_data" id="booking_data" value="">
-                        <input type="hidden" name="bill_number" id="bill_number" value="MER-000616">
+                        <input type="hidden" name="invoice_number" id="invoice_number" value="MER-000616">
                         <input type="hidden" name="customer_id" id="customer_id" value="">
                         <input type="hidden" name="redeem_voucher_code" id="redeem_voucher_code" value="">
                         <input type="hidden" name="available_loyalty" id="available_loyalty" value="">
@@ -173,7 +159,11 @@
                                         <th>Notes</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="customer_bookings"><tr><td colspan="7">No record found</td></tr></tbody>
+                                    <tbody id="customer_bookings">
+                                    <tr>
+                                        <td colspan="7">No record found</td>
+                                    </tr>
+                                    </tbody>
                                     <tfoot id="customer_bookings_footers"></tfoot>
                                 </table>
                             </div>
@@ -229,19 +219,19 @@
                     <a href="javascript:void(0);"
                        class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white new_invoice"
                        style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                        {{ __('locale.new_invoice') }}
+                        New Invoice
                     </a>
                     <a href="{{ route('pos.index') }}"
                        class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white"
                        style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                        {{ __('locale.search') }}
+                        Search
                     </a>
                     @if(in_array('pos.cancel_booking', $accesses_urls))
                         <a href="javascript:void(0);"
                            class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white cancel_booking_pos"
                            style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
-                        {{ __('locale.cancel_invoice') }}
+                        Cancel Invoice
                     </span>
                         </a>
                     @endif
@@ -249,14 +239,7 @@
                        class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white invoice_print"
                        style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
-                        {{ __('locale.print_invoice') }}
-                    </span>
-                    </a>
-                    <a href="javascript:void(0);"
-                       class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white split_worker hidden"
-                       style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                    <span class="navi-text">
-                        {{ __('locale.split_worker') }}
+                        Print Invoice
                     </span>
                     </a>
                     <button
@@ -289,23 +272,67 @@
         </div>
     </template>
 
+    @include('pos.modal.customers')
     @include('pos.modal.create_customer')
+
     @include('pos.modal.customer_detail')
     @include('pos.modal.payment_control')
-    @include('pos.modal.customer_list')
     @include('pos.modal.service_package_list_modal')
-    {{--    @include('pos.modal.split_worker_modal')--}}
     @include('pos.modal.edit_items')
     @include('pos.modal.cancel_booking')
 @stop
 
 @section('page_js')
-    <script src="{{asset('js/fullscreen.js')}}"></script>
-    {{--    @include('pos.script')--}}
     <script type="text/javascript">
         let arr = [];
         let customer_slug = '';
         $(document).ready(function () {
+
+            $(document).off('click', '.search_customer');
+            $(document).on('click', '.search_customer', function () {
+                $(document).find('.customers_listing').modal('show');
+            });
+
+            $(document).off('click', '.select_customer');
+            $(document).on('click', '.select_customer', function () {
+                getCustomerByPhone($(this).data('phone'));
+                $(document).find('.customers_listing').modal('hide');
+            });
+
+            $(document).off('click', '.create_new_customer');
+            $(document).on('click', '.create_new_customer', function () {
+                $(document).find('.create_customer_model').modal('show');
+                $(document).find('.create_customer_model').find('input[name="phone"]').val($('.display_customer_phone_input').val());
+            });
+
+            $(document).off('click', '.edit_customer');
+            $(document).on('click', '.edit_customer', function () {
+                getCustomerByPhone($(document).find('.display_customer_phone').html(), true);
+                $(document).find('.create_customer_model').modal('show');
+                $(document).find('.create_customer_model').find('input[name="phone"]').val($('.display_customer_phone_input').val());
+            });
+
+            $(document).off('keyup', '.display_customer_phone_input');
+            $(document).on('keyup', '.display_customer_phone_input', function () {
+                let customer_phone = $(this).val();
+                if (customer_phone.length >= 5) {
+                    getCustomerByPhone(customer_phone);
+                }
+            });
+
+            $(document).off('click', '.change_customer');
+            $(document).on('click', '.change_customer', function () {
+                $(document).find('.display_customer_phone_input').removeClass('d-none').val('').focus();
+                $(document).find('.display_customer_data').removeClass('d-none');
+                $(document).find('.display_customer_div').addClass('d-none');
+                $(document).find('.display_customer_name').text('No Name').attr('href', 'javascript:void(0);');
+                $(document).find('.display_customer_phone').text('No Phone');
+                $(document).find('#customer_id').val('');
+                $(document).find('#is_restricted_customer').val('');
+                localStorage.removeItem('customer');
+                customer_slug = '';
+            });
+
             $('.item_type').click(function () {
                 $(".item_keyword").focus();
             })
@@ -371,40 +398,6 @@
             $(document).on('click', '.close_pos', function () {
                 clear_local_storage();
                 location.href = "{{ route('home') }}";
-            });
-
-            $(document).off('click', '.create_new_customer');
-            $(document).on('click', '.create_new_customer', function () {
-                $(document).find('.create_customer_model').modal('show');
-                $(document).find('.create_customer_model').find('input[name="phone"]').val($('.display_customer_phone_input').val());
-            });
-
-            $(document).off('click', '.edit_customer');
-            $(document).on('click', '.edit_customer', function () {
-                getCustomerByPhone($(document).find('.display_customer_phone').html(), true);
-                $(document).find('.create_customer_model').modal('show');
-                $(document).find('.create_customer_model').find('input[name="phone"]').val($('.display_customer_phone_input').val());
-            });
-
-            $(document).off('keyup', '.display_customer_phone_input');
-            $(document).on('keyup', '.display_customer_phone_input', function () {
-                let customer_phone = $(this).val();
-                if (customer_phone.length >= 5) {
-                    getCustomerByPhone(customer_phone);
-                }
-            });
-
-            $(document).off('click', '.change_customer');
-            $(document).on('click', '.change_customer', function () {
-                $(document).find('.display_customer_phone_input').removeClass('d-none').val('').focus();
-                $(document).find('.display_customer_data').removeClass('d-none');
-                $(document).find('.display_customer_div').addClass('d-none');
-                $(document).find('.display_customer_name').text('No Name').attr('href', 'javascript:void(0);');
-                $(document).find('.display_customer_phone').text('No Phone');
-                $(document).find('#customer_id').val('');
-                $(document).find('#is_restricted_customer').val('');
-                localStorage.removeItem('customer');
-                customer_slug = '';
             });
 
             let debounceTimer;
@@ -645,12 +638,6 @@
                 format: 'yyyy-mm-dd'
             });
 
-            $(document).off('click', '.customers_tr');
-            $(document).on('click', '.customers_tr', function () {
-                getCustomerByPhone($(this).data('phone'));
-                $(document).find('.customer_list_model').modal('hide');
-            });
-
             $(document).off('keyup', '#coupon_code');
             $(document).on('keyup', '#coupon_code', function () {
                 let coupon_code = $(this).val();
@@ -745,13 +732,6 @@
             }
             getWorkersByServices('salon', 1);
 
-
-            $(document).off('click', '.search_customer');
-            $(document).on('click', '.search_customer', function () {
-                getCustomers();
-                $(document).find('.customer_list_model').modal('show');
-
-            });
 
             $(document).off('click', '.worker_selection');
             $(document).on('click', '.worker_selection', function () {
@@ -994,34 +974,6 @@
                 proceedToPay();
             });
 
-            $(document).off('click', '.customer_purchase');
-            $(document).on('click', '.customer_purchase', function (e) {
-                let customer_data = localStorage.getItem('customer');
-                let decoded_customer = $.parseJSON(customer_data);
-                let customer_sale_data = $.parseJSON(decoded_customer.customer_purchase_by_item_type);
-
-                let tableContent = '<table class="table">';
-                tableContent += '<thead><tr><th>{{__('locale.item_type')}}</th><th>{{__('locale.total_amount')}}</th></tr></thead>';
-                tableContent += '<tbody>';
-                let totalAmount = 0;
-                customer_sale_data.forEach(data => {
-                    let itemType = data.itemable_type.replace('App\\Models\\', '');
-                    tableContent += `<tr><td>${itemType}</td><td>${data.total_amount}</td></tr>`;
-                    totalAmount += data.total_amount;
-                });
-
-                tableContent += '</tbody>';
-                tableContent += `<tfoot><tr><td><strong>{{__('locale.total')}}</strong></td><td><strong>${totalAmount}</strong></td></tr></tfoot>`;
-                tableContent += '</table>';
-
-                Swal.fire({
-                    title: 'Sales',
-                    icon: "info",
-                    html: tableContent,
-                    focusConfirm: false,
-                });
-            });
-
             $(document).off('click', '.invoice_print');
             $(document).on('click', '.invoice_print', function (e) {
 
@@ -1153,11 +1105,6 @@
             $(document).on('click', '.selected_item_row', function (event) {
                 localStorage.setItem('selected_item_row_index', $(this).data('index'));
                 localStorage.setItem('selected_item_row_type', $(this).data('type'));
-                if (localStorage.getItem('selected_item_row_type') === 'service') {
-                    $('.split_worker').removeClass('hidden');
-                } else {
-                    $('.split_worker').addClass('hidden');
-                }
                 $('.selected_item_row').removeClass('clicked');
                 $(this).addClass('clicked');
             });
@@ -1198,6 +1145,54 @@
                 manageCustomerBalance('Refund Balance', $_this, 'debt');
             });
         });
+
+        function getCustomerByPhone(phone, is_edit = false) {
+            $.ajax({
+                type: 'GET',
+                url: '',
+                data: {
+                    phone: phone,
+                },
+                success: function (response) {
+                    if (!response.success) {
+                        $(document).find('#phone').attr('readonly', false);
+                        $(document).find('.customer_password_section').removeClass('d-none');
+                        $(document).find('.display_customer_error').removeClass('d-none');
+                        return false;
+                    }
+
+                    if (is_edit) {
+                        editCustomer(response.data);
+                    } else {
+                        let customer_detail_route = '{{ url('customers') }}/' + response.data.customer.slug;
+                        $(document).find('.display_customer_error, .display_customer_phone_input, .display_customer_data').addClass('d-none');
+                        $(document).find('.display_customer_div').removeClass('d-none');
+                        $(document).find('.display_customer_name').text(response.data.customer.name).attr('href', customer_detail_route);
+                        $(document).find('.display_customer_phone').text(response.data.customer.phone);
+                        $(document).find('#customer_id').val(response.data.customer.id);
+                        $(document).find('#is_restricted_customer').val(response.data.customer.is_restricted_customer);
+                        $(document).find('#customer_slug').val(response.data.customer.slug);
+                        customer_slug = response.data.customer.slug;
+                        $(document).find('#available_loyalty').val(response.data.customer.available_loyalty);
+                        $(document).find('#available_loyalty_amount').val(response.data.customer.available_loyalty_amount);
+                        $(document).find('#customer_advance_balance').val(response.data.customer.customer_advance_balance);
+                        $(document).find('.customer_detail_customer_available_balance').html(response.data.customer.customer_advance_balance);
+                        $(document).find('.advance_balance_remaining').html(response.data.customer.customer_advance_balance);
+                        inputText = response.data.customer.internal_notes.substring(0, 30);
+                        if (inputText != "") {
+                            $(document).find('.customer_notes').html(inputText + '<i class="fa fa-info-circle" title="' + response.data.customer.internal_notes + '"></i>');
+                        }
+                        if (response.data.customer.customer_advance_balance <= 0) {
+                            $(document).find('.payment_control_modal').find('.advance_amount_div').addClass('hidden');
+                        } else {
+                            $(document).find('.payment_control_modal').find('.advance_amount_div').removeClass('hidden');
+                        }
+                    }
+
+                    localStorage.setItem('customer', JSON.stringify(response.data.customer));
+                }
+            });
+        }
 
         function manageCustomerBalance(title, $_this, type) {
             let options = generatePaymentTypeOptions();
@@ -1461,54 +1456,6 @@
                 $(document).find('#customer_bookings_footers').html('');
                 $('.service_type').prop('disabled', false);
             }
-        }
-
-        function getCustomerByPhone(phone, is_edit = false) {
-            $.ajax({
-                type: 'GET',
-                url: '',
-                data: {
-                    phone: phone,
-                },
-                success: function (response) {
-                    if (!response.success) {
-                        $(document).find('#phone').attr('readonly', false);
-                        $(document).find('.customer_password_section').removeClass('d-none');
-                        $(document).find('.display_customer_error').removeClass('d-none');
-                        return false;
-                    }
-
-                    if (is_edit) {
-                        editCustomer(response.data);
-                    } else {
-                        let customer_detail_route = '{{ url('customers') }}/' + response.data.customer.slug;
-                        $(document).find('.display_customer_error, .display_customer_phone_input, .display_customer_data').addClass('d-none');
-                        $(document).find('.display_customer_div').removeClass('d-none');
-                        $(document).find('.display_customer_name').text(response.data.customer.name).attr('href', customer_detail_route);
-                        $(document).find('.display_customer_phone').text(response.data.customer.phone);
-                        $(document).find('#customer_id').val(response.data.customer.id);
-                        $(document).find('#is_restricted_customer').val(response.data.customer.is_restricted_customer);
-                        $(document).find('#customer_slug').val(response.data.customer.slug);
-                        customer_slug = response.data.customer.slug;
-                        $(document).find('#available_loyalty').val(response.data.customer.available_loyalty);
-                        $(document).find('#available_loyalty_amount').val(response.data.customer.available_loyalty_amount);
-                        $(document).find('#customer_advance_balance').val(response.data.customer.customer_advance_balance);
-                        $(document).find('.customer_detail_customer_available_balance').html(response.data.customer.customer_advance_balance);
-                        $(document).find('.advance_balance_remaining').html(response.data.customer.customer_advance_balance);
-                        inputText = response.data.customer.internal_notes.substring(0, 30);
-                        if (inputText != "") {
-                            $(document).find('.customer_notes').html(inputText + '<i class="fa fa-info-circle" title="' + response.data.customer.internal_notes + '"></i>');
-                        }
-                        if (response.data.customer.customer_advance_balance <= 0) {
-                            $(document).find('.payment_control_modal').find('.advance_amount_div').addClass('hidden');
-                        } else {
-                            $(document).find('.payment_control_modal').find('.advance_amount_div').removeClass('hidden');
-                        }
-                    }
-
-                    localStorage.setItem('customer', JSON.stringify(response.data.customer));
-                }
-            });
         }
 
         function editCustomer(data) {
@@ -1974,19 +1921,6 @@
         // handlePageNavigation('item', getItems, getItems, localStorage.getItem('item_type'));
         // handlePageNavigation('item-category', getItemCategories, getItemCategories, localStorage.getItem('item_type'));
         // handlePageNavigation('worker', getWorkersByServices, getWorkersByServices, 'salon');
-
-        function getCustomers() {
-            $.ajax({
-                type: 'get',
-                url: "{{route('pos.customers')}}",
-                success: function (response) {
-                    if (response.data.item_html == '') {
-                        return false;
-                    }
-                    $(document).find('.customer_list_modal_body').html(response.data.item_html);
-                }
-            });
-        }
 
         function clear_local_storage() {
             const itemsToRemove = [

@@ -110,8 +110,8 @@ class PosController extends Controller
 
     public function create()
     {
-        $bill_number = $this->pos_repository->generateInvoiceNumber();
-        return view('pos.manage', compact('bill_number'));
+        $invoice_number = $this->pos_repository->generateInvoiceNumber();
+        return view('pos.manage', compact('invoice_number'));
     }
 
     public function store(Request $request)
@@ -394,21 +394,6 @@ class PosController extends Controller
                 'data'    => [
                     'item_html'        => $rendered_item_html,
                     'item_total_pages' => $workers['worker_total_pages'] ?? 0
-                ]
-            ]);
-    }
-
-    public function getCustomers(Request $request)
-    {
-        $customers          = $this->customers_repository->getCustomers($request);
-        $rendered_item_html = view('pos.partials.customer_list', compact('customers'))->render();
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Customers details have been retrieved.',
-                'data'    => [
-                    'item_html' => $rendered_item_html
                 ]
             ]);
     }

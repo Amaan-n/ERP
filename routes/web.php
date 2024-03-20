@@ -102,6 +102,10 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
 
     // =============== ROUTES FOR POS =============== //
     Route::group(['prefix' => 'pos'], function () {
+        Route::get('customer/package/services', 'PosController@getCustomerPackages')->name('customer.package.services');
+        Route::get('customer/detail', 'PosController@getCustomerDetail')->name('pos.customer.detail');
+
+
         Route::get('pos/ajax', 'PosController@getBookings')->name('pos.bookings.ajax');
         Route::post('update/payment_type', 'PosController@updatePaymentType')->name('pos.update_payment_type');
         Route::post('pos/update_status', 'PosController@updateBookingStatus')->name('pos.update_status');
@@ -111,9 +115,6 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
         Route::get('items_details', 'PosController@getItemData')->name('items.details');
         Route::get('item_categories_details', 'PosController@getItemCategoryData')->name('item_categories.details');
         Route::get('worker_details', 'PosController@getWorkerData')->name('workers.details');
-        Route::get('customers', 'PosController@getCustomers')->name('pos.customers');
-        Route::get('customer/package/services', 'PosController@getCustomerPackages')->name('customer.package.services');
-        Route::get('customer/detail', 'PosController@getCustomerDetail')->name('pos.customer.detail');
         Route::post('store', 'PosController@store')->name('pos.store');
         Route::post('cancel', 'PosController@cancelBooking')->name('pos.cancel_booking');
         Route::post('receive/payment', 'PosController@receivePayment')->name('pos.receive.payment');
