@@ -28,6 +28,16 @@ class CustomersRepository
         return $customer;
     }
 
+    public function getCustomerByPhone($phone)
+    {
+        $customer = $this->customer->where('phone', $phone)->first();
+        if (!isset($customer)) {
+            throw new \Exception('No query results for model [App\Models\Customer] ' . $phone, 201);
+        }
+
+        return $customer;
+    }
+
     public function store($data)
     {
         regenerate:

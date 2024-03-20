@@ -58,8 +58,10 @@ class CustomersController extends Controller
             DB::rollBack();
         }
 
+        $redirect_back = $request->has('redirect_back') ? $request->get('redirect_back') : 'customers.index';
         return redirect()
-            ->route('customers.index')
+            ->route($redirect_back)
+            ->with('phone', $request->get('phone'))
             ->with('notification', $notification);
     }
 
@@ -108,8 +110,10 @@ class CustomersController extends Controller
 
             DB::commit();
             $notification = prepare_notification_array('success', 'Customer has been updated.');
+
+            $redirect_back = $request->has('redirect_back') ? $request->get('redirect_back') : 'customers.index';
             return redirect()
-                ->route('customers.index')
+                ->route($redirect_back)
                 ->with('notification', $notification);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -133,5 +137,36 @@ class CustomersController extends Controller
         return redirect()
             ->route('customers.index')
             ->with('notification', $notification);
+    }
+
+    public function getCustomerByPhone(Request $request)
+    {
+        try {
+            $customer = $this->customers_repository->getCustomerByPhone($request->get('phone'));
+
+            return response()
+                ->json([
+                    'success' => true,
+                    'code'    => 200,
+                    'message' => 'Customer detail has been retrieved for the given phone.',
+                    'data'    => [
+                        'customer' => [
+                            'id'    => $customer->id,
+                            'slug'  => $customer->slug,
+                            'name'  => $customer->name ?? '',
+                            'phone' => $customer->phone ?? '',
+                            'email' => $customer->email ?? '',
+                            'about' => $customer->about ?? '',
+                        ]
+                    ]
+                ]);
+        } catch (\Exception $e) {
+            return response()
+                ->json([
+                    'success' => false,
+                    'code'    => $e->getCode(),
+                    'message' => $e->getMessage()
+                ]);
+        }
     }
 }

@@ -279,7 +279,7 @@
                 serverSide: true,
                 destroy: true,
                 ajax: {
-                    url: "{{ route('pos.bookings.ajax') }}",
+                    url: "{{ route('pos.get_bookings') }}",
                     data: {
                         status: status,
                         created_from: created_from,

@@ -9,12 +9,12 @@
                 </button>
             </div>
             <div class="modal-body create_customer_modal_body">
-                <form action="javascript:void(0);" method="post"
+                <form action="{{ route('customers.store') }}" method="post"
                       enctype="multipart/form-data" class="customer_form" id="customer_form">
                     {{ csrf_field() }}
 
                     <input type="hidden" name="redirect_back" value="pos.create">
-                    <input type="hidden" class="customer_form_method" name="_method" value="">
+                    <input type="hidden" name="_method" value="">
 
                     @include('customers.form')
 

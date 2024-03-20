@@ -4,7 +4,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="create_bookings_modal_popup">{{__('locale.payment_details')}}</h5>
+                <h5 class="modal-title" id="create_bookings_modal_popup">Payment Details</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"> </i>
                 </button>
@@ -14,10 +14,11 @@
                 <div class="row mb-10">
                     <div class="col-md-6 text-center">
                         <div class="form-group">
-                            <input type="hidden" id="input_payment_types_value" class="input_payment_types_value" value=""/>
-                            <input type="hidden" id="coupon_id"             class="coupon_id"              value=""/>
-                            <input type="hidden" id="coupon_discount_type"  class="coupon_discount_type"   value=""/>
-                            <input type="hidden" id="coupon_discount_value" class="coupon_discount_value"  value=""/>
+                            <input type="hidden" id="input_payment_types_value" class="input_payment_types_value"
+                                   value=""/>
+                            <input type="hidden" id="coupon_id" class="coupon_id" value=""/>
+                            <input type="hidden" id="coupon_discount_type" class="coupon_discount_type" value=""/>
+                            <input type="hidden" id="coupon_discount_value" class="coupon_discount_value" value=""/>
 
                             <div class="d-flex flex-column">
                                 <div class="numbers mb-2">
@@ -70,76 +71,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card card-custom gutter-b bg-light-primary">
-                                    <div class="card-body pb-0">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.invoice')}}</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="invoice_amount">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.payable')}}</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="invoice_payable_amount">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.discount')}}</h6>
-                                                    <div class="discount-box">
-                                                        <span class="invoice_discount_amount">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.due')}}</h6>
-                                                    <div class="font-weight-bold rounded" style="background-color: red;color: white;">
-                                                        <span class="invoice_due_amount">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.change')}}</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="invoice_change_amount">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-md-3">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>Redeem</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="invoice_redeem_amount">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="row">
-
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label font-weight-bold" for="invoice_cash">Cash</label>
+                                    <input type="number" name="cash"
+                                           class="form-control payment-type-input last_focused invoice_cash focused"
+                                           data-id="invoice_cash"
+                                           id="invoice_cash" placeholder="0.000" value="" min="0"
+                                           data-class="invoice_input_cash">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="btn-group btn-group-lg mb-5 ml-4" role="group" aria-label="Large button group">
-                                <button type="button" class="btn btn-primary common_selection" id="discount_type_button" data-section="discount_section">{{__('locale.discount_type')}}</button>
-                                {{-- <button type="button" class="btn btn-outline-primary common_discount common_selection" id="coupon_button" data-section="coupon_section">Coupon</button> --}}
+                                <button type="button" class="btn btn-primary common_selection" id="discount_type_button"
+                                        data-section="discount_section">Discount Type
+                                </button>
                             </div>
                         </div>
                         <div class="row coupon_section hidden main_div_common_selection">
@@ -228,7 +180,7 @@
                                                 <h6>{{__('locale.available_balance')}}</h6>
                                             </div>
                                         </div>
-                                        <hr />
+                                        <hr/>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group" style=" text-align: center;">
@@ -299,7 +251,8 @@
                                         {{__('locale.discount_value')}}
                                     </label>
                                     <input type="number" name="discount" id="discount_value"
-                                           class="form-control invoice_input_discount discount_value last_focused focused" value="">
+                                           class="form-control invoice_input_discount discount_value last_focused focused"
+                                           value="">
                                 </div>
                             </div>
                         </div>
@@ -327,29 +280,68 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-custom gutter-b bg-light-primary">
+                            <div class="card-body pb-0">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group" style=" text-align: center;">
+                                            <h6>Invoice</h6>
+                                            <div class="font-weight-bold">
+                                                <span class="invoice_amount">0.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style=" text-align: center;">
+                                            <h6>Payable</h6>
+                                            <div class="font-weight-bold">
+                                                <span class="invoice_payable_amount">0.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style=" text-align: center;">
+                                            <h6>Discount</h6>
+                                            <div class="discount-box">
+                                                <span class="invoice_discount_amount">0.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style=" text-align: center;">
+                                            <h6>Due</h6>
+                                            <div class="font-weight-bold rounded"
+                                                 style="background-color: red;color: white;">
+                                                <span class="invoice_due_amount">0.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style=" text-align: center;">
+                                            <h6>Change</h6>
+                                            <div class="font-weight-bold">
+                                                <span class="invoice_change_amount">0.000</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="modal-footer">
-
-
-                {{-- <div class="col-md-3 text-center border border-primary p-3  loyal_amount_div hidden">
-                    <span class="font-size-lg font-weight-bold text-primary">
-                        Available Loyalty Points: <span class="loyal_point_label">0</span><br />
-                    </span>
-                </div>
-                <div class="col-md-3 text-center border border-primary p-3 loyal_amount_div hidden">
-                    <span class="font-size-lg font-weight-bold text-primary">
-                        Available Loyalty Amount: <span class="loyal_amount_label">0</span>
-                    </span>
-                </div> --}}
-                <input type="hidden" name="search_bill_number" id="search_bill_number" value="">
                 <a href="javascript:void(0)" id="proceed_to_pay" class="btn btn-primary font-size-h5 font-weight-bold">
-                    {{__('locale.book_and_proceed')}}
+                    Book & Proceed
                 </a>
 
                 <a href="javascript:void(0)" class="btn btn-outline-secondary font-size-h5 font-weight-bold"
                    data-dismiss="modal" aria-label="Close">
-                   {{__('locale.cancel')}}
+                    Cancel
                 </a>
             </div>
         </div>

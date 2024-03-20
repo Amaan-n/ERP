@@ -13,9 +13,20 @@ class ProductsRepository
         $this->product = new Product();
     }
 
-    public function getProducts()
+    public function getProducts($data = [])
     {
-        return $this->product->with('product_category')->get();
+        return $this->product
+            ->with('product_category')
+            ->when($data, function ($query) use ($data) {
+                if (isset($data['product_category_id']) && $data['product_category_id'] > 0) {
+                    return $query->where('product_category_id', $data['product_category_id']);
+                }
+
+                if (isset($data['keyword']) && !empty($data['keyword'])) {
+                    return $query->where('products.name', 'like', "%{$data['keyword']}%");
+                }
+            })
+            ->get();
     }
 
     public function getProductById($slug)

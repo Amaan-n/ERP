@@ -59,7 +59,7 @@ class PosRepository
 
     public function generateInvoiceNumber()
     {
-        return 'AL-' . str_pad(1, 6, '0', STR_PAD_LEFT);
+        return 'SAN-' . str_pad(1, 6, '0', STR_PAD_LEFT);
     }
 
     public function store($data)

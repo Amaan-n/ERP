@@ -163,6 +163,31 @@ class PosController extends Controller
         }
     }
 
+    public function getItems(Request $request)
+    {
+        $data  = $request->all();
+        $items = $this->products_repository->getProducts($data);
+        if (!empty($items) && count($items) > 0) {
+            foreach ($items as $item) {
+                if (empty($item->attachment)) {
+                    $item->attachment = asset('images/placeholder.jpg');
+                }
+            }
+        }
+
+        $rendered_items_html = view('pos.partials.items', compact('items', 'data'))->render();
+
+        return response()
+            ->json([
+                'success' => true,
+                'code'    => 200,
+                'message' => 'Items have been retrieved.',
+                'data'    => [
+                    'items_html' => $rendered_items_html,
+                ]
+            ]);
+    }
+
     public function printInvoice(Request $request)
     {
         try {
@@ -304,116 +329,6 @@ class PosController extends Controller
         }
     }
 
-    public function getItemData(Request $request)
-    {
-        $data               = $request->all();
-        $local_value        = Session::get('locale');
-        $rendered_item_html = '';
-        switch ($data['item_type']) {
-            case 'service':
-                $items = $this->services_repository->getServiceItems($data);
-                break;
-
-            case 'product':
-                $items = $this->products_repository->getProductItems($data);
-                break;
-
-            case 'package':
-                $items = $this->packages_repository->getPackageItems($data);
-                break;
-
-            case 'voucher':
-                $items = $this->vouchers_repository->getVoucherItems($data);
-                break;
-        }
-        if (!empty($items) && count($items) > 0) {
-            foreach ($items['result'] as $item) {
-                if (!isset($item->attachment) || ($item->attachment == null || $item->attachment == '')) {
-                    $item->attachment = asset('images/default_item.jpeg');
-                }
-            }
-        }
-        if (isset($data['service_type'])) {
-            $rendered_item_html = view('pos.partials.items', compact('items', 'data', 'local_value'))->render();
-        }
-
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Items details have been retrieved.',
-                'data'    => [
-                    'is_barcode'       => count($items['result']) == 1 && $data['item_keyword'] == $items['result'][0]->barcode,
-                    'item'             => count($items['result']) == 1 ? $items['result'][0] : collect(),
-                    'item_html'        => $rendered_item_html,
-                    'item_type'        => $data['item_type'],
-                    'item_total_pages' => $items['item_total_pages'] ?? 0
-                ]
-            ]);
-    }
-
-    public function getItemCategoryData(Request $request)
-    {
-        $data        = $request->all();
-        $local_value = Session::get('locale');
-        switch ($data['item_type']) {
-            case 'service':
-                $item_categories = $this->service_categories_repository->getServiceCategories($data);
-                break;
-
-            case 'product':
-                $item_categories = $this->product_categories_repository->getProductCategories($data);
-                break;
-        }
-        $rendered_item_category_html = view('pos.partials.item_categories', compact('item_categories', 'data', 'local_value'))->render();
-
-
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Item Categories details have been retrieved.',
-                'data'    => [
-                    'item_category_total_pages' => $item_categories['item_category_total_pages'] ?? 0,
-                    'item_category_html'        => $rendered_item_category_html
-                ]
-            ]);
-    }
-
-    public function getWorkerData(Request $request)
-    {
-        $data               = $request->all();
-        $local_value        = Session::get('locale');
-        $workers            = $this->users_repository->getWorkers($data);
-        $rendered_item_html = view('pos.partials.workers', compact('workers', 'local_value'))->render();
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Worker details have been retrieved.',
-                'data'    => [
-                    'item_html'        => $rendered_item_html,
-                    'item_total_pages' => $workers['worker_total_pages'] ?? 0
-                ]
-            ]);
-    }
-
-    public function getCustomerPackages(Request $request)
-    {
-        $data               = $request->all();
-        $service_packages   = $this->customers_repository->getServiceCustomerPackages($data);
-        $rendered_item_html = view('pos.partials.service_package_list', compact('service_packages'))->render();
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Service details have been retrieved.',
-                'data'    => [
-                    'item_html' => $rendered_item_html
-                ]
-            ]);
-    }
-
     public function updateBookingStatus(Request $request)
     {
         try {
@@ -431,27 +346,6 @@ class PosController extends Controller
                 'success' => true,
                 'code'    => 200,
                 'message' => 'Booking has been updated.'
-            ]);
-    }
-
-    public function getCustomerDetail(Request $request)
-    {
-        $data                     = $request->all();
-        $data['is_detail']        = true;
-        $service_packages         = $this->customers_repository->getServiceCustomerPackages($data);
-        $customer_voucher         = $this->customers_repository->getCustomerWalletByType($data['customer_id'], ['redeem']);
-        $customer_wallet          = $this->customers_repository->getCustomerWalletByType($data['customer_id'], ['credit', 'debt']);
-        $customer_advance_balance = $this->customers_repository->getCustomerAvailableBalance($data['customer_id']);
-        $payment_types            = $this->payment_type->where('organization_id', session()->get('organization_id'))->where('is_active', 1)->pluck('name', 'id')->toArray();
-        $render_package_detail    = view('pos.partials.customer_detail_list', compact('service_packages', 'customer_voucher', 'customer_wallet', 'customer_advance_balance', 'payment_types'))->render();
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Customer details have been retrieved.',
-                'data'    => [
-                    'item_html' => $render_package_detail
-                ]
             ]);
     }
 
