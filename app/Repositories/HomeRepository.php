@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\AssetModel;
 use App\Models\Attachment;
 use App\Models\AssetCategory;
+use App\Models\Customer;
 use App\Models\Department;
 use App\Models\Field;
 use App\Models\FieldGroup;
@@ -21,7 +22,7 @@ use App\Models\User;
 class HomeRepository
 {
     protected $group, $user, $manufacturer, $supplier, $department, $field, $field_group, $asset_category, $asset_model,
-        $asset, $attachment, $location, $measuring_unit, $product_category, $product;
+        $asset, $attachment, $location, $measuring_unit, $product_category, $product, $customer;
 
     public function __construct()
     {
@@ -40,6 +41,7 @@ class HomeRepository
         $this->measuring_unit   = new MeasuringUnit();
         $this->product_category = new ProductCategory();
         $this->product          = new Product();
+        $this->customer         = new Customer();
     }
 
     public function removeFile($request)
@@ -156,6 +158,9 @@ class HomeRepository
                 break;
             case 'products':
                 $model = $this->product;
+                break;
+            case 'customers':
+                $model = $this->customer;
                 break;
         }
 

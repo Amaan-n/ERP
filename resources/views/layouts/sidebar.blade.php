@@ -257,7 +257,8 @@
                     @endif
 
                     @if($is_root_user == 1
-                        || (in_array('locations.index', $accesses_urls)
+                        || (in_array('customers.index', $accesses_urls)
+                            || in_array('locations.index', $accesses_urls)
                             || in_array('measuring_units.index', $accesses_urls)
                             || in_array('product_categories.index', $accesses_urls)
                             || in_array('products.index', $accesses_urls)
@@ -265,6 +266,16 @@
                         <li class="menu-section">
                             <h4 class="menu-text">Masters</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('customers.index', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['customers.index', 'customers.edit', 'customers.create', 'customers.show']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('customers.index') }}" class="menu-link">
+                                <i class="fa fa-user-friends mr-5"></i>
+                                <span class="menu-text">Customers</span>
+                            </a>
                         </li>
                     @endif
 

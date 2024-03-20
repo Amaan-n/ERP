@@ -13,6 +13,7 @@ return [
         'asset_model'      => ['asset_models.index', 'asset_models.create', 'asset_models.show', 'asset_models.edit', 'asset_models.delete'],
         'asset'            => ['assets.index', 'assets.create', 'assets.show', 'assets.edit', 'assets.delete', 'assets.allocation'],
         'tag'              => ['tags.index', 'tags.create', 'tags.show', 'tags.mapping'],
+        'customer'         => ['customers.index', 'customers.create', 'customers.show', 'customers.edit', 'customers.delete'],
         'location'         => ['locations.index', 'locations.create', 'locations.show', 'locations.edit', 'locations.delete'],
         'measuring_unit'   => ['measuring_units.index', 'measuring_units.create', 'measuring_units.show', 'measuring_units.edit', 'measuring_units.delete'],
         'product_category' => ['product_categories.index', 'product_categories.create', 'product_categories.show', 'product_categories.edit', 'product_categories.delete'],

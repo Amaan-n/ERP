@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     // =============== ROUTES FOR WAREHOUSES MANAGEMENT =============== //
     Route::group(['prefix' => 'orders'], function () {
         Route::get('home', 'HomeController@ordersManagementIndex')->name('orders.home');
+
+        Route::resource('customers', 'CustomersController');
         Route::resource('locations', 'LocationsController');
         Route::resource('measuring_units', 'MeasuringUnitsController');
         Route::resource('product_categories', 'ProductCategoriesController');
