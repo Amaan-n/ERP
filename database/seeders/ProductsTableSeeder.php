@@ -16,7 +16,7 @@ class ProductsTableSeeder extends Seeder
         $product = new \App\Models\Product();
         $product->truncate();
 
-        for ($i = 1; $i <= 9; $i++) {
+        for ($i = 1; $i <= 19; $i++) {
             $product
                 ->create([
                     'slug'                => strtoupper(substr(md5(uniqid(rand(), true)), 0, 5)),

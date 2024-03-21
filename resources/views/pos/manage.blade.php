@@ -17,218 +17,197 @@
             border: 1px solid darkgray !important;
         }
 
-        .actions_button {
-            z-index: 1100;
+        .table-responsive::-webkit-scrollbar, .items_container::-webkit-scrollbar {
+            display: none;
         }
 
-        #bookings_listing_filter {
-            margin-left: 63%;
-        }
-
-        #bookings_listing_paginate {
-            margin-left: 80%;
-        }
-
-        .swal2-html-container {
-            max-height: 263px !important;
+        .table-responsive, .items_container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 
-    <div class="pos_container">
-        <div class="row mx-0">
-            <div class="col-md-12 p-0">
-                <div class="card card-custom">
-                    <div class="card-body min-h-200px p-5"
-                         style="background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8)">
-                        <a class="btn float-right close_pos cursor-pointer">
-                            <i class="fa fa-times text-white fa-2x"> </i>
-                        </a>
+    <div class="pos_container border border-dark position-relative h-100">
 
-                        <div class="row">
-                            <div class="col-md-4 pl-0">
-                                <div class="d-flex justify-content-center">
-                                    <div class="card card-custom w-100">
-                                        <div class="card-body p-5">
-                                            <div class="input-group mb-5 display_customer_data">
-                                                <input type="text" class="form-control display_customer_phone_input"
-                                                       placeholder="Enter customer's phone"
-                                                       value="{{ \Illuminate\Support\Facades\Session::has('phone') ? \Illuminate\Support\Facades\Session::get('phone') : '' }}">
-                                                <div class="input-group-append search_customer">
-                                                    <a class="btn btn-outline-secondary">
-                                                        <i class="fa fa-search"> </i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <p class="text-danger display_customer_error d-none">
-                                                No Record Found. Click
-                                                <a href="javascript:void(0);" class="create_new_customer">HERE</a>
-                                                Add Customer
-                                            </p>
-                                            <div class="display_customer_div d-none">
-                                                <div class="d-flex justify-content-between align-items-center mb-5">
-                                                    <div>
-                                                        <a href="javascript:void(0);" target="_blank"
-                                                           class="font-size-h5 font-weight-bold text-dark-75 display_customer_name">
-                                                            No Name
-                                                        </a><br>
-                                                        <span class="display_customer_phone mt-3">
-                                                        No Phone
-                                                    </span>
-                                                    </div>
-
-                                                    <div>
-                                                        <a href="javascript:void(0);"
-                                                           class="btn btn-icon btn-sm search_customer">
-                                                            <i class="fa fa-search"> </i>
-                                                        </a>
-                                                        <a href="javascript:void(0);"
-                                                           class="btn btn-icon btn-sm edit_customer">
-                                                            <i class="fa fa-edit"> </i>
-                                                        </a>
-                                                        <a href="javascript:void(0);"
-                                                           class="btn btn-icon btn-sm change_customer">
-                                                            <i class="fa fa-times"> </i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
-                                                    <span>Invoice Number</span>
-                                                    <span class="text-secondary pos_invoice_number">
-                                                        {{ $invoice_number }}
-                                                    </span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
-                                                    <span class="font-weight-bold">Date</span>
-                                                    <span class="text-secondary">
-                                                        {{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('dS F Y h:i A') }}
-                                                    </span>
-                                                    <input type="hidden" class="item_booking_date"
-                                                           value="{{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('Y-m-d') }}">
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-8 p-0 pl-3 d-flex align-items-start">
-                                <div class="w-75">
-                                    <input type="text" name="item_keyword"
-                                           class="form-control form-control-xs item_keyword"
-                                           placeholder="Type here for search"
-                                           style="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="card card-custom position-absolute w-100" style="top: 0">
+            <div class="card-body min-h-300px"
+                 style="background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8)">
+                <a class="btn float-right close_pos cursor-pointer">
+                    <i class="fa fa-times text-white fa-2x"> </i>
+                </a>
             </div>
         </div>
 
-        <div class="row mx-0">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-4 mt-3">
-                        <input type="hidden" name="booking_data" id="booking_data" value="">
-                        <input type="hidden" name="invoice_number" id="invoice_number" value="MER-000616">
-                        <input type="hidden" name="customer_id" id="customer_id" value="">
-                        <input type="hidden" name="booking_id" id="booking_id" value="0">
-
-                        <div class="card bg-white" style="height:400px; max-height: 400px; overflow: auto;">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr style="background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8)">
-                                        <th>Actions</th>
-                                        <th>Items</th>
-                                        <th>Per Item Price</th>
-                                        <th>Total Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="customer_bookings">
-                                    <tr>
-                                        <td colspan="3">No record found</td>
-                                    </tr>
-                                    </tbody>
-                                    <tfoot id="customer_bookings_footers"></tfoot>
-                                </table>
+        <div class="w-100 d-flex p-0 m-0">
+            <div class="w-50 px-5">
+                <div style="height: 3vh;"></div>
+                <div class="card card-custom w-100" style="height: 20vh">
+                    <div class="card-body">
+                        <div class="input-group mb-5 display_customer_data">
+                            <input type="text" class="form-control display_customer_phone_input"
+                                   placeholder="Enter customer's phone"
+                                   value="{{ \Illuminate\Support\Facades\Session::has('phone') ? \Illuminate\Support\Facades\Session::get('phone') : '' }}">
+                            <div class="input-group-append search_customer">
+                                <a class="btn btn-outline-secondary">
+                                    <i class="fa fa-search"> </i>
+                                </a>
                             </div>
                         </div>
+                        <p class="text-danger display_customer_error d-none">
+                            No Record Found. Click
+                            <a href="javascript:void(0);" class="create_new_customer">HERE</a>
+                            Add Customer
+                        </p>
+                        <div class="display_customer_div d-none">
+                            <div class="d-flex justify-content-between align-items-center mb-5">
+                                <div>
+                                    <a href="javascript:void(0);" target="_blank"
+                                       class="font-size-h5 font-weight-bold text-dark-75 display_customer_name">
+                                        No Name
+                                    </a><br>
+                                    <span class="display_customer_phone mt-3">
+                                                        No Phone
+                                                    </span>
+                                </div>
+
+                                <div>
+                                    <a href="javascript:void(0);"
+                                       class="btn btn-icon btn-sm search_customer">
+                                        <i class="fa fa-search"> </i>
+                                    </a>
+                                    <a href="javascript:void(0);"
+                                       class="btn btn-icon btn-sm edit_customer">
+                                        <i class="fa fa-edit"> </i>
+                                    </a>
+                                    <a href="javascript:void(0);"
+                                       class="btn btn-icon btn-sm change_customer">
+                                        <i class="fa fa-times"> </i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
+                                <span>Invoice Number</span>
+                                <span class="text-secondary pos_invoice_number">
+                                                        {{ $invoice_number }}
+                                                    </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
+                                <span class="font-weight-bold">Date</span>
+                                <span class="text-secondary">
+                                                        {{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('dS F Y h:i A') }}
+                                                    </span>
+                                <input type="hidden" class="item_booking_date"
+                                       value="{{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('Y-m-d') }}">
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-md-2 pl-0" style="margin-top: -130px;">
-                        <div class="card card-custom">
-                            <div class="card-body p-3 pl-5">
-                                <div data-scroll="true" data-height="520">
-                                    <ul class="navi navi-link-rounded navi-accent navi-hover flex-column mb-8 mb-lg-0"
-                                        role="tablist">
-                                        @foreach (\App\Providers\FormList::getProductCategories() as $product_category)
-                                            <li class="navi-item border-bottom" style="border-bottom: 1px">
-                                                <a href="javascript:void(0);"
-                                                   class="navi-link item_category_selection active"
-                                                   data-category-id="{{ $product_category->id }}">
+                </div>
+                <div style="height: 3vh;"></div>
+                <div class="card card-custom p-3" style="height: 70vh">
+                    <input type="hidden" name="booking_data" id="booking_data" value="">
+                    <input type="hidden" name="invoice_number" id="invoice_number" value="MER-000616">
+                    <input type="hidden" name="customer_id" id="customer_id" value="">
+                    <input type="hidden" name="booking_id" id="booking_id" value="0">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr style="background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8)">
+                                <th>Actions</th>
+                                <th>Items</th>
+                                <th>Per Item Price</th>
+                                <th>Total Price</th>
+                            </tr>
+                            </thead>
+                            <tbody id="customer_bookings">
+                            <tr>
+                                <td colspan="3">No record found</td>
+                            </tr>
+                            </tbody>
+                            <tfoot id="customer_bookings_footers"></tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div style="height: 3vh;"></div>
+            </div>
+
+            <div class="w-50 pr-5">
+                <div style="height: 3vh;"></div>
+                <div class="d-none" style="margin-top: -130px;">
+                    <div class="card card-custom">
+                        <div class="card-body p-3 pl-5">
+                            <div data-scroll="true" data-height="620">
+                                <ul class="navi navi-link-rounded navi-accent navi-hover flex-column mb-8 mb-lg-0"
+                                    role="tablist">
+                                    @foreach (\App\Providers\FormList::getProductCategories() as $product_category)
+                                        <li class="navi-item border-bottom" style="border-bottom: 1px">
+                                            <a href="javascript:void(0);"
+                                               class="navi-link item_category_selection active"
+                                               data-category-id="{{ $product_category->id }}">
                                                     <span class="navi-text text-dark-50">
                                                         {{ $product_category->name }}
                                                     </span>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 pl-0 items_div" style="margin-top: -130px;">
-                        <div class="card card-custom bg-white">
-                            <div class="card-body p-3 pl-5">
-                                <div data-scroll="true" data-height="520">
-                                    <div class="items_container d-flex flex-wrap"></div>
-                                </div>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="card card-custom" style="height: 93vh">
+                    <div class="card-header flex-wrap py-3">
+                        <div class="card-title w-100">
+                            <input type="text" name="item_keyword"
+                                   class="form-control form-control-xs item_keyword"
+                                   placeholder="Type here for search"
+                                   style="">
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="items_container d-flex justify-content-between flex-wrap"
+                             style="height:100%; overflow-y: auto"></div>
+                    </div>
+                </div>
+                <div class="w-100 d-none" style="bottom: 1rem">
+                    <div class="worker_container d-flex justify-content-center text-nowrap overflow-auto my-4"></div>
 
-        <div class="row">
-            <div class="position-absolute w-100" style="bottom: 1rem">
-                <div class="worker_container d-flex justify-content-center text-nowrap overflow-auto my-4"></div>
-
-                <div class="d-flex flex-wrap justify-content-center">
-                    <a href="javascript:void(0);"
-                       class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white new_invoice"
-                       style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                        New Invoice
-                    </a>
-                    <a href="{{ route('pos.index') }}"
-                       class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white"
-                       style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                        Search
-                    </a>
-                    @if(in_array('pos.cancel_booking', $accesses_urls))
+                    <div class="d-flex flex-wrap justify-content-center">
                         <a href="javascript:void(0);"
-                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white cancel_booking_pos"
+                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white new_invoice"
                            style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                            New Invoice
+                        </a>
+                        <a href="{{ route('pos.index') }}"
+                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white"
+                           style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                            Search
+                        </a>
+                        @if(in_array('pos.cancel_booking', $accesses_urls))
+                            <a href="javascript:void(0);"
+                               class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white cancel_booking_pos"
+                               style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
                         Cancel Invoice
                     </span>
-                        </a>
-                    @endif
-                    <a href="javascript:void(0);"
-                       class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white invoice_print"
-                       style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                            </a>
+                        @endif
+                        <a href="javascript:void(0);"
+                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white invoice_print"
+                           style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
                         Print Invoice
                     </span>
-                    </a>
-                    <button
-                        class="btn mb-2 ml-2 p-5 border-0 font-size-h4 font-weight-bold text-white payment_popup_button"
-                        style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                        Book & Pay
-                    </button>
+                        </a>
+                        <button
+                            class="btn mb-2 ml-2 p-5 border-0 font-size-h4 font-weight-bold text-white payment_popup_button"
+                            style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                            Book & Pay
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
