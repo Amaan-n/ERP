@@ -25,6 +25,60 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .floating-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .action-list {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .action-list.active {
+            display: block;
+        }
+
+        .action-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .action-list li {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .action-list li:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 
     <div class="pos_container border border-dark position-relative h-100">
@@ -32,9 +86,7 @@
         <div class="card card-custom position-absolute w-100" style="top: 0">
             <div class="card-body min-h-300px"
                  style="background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8)">
-                <a class="btn float-right close_pos cursor-pointer">
-                    <i class="fa fa-times text-white fa-2x"> </i>
-                </a>
+
             </div>
         </div>
 
@@ -172,43 +224,54 @@
                              style="height:100%; overflow-y: auto"></div>
                     </div>
                 </div>
-                <div class="w-100 d-none" style="bottom: 1rem">
-                    <div class="worker_container d-flex justify-content-center text-nowrap overflow-auto my-4"></div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="d-flex flex-wrap justify-content-center">
-                        <a href="javascript:void(0);"
-                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white new_invoice"
-                           style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                            New Invoice
-                        </a>
-                        <a href="{{ route('pos.index') }}"
-                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white"
-                           style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                            Search
-                        </a>
-                        @if(in_array('pos.cancel_booking', $accesses_urls))
-                            <a href="javascript:void(0);"
-                               class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white cancel_booking_pos"
-                               style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+    <button class="floating-btn" id="floatingButton">
+        <i class="fa fa-plus text-white font-size-h1"></i>
+    </button>
+
+    <div class="action-list" id="actionList">
+        <div class="card card-custom p-5">
+            <div class="d-flex flex-wrap justify-content-center">
+                <a href="javascript:void(0);"
+                   class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white new_invoice"
+                   style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                    New Invoice
+                </a>
+                <a href="{{ route('pos.index') }}"
+                   class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white"
+                   style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                    Search
+                </a>
+                @if(in_array('pos.cancel_booking', $accesses_urls))
+                    <a href="javascript:void(0);"
+                       class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white cancel_booking_pos"
+                       style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
                         Cancel Invoice
                     </span>
-                            </a>
-                        @endif
-                        <a href="javascript:void(0);"
-                           class="btn mb-2 mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white invoice_print"
-                           style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                    </a>
+                @endif
+                <a href="javascript:void(0);"
+                   class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white invoice_print"
+                   style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
                         Print Invoice
                     </span>
-                        </a>
-                        <button
-                            class="btn mb-2 ml-2 p-5 border-0 font-size-h4 font-weight-bold text-white payment_popup_button"
-                            style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                            Book & Pay
-                        </button>
-                    </div>
-                </div>
+                </a>
+                <button
+                    class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white payment_popup_button"
+                    style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                    Book & Pay
+                </button>
+
+                <button
+                    class="btn p-5 border-0 font-size-h4 font-weight-bold text-white close_pos"
+                    style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                    Close
+                </button>
             </div>
         </div>
     </div>
@@ -222,6 +285,13 @@
 
 @section('page_js')
     <script type="text/javascript">
+        const floatingButton = document.getElementById('floatingButton');
+        const actionList = document.getElementById('actionList');
+
+        floatingButton.addEventListener('click', () => {
+            actionList.classList.toggle('active');
+        });
+
         let arr = [];
         $(document).ready(function () {
             initSelect2();
