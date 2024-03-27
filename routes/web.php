@@ -77,6 +77,12 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
         Route::get('mappings/create', 'MappingsController@create')->name('tags.mapping');
         Route::post('mappings/store', 'MappingsController@store')->name('mappings.store');
 
+        Route::group(['prefix' => 'assets/allocation'], function () {
+            Route::get('', 'AllocationsController@index')->name('assets.allocation');
+            Route::post('', 'AllocationsController@store')->name('assets.allocation.store');
+            Route::get('items', 'AllocationsController@getAllocatedItemsByUser')->name('assets.allocation.items');
+        });
+
         Route::resource('employees', 'EmployeesController');
         Route::resource('manufacturers', 'ManufacturersController');
         Route::resource('suppliers', 'SuppliersController');

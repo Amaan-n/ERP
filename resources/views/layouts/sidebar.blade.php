@@ -95,7 +95,8 @@
                     @endif
                 @endif
 
-                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/hrms')
+                @if(!empty(request()->route()->action)
+                        && in_array(request()->route()->action['prefix'], ['/hrms', 'hrms/assets/allocation']))
                     @if($is_root_user == 1 || in_array('hrms.home', $accesses_urls))
                         <li class="menu-item {{ get_active_class($current, ['hrms.home']) }}"
                             aria-haspopup="true">
@@ -117,7 +118,9 @@
                             || in_array('asset_models.index', $accesses_urls)
                             || in_array('assets.index', $accesses_urls)
                             || in_array('tags.index', $accesses_urls)
-                            || in_array('tags.mapping', $accesses_urls)))
+                            || in_array('tags.mapping', $accesses_urls)
+                            || in_array('assets.allocation', $accesses_urls)
+                        ))
                         <li class="menu-section">
                             <h4 class="menu-text">Masters</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
@@ -230,6 +233,16 @@
                             <a href="{{route('tags.mapping')}}" class="menu-link">
                                 <i class="fa fa-link mr-5"></i>
                                 <span class="menu-text">Tags Mapping</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('assets.allocation', $accesses_urls))
+                        <li class="menu-item {{ get_active_class($current, ['assets.allocation']) }}"
+                            aria-haspopup="true">
+                            <a href="{{ route('assets.allocation') }}" class="menu-link">
+                                <i class="fa fa-shopping-bag mr-5"></i>
+                                <span class="menu-text">Allocations</span>
                             </a>
                         </li>
                     @endif

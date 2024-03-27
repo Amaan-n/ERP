@@ -320,3 +320,15 @@ if (!function_exists('preview_and_remove_buttons')) {
         return $preview_and_remove_buttons;
     }
 }
+
+if (!function_exists('save_asset_transaction')) {
+    function save_asset_transaction($asset_id, $user_id, $status)
+    {
+        \App\Models\AssetTransaction::create([
+            'asset_id' => $asset_id,
+            'user_id'  => $user_id,
+            'status'   => $status,
+            'added_by' => auth()->user()->id ?? 0
+        ]);
+    }
+}
