@@ -93,23 +93,21 @@
         <div class="w-100 d-flex p-0 m-0">
             <div class="w-50 px-5">
                 <div style="height: 3vh;"></div>
-                <div class="card card-custom w-100" style="height: 20vh">
+                <div class="card card-custom w-100" style="height: 15vh">
                     <div class="card-body">
                         <div class="input-group mb-5 display_customer_data">
                             <input type="text" class="form-control display_customer_phone_input"
                                    placeholder="Enter customer's phone"
                                    value="{{ \Illuminate\Support\Facades\Session::has('phone') ? \Illuminate\Support\Facades\Session::get('phone') : '' }}">
-                            <div class="input-group-append search_customer">
-                                <a class="btn btn-outline-secondary">
+                            <div class="input-group-append">
+                                <a class="btn btn-outline-secondary search_customer">
                                     <i class="fa fa-search"> </i>
+                                </a>
+                                <a class="btn btn-outline-secondary create_new_customer">
+                                    <i class="fa fa-plus"> </i>
                                 </a>
                             </div>
                         </div>
-                        <p class="text-danger display_customer_error d-none">
-                            No Record Found. Click
-                            <a href="javascript:void(0);" class="create_new_customer">HERE</a>
-                            Add Customer
-                        </p>
                         <div class="display_customer_div d-none">
                             <div class="d-flex justify-content-between align-items-center mb-5">
                                 <div>
@@ -118,8 +116,8 @@
                                         No Name
                                     </a><br>
                                     <span class="display_customer_phone mt-3">
-                                                        No Phone
-                                                    </span>
+                                        No Phone
+                                    </span>
                                 </div>
 
                                 <div>
@@ -139,26 +137,17 @@
                             </div>
                         </div>
 
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
-                                <span>Invoice Number</span>
-                                <span class="text-secondary pos_invoice_number">
-                                                        {{ $invoice_number }}
-                                                    </span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap pl-0 pr-0">
-                                <span class="font-weight-bold">Date</span>
-                                <span class="text-secondary">
-                                                        {{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('dS F Y h:i A') }}
-                                                    </span>
-                                <input type="hidden" class="item_booking_date"
-                                       value="{{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('Y-m-d') }}">
-                            </li>
-                        </ul>
+                        <div class="d-flex justify-content-between font-size-lg font-weight-bold">
+                            <span
+                                class="pos_invoice_number border border-light-dark px-5 py-1">{{ $invoice_number }}</span>
+                            <span class="text-secondary booking_date border border-light-dark px-5 py-1">
+                                    {{ \Carbon\Carbon::now()->tz('Asia/Kuwait')->format('dS F Y h:i A') }}
+                                </span>
+                        </div>
                     </div>
                 </div>
                 <div style="height: 3vh;"></div>
-                <div class="card card-custom p-3" style="height: 70vh">
+                <div class="card card-custom p-3" style="height: 75vh">
                     <input type="hidden" name="booking_data" id="booking_data" value="">
                     <input type="hidden" name="invoice_number" id="invoice_number" value="MER-000616">
                     <input type="hidden" name="customer_id" id="customer_id" value="">
@@ -176,7 +165,7 @@
                             </thead>
                             <tbody id="customer_bookings">
                             <tr>
-                                <td colspan="3">No record found</td>
+                                <td colspan="4">No record found</td>
                             </tr>
                             </tbody>
                             <tfoot id="customer_bookings_footers"></tfoot>
@@ -188,28 +177,6 @@
 
             <div class="w-50 pr-5">
                 <div style="height: 3vh;"></div>
-                <div class="d-none" style="margin-top: -130px;">
-                    <div class="card card-custom">
-                        <div class="card-body p-3 pl-5">
-                            <div data-scroll="true" data-height="620">
-                                <ul class="navi navi-link-rounded navi-accent navi-hover flex-column mb-8 mb-lg-0"
-                                    role="tablist">
-                                    @foreach (\App\Providers\FormList::getProductCategories() as $product_category)
-                                        <li class="navi-item border-bottom" style="border-bottom: 1px">
-                                            <a href="javascript:void(0);"
-                                               class="navi-link item_category_selection active"
-                                               data-category-id="{{ $product_category->id }}">
-                                                    <span class="navi-text text-dark-50">
-                                                        {{ $product_category->name }}
-                                                    </span>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card card-custom" style="height: 93vh">
                     <div class="card-header flex-wrap py-3">
                         <div class="card-title w-100">
@@ -236,6 +203,11 @@
         <div class="card card-custom p-5">
             <div class="d-flex flex-wrap justify-content-center">
                 <a href="javascript:void(0);"
+                   class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white product_categories_button"
+                   style="background: linear-gradient(to right, #1a2980, #26d0ce)">
+                    Filter By Category
+                </a>
+                <a href="javascript:void(0);"
                    class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white new_invoice"
                    style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     New Invoice
@@ -245,17 +217,8 @@
                    style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     Search
                 </a>
-                @if(in_array('pos.cancel_booking', $accesses_urls))
-                    <a href="javascript:void(0);"
-                       class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white cancel_booking_pos"
-                       style="background: linear-gradient(to right, #1a2980, #26d0ce)">
-                    <span class="navi-text">
-                        Cancel Invoice
-                    </span>
-                    </a>
-                @endif
                 <a href="javascript:void(0);"
-                   class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white invoice_print"
+                   class="btn mr-2 p-5 border-0 font-size-h4 font-weight-bold text-white print_invoice"
                    style="background: linear-gradient(to right, #1a2980, #26d0ce)">
                     <span class="navi-text">
                         Print Invoice
@@ -280,7 +243,7 @@
     @include('pos.modal.create_customer')
     @include('pos.modal.edit_items')
     @include('pos.modal.payment_control')
-    @include('pos.modal.cancel_booking')
+    @include('pos.modal.categories')
 @stop
 
 @section('page_js')
@@ -296,6 +259,7 @@
         $(document).ready(function () {
             initSelect2();
             getItems();
+            retrieveCartItems();
 
             $(document).find('.display_customer_phone_input').focus();
 
@@ -387,6 +351,11 @@
                 }, 300);
             });
 
+            $(document).off('click', '.product_categories_button');
+            $(document).on('click', '.product_categories_button', function (e) {
+                $(document).find('.product_categories_modal').modal('show');
+            });
+
             $(document).off('click', '.item_category_selection');
             $(document).on('click', '.item_category_selection', function () {
                 $(document).find('.item_category_selection').css('background-color', '');
@@ -396,244 +365,158 @@
                 $(this).addClass('active');
 
                 getItems('', $(this).attr('data-category-id'))
+
+                setTimeout(function () {
+                    $(document).find('.product_categories_modal').modal('hide');
+                }, 300)
             });
 
             $(document).off('click', '.item_selection');
             $(document).on('click', '.item_selection', function (e) {
                 e.preventDefault();
                 const item_id = $(this).data('item-id');
-                const booking_date = $(document).find('.item_booking_date').val();
-                const quantity = 1;
-                let decoded_pos_item_data = JSON.parse(localStorage.getItem('pos_item_data')) || [];
-                const existingItemIndex = decoded_pos_item_data.findIndex(item => item.item_id === item_id);
+                let decoded_pos_items = JSON.parse(localStorage.getItem('pos_items')) || [];
+                const existing_item_index = decoded_pos_items.findIndex(item => item.item_id === item_id);
 
                 const addItem = (data) => {
-                    decoded_pos_item_data.push({
+                    decoded_pos_items.push({
                         'type': 'product',
                         'item_id': item_id,
-                        'booking_date': booking_date,
-                        'quantity': quantity,
+                        'booking_date': $(document).find('.booking_date').val(),
+                        'quantity': 1,
                         ...data,
                     });
                 };
 
                 const price = $(this).data('price');
-                const item_name = $(this).data('name');
 
-                if (existingItemIndex !== -1) {
-                    decoded_pos_item_data[existingItemIndex].quantity++;
-                    decoded_pos_item_data[existingItemIndex].price = price;
-                    decoded_pos_item_data[existingItemIndex].final_cost = price * decoded_pos_item_data[existingItemIndex].quantity;
+                if (existing_item_index !== -1) {
+                    decoded_pos_items[existing_item_index].quantity++;
+                    decoded_pos_items[existing_item_index].price = price;
+                    decoded_pos_items[existing_item_index].final_cost = price * decoded_pos_items[existing_item_index].quantity;
                 } else {
                     addItem({
                         'price': price,
-                        'final_cost': (price * quantity),
-                        'item_name': item_name,
-                        'item_discount_type': 'fixed',
-                        'item_discount_value': 0,
-                        'item_discount_cost': 0.000
+                        'final_cost': (price * 1),
+                        'item_name': $(this).data('name'),
                     });
                 }
 
-                localStorage.setItem('pos_item_data', JSON.stringify(decoded_pos_item_data));
+                localStorage.setItem('pos_items', JSON.stringify(decoded_pos_items));
                 retrieveCartItems();
-            });
-
-            retrieveCartItems();
-
-            let arrows;
-            if (KTUtil.isRTL()) {
-                arrows = {
-                    leftArrow: '<i class="la la-angle-right"></i>',
-                    rightArrow: '<i class="la la-angle-left"></i>'
-                }
-            } else {
-                arrows = {
-                    leftArrow: '<i class="la la-angle-left"></i>',
-                    rightArrow: '<i class="la la-angle-right"></i>'
-                }
-            }
-
-            $('.date_picker').datepicker({
-                rtl: KTUtil.isRTL(),
-                todayHighlight: true,
-                orientation: "bottom left",
-                templates: arrows,
-                startDate: new Date(),
-                autoclose: true,
-                format: 'yyyy-mm-dd'
-            });
-
-            $(document).off('keyup', '#coupon_code');
-            $(document).on('keyup', '#coupon_code', function () {
-                let coupon_code = $(this).val();
-                if (coupon_code.length >= 6) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ route('coupon.validate') }}',
-                        data: {
-                            coupon_code: coupon_code,
-                            customer_id: $(document).find('#customer_id').val(),
-                            date: $(document).find('.item_booking_date').val(),
-                        },
-                        success: function (response) {
-                            if (!response.success) {
-                                $(document).find('.coupon_discount_value').val(0);
-                                $(document).find('.coupon_discount_type').val('absolute');
-                                $(document).find('.display_coupon_code_error').removeClass('d-none');
-                                $(document).find('.display_coupon_code_error').html(response.message);
-                                $(document).find('#discount_value').val('');
-                                calculateAddedAmounts();
-                                return false;
-                            }
-
-                            $(document).find('.display_coupon_code_error').addClass('d-none');
-                            $(document).find('.coupon_id').val(response.data.coupon.coupon_id);
-                            $(document).find('.coupon_discount_type').val(response.data.coupon.type);
-                            $(document).find('.coupon_discount_value').val(response.data.coupon.value);
-
-                            $(document).find('input:radio[name="discount_type"]').filter(function () {
-                                return $(this).val() === response.data.coupon.type;
-                            }).prop('checked', true);
-
-                            $(document).find('.discount_section').removeClass('hidden');
-                            $(document).find('#discount_value').val(response.data.coupon.value);
-                            $(document).find('.coupon_section').find('input').val('');
-                            calculateAddedAmounts();
-                        }
-                    });
-                }
             });
 
             $(document).off('click', '.edit_invoice_item');
             $(document).on('click', '.edit_invoice_item', function (e) {
                 e.preventDefault();
                 let index = $(this).closest('tr').attr('data-index');
+                let decoded_items = $.parseJSON(localStorage.getItem('pos_items')) || [];
+                let individual_item = decoded_items.find((ds, ds_index) => ds_index == index);
 
-                let decoded_items = [];
-                let storage_items = localStorage.getItem('pos_item_data');
-                if (storage_items !== null) {
-                    decoded_items = $.parseJSON(storage_items);
-                    let individual_item = decoded_items.find((ds, ds_index) => ds_index == index);
-
-                    let modal_selector = $(document).find('.edit_item_model');
-                    if (individual_item.type == 'service') {
-                        modal_selector.find('.edit_quantity_modal').hide();
-                    } else {
-                        modal_selector.find('.edit_quantity_modal').show();
-                    }
-                    modal_selector.modal('show');
-                    modal_selector.find('.edit_item_submit_button').attr('data-index', index);
-                    modal_selector.find('.item_quantity').val(individual_item.quantity);
-                    modal_selector.find('.item_price').val(individual_item.price);
-                    modal_selector.find('.item_discount_value').val(individual_item.item_discount_value);
-                    if (individual_item.item_discount_type == 'percentage') {
-                        modal_selector.find("#item_discount_type").prop("checked", true)
-                    } else {
-                        modal_selector.find("#item_discount_type").prop("checked", false)
-                    }
+                if (individual_item === undefined) {
+                    swal('Error...', 'Unable to find the data for the selected item.', 'error');
+                    return false;
                 }
+
+                let modal_selector = $(document).find('.edit_item_model');
+                modal_selector.modal('show');
+                modal_selector.find('.edit_item_submit_button').attr('data-index', index);
+                modal_selector.find('.item_quantity').val(individual_item.quantity);
+                modal_selector.find('.per_item_price').val(individual_item.price);
+                setTimeout(function () {
+                    modal_selector.find('.item_quantity').focus();
+                }, 500)
             })
 
-            // Start Update Item
             $(document).off('click', '.edit_item_submit_button');
             $(document).on('click', '.edit_item_submit_button', function (e) {
                 e.preventDefault();
                 let index = $(this).attr('data-index');
-                let modal_selector = $(document).find('.edit_item_model');
+                let modal_selector = $(this).closest('.edit_item_model');
                 let entered_quantity = modal_selector.find('.item_quantity').val();
-                let entered_price = modal_selector.find('.item_price').val();
-                let entered_discount = modal_selector.find('.item_discount_value').val();
-                let discount_cost = entered_discount ?? 0;
-                let total_price = entered_price * entered_quantity;
+                let entered_price = modal_selector.find('.per_item_price').val();
+                let entered_final_cost = entered_price * entered_quantity;
 
                 if (isNaN(entered_quantity) || entered_quantity < 1) {
-                    modal_selector.find('.item_quantity').addClass("is-invalid");
-                    modal_selector.find('.item_quantity').next(".invalid-feedback").html('');
-                    modal_selector.find('.item_quantity').after("<div class='invalid-feedback'>Item quantity must be at least 1</div>");
+                    swal('Error...', 'Quantity should be greater than or equal to 1.', 'error');
                     return false;
-                } else {
-                    modal_selector.find('.item_quantity').removeClass("is-invalid");
-                    modal_selector.find('.item_quantity').next(".invalid-feedback").remove();
                 }
 
                 if (isNaN(entered_price) || entered_price <= 0) {
-                    modal_selector.find('.item_price').addClass("is-invalid");
-                    modal_selector.find('.item_price').next(".invalid-feedback").html('');
-                    modal_selector.find('.item_price').after("<div class='invalid-feedback'>Item unit price must be at least 1</div>");
-                    return false;
-                } else {
-                    modal_selector.find('.item_price').removeClass("is-invalid");
-                    modal_selector.find('.item_price').next(".invalid-feedback").remove();
-                }
-                var item_discount_type = $("#item_discount_type").prop("checked");
-                if (item_discount_type) {
-                    discount_cost = (total_price * entered_discount) / 100;
-                }
-
-                if (discount_cost >= total_price) {
-                    swal('Error...', 'You can not give discount greater than item price', 'error');
+                    swal('Error...', 'Per item price should be greater than or equal to 1.', 'error');
                     return false;
                 }
-                let storage_items = localStorage.getItem('pos_item_data');
-                if (storage_items !== null) {
-                    decoded_items = $.parseJSON(storage_items);
-                    let final_cost = total_price - discount_cost;
-                    let individual_item = decoded_items.find((ds, ds_index) => ds_index == index);
-                    individual_item.item_discount_type = (item_discount_type) ? 'percentage' : 'fixed';
-                    individual_item.item_discount_value = entered_discount;
-                    individual_item.item_discount_cost = discount_cost;
-                    individual_item.price = entered_price;
-                    individual_item.quantity = entered_quantity;
-                    individual_item.final_cost = final_cost;
-                    individual_item.commission_data = [{
-                        worker_id: individual_item.selected_worker_id,
-                        worker_name: individual_item.selected_worker_name,
-                        worker_commission: final_cost.toFixed(3),
-                        is_supporting_staff: 0
-                    }];
 
-                    decoded_items[index] = individual_item;
-                    localStorage.setItem('pos_item_data', JSON.stringify(decoded_items));
-                    $(document).find('.edit_item_model').modal('hide');
-                    retrieveCartItems();
+                let decoded_items = $.parseJSON(localStorage.getItem('pos_items')) || [];
+                let individual_item = decoded_items.find((ds, ds_index) => ds_index == index);
+
+                if (individual_item === undefined) {
+                    swal('Error...', 'Unable to find the data for the selected item.', 'error');
+                    return false;
                 }
+
+                individual_item.price = entered_price;
+                individual_item.quantity = entered_quantity;
+                individual_item.final_cost = entered_final_cost;
+                decoded_items[index] = individual_item;
+                localStorage.setItem('pos_items', JSON.stringify(decoded_items));
+
+                $(document).find('.edit_item_model').modal('hide');
+                retrieveCartItems();
             });
-            // End Update Item
 
             $(document).off('click', '.remove_invoice_item');
             $(document).on('click', '.remove_invoice_item', function () {
                 let index = $(this).closest('tr').attr('data-index');
+                let decoded_items = $.parseJSON(localStorage.getItem('pos_items')) || [];
+                let filtered_items = decoded_items.filter((ds, ds_index) => ds_index != index);
+                localStorage.setItem('pos_items', JSON.stringify(filtered_items));
 
-                let decoded_pos_item_data = [];
-                let storage_pos_item_data = localStorage.getItem('pos_item_data');
-                if (storage_pos_item_data !== null) {
-                    decoded_pos_item_data = $.parseJSON(storage_pos_item_data);
-                    decoded_pos_item_data = decoded_pos_item_data.filter((ds, ds_index) => ds_index != index);
-                }
-
-                localStorage.setItem('pos_item_data', JSON.stringify(decoded_pos_item_data));
                 $(this).closest('tr').remove();
                 retrieveCartItems();
             });
 
+            $(document).off('click', '.selected_item_row');
+            $(document).on('click', '.selected_item_row', function () {
+                localStorage.setItem('selected_item_index', $(this).data('index'));
+                $('.selected_item_row').removeClass('clicked');
+                $(this).addClass('clicked');
+            });
+
+            $(document).off('click', '.print_invoice');
+            $(document).on('click', '.print_invoice', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Please enter invoice number to print.',
+                    icon: "info",
+                    html: `<input type="text" class="form-control mb-2" id="invoice_number" placeholder="Enter Invoice Number">`,
+                    confirmButtonText: 'Submit',
+                    showCancelButton: true,
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        return {
+                            invoice_number: Swal.getPopup().querySelector('#invoice_number').value,
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        alert('Under Maintenance.');
+                        // printInvoice(result.value.invoice_number, 1)
+                    }
+                });
+            });
+
             $(document).off('click', '.payment_popup_button');
             $(document).on('click', '.payment_popup_button', function () {
-                $('.common_selection:first').trigger('click');
-                $(document).find('#is_restricted_customer').val('0');
-                let customer_id = $(document).find('#customer_id').val();
-                if (!customer_id) {
-                    let customer_phone = '';
-                    $(document).find('#is_restricted_customer').val('1');
-                    $(document).find('#available_loyalty').val('');
-                    $(document).find('#available_loyalty_amount').val('');
-                    $(document).find('#customer_advance_balance').val('')
-                    getCustomerByPhone(customer_phone);
-                }
+                // Todo: Add a code to get system generated customer
+                // let customer_id = $(document).find('#customer_id').val();
+                // if (!customer_id) {
+                    // getCustomerByPhone('');
+                // }
 
                 let validation_message = '';
-                let storage_pos_item_data = localStorage.getItem('pos_item_data');
-                if (!storage_pos_item_data) {
+                let storage_pos_items = localStorage.getItem('pos_items');
+                if (!storage_pos_items) {
                     validation_message = 'Please select item(s) to proceed.';
                 }
 
@@ -641,64 +524,29 @@
                     swal('Error...', validation_message, 'error');
                     return false;
                 }
+
                 $(document).find('.payment_control_modal').modal('show');
+
                 setTimeout(function () {
                     document.getElementById(last_focused).focus();
                 }, 500);
-                let item_type = localStorage.getItem('item_type');
-                let service_worker_id = localStorage.getItem('service_worker_id');
-                let service_booking_date = localStorage.getItem('service_booking_date');
-                let service_schedule_time = localStorage.getItem('service_schedule_time');
+
                 $(document).find('.invoice_amount').html(parseFloat($('#invoice_total').html()).toFixed(3));
 
                 $('input[type="radio"][name="discount_type"]').filter('[value="fixed"]').trigger('click');
-                $('.invoice_input_redeem').val('');
 
-                let invoiceTotal = $(document).find('#invoice_total').text();
-                $(document).find('.invoice_payable_amount').html(parseFloat(invoiceTotal).toFixed(3));
+                let invoice_total = $(document).find('#invoice_total').text();
+                $(document).find('.invoice_payable_amount').html(parseFloat(invoice_total).toFixed(3));
 
                 calculateAddedAmounts();
-                if ($(document).find('#available_loyalty').val() > 0 && (item_type == 'service' || item_type == 'product')) {
-                    // $(document).find('.loyal_amount_div').removeClass('hidden');
-                    $('.loyal_point_label').html($(document).find('#available_loyalty').val())
-                    $('.loyal_amount_label').html($(document).find('#available_loyalty_amount').val())
-                    $(document).find('#redeem_button').removeClass('hidden');
-                } else {
-                    $(document).find('.redeem_section').addClass('hidden');
-                    // $(document).find('.loyal_amount_div').addClass('hidden');
-                    $(document).find('#redeem_button').addClass('hidden');
-                    $('.loyal_point_label').html(0.000);
-                    $('.loyal_amount_label').html(0.000);
-                }
             });
 
-            $(document).on('click', '.common_selection', function () {
-                var sectionId = $(this).data('section');
-
-                $('.main_div_common_selection').addClass('hidden');
-                $('.' + sectionId).removeClass('hidden');
-                $('.common_selection').removeClass('btn-primary').addClass('btn-outline-primary');
-                $(this).addClass('btn-primary').removeClass('btn-outline-primary');
-
-                if (sectionId === 'advance_redeem_section') {
-                    var advanceBalance = parseFloat($('#customer_advance_balance').val());
-                    $('.advance_amount_div').toggleClass('hidden', advanceBalance < 1);
-                    $('.advance_balance_remaining').html(advanceBalance.toFixed(3));
-                } else if (sectionId === 'loyalty_redeem_section') {
-                    var availableLoyalty = parseFloat($('#available_loyalty').val());
-                    $('.loyalty_amount_div').toggleClass('hidden', availableLoyalty < 1);
-                    $('.loyalty_balance_remaining').html(availableLoyalty);
-                }
-            });
-
-            $('.payment-type-input').on('input', function () {
+            $('.payment_type_input').on('input', function () {
                 calculateAddedAmounts();
             });
 
             $(document).off('click', '#discount_type');
             $(document).on('click', '#discount_type', function () {
-                $(document).find('.discount_section').removeClass('hidden');
-
                 calculateAddedAmounts();
             });
 
@@ -711,44 +559,6 @@
             $(document).on('click', '#proceed_to_pay', function () {
                 proceedToPay();
             });
-
-            $(document).off('click', '.invoice_print');
-            $(document).on('click', '.invoice_print', function (e) {
-
-                e.preventDefault();
-                let $_this = $(this);
-                Swal.fire({
-                    title: 'Invoice',
-                    icon: "warning",
-                    html: `<input type="text" class="form-control mb-2" id="invoice_number" placeholder="Enter Invoice Number">`,
-                    confirmButtonText: 'Submit',
-                    showCancelButton: true,
-                    focusConfirm: false,
-                    preConfirm: () => {
-                        return {
-                            invoice_number: Swal.getPopup().querySelector('#invoice_number').value,
-                        }
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        printInvoice(result.value.invoice_number, 1)
-                    }
-                });
-            });
-
-            $(document).off('click', '.selected_item_row');
-            $(document).on('click', '.selected_item_row', function (event) {
-                localStorage.setItem('selected_item_row_index', $(this).data('index'));
-                localStorage.setItem('selected_item_row_type', $(this).data('type'));
-                $('.selected_item_row').removeClass('clicked');
-                $(this).addClass('clicked');
-            });
-
-            $(document).off('click', '.cancel_booking_pos');
-            $(document).on('click', '.cancel_booking_pos', function (e) {
-                $(document).find('.cancel_booking_modal').modal('show');
-                getBookingForSelectedFilter(true);
-            });
         });
 
         function getCustomerByPhone(phone, is_edit = false) {
@@ -760,7 +570,6 @@
                 },
                 success: function (response) {
                     if (!response.success) {
-                        $(document).find('.display_customer_error').removeClass('d-none');
                         return false;
                     }
 
@@ -776,7 +585,7 @@
                         selector.find('.customer_form').attr('action', '{{ url('orders/customers') }}/' + response.data.customer.id);
                         selector.find('.submit_button').text('Update Customer');
                     } else {
-                        $(document).find('.display_customer_error, .display_customer_phone_input, .display_customer_data').addClass('d-none');
+                        $(document).find('.display_customer_phone_input, .display_customer_data').addClass('d-none');
                         $(document).find('.display_customer_div').removeClass('d-none');
                         $(document).find('.display_customer_name').text(response.data.customer.name).attr('href', '{{ url('orders/customers') }}/' + response.data.customer.slug);
                         $(document).find('.display_customer_phone').text(response.data.customer.phone);
@@ -790,14 +599,9 @@
 
         function clearLocalStorage() {
             const itemsToRemove = [
-                'pos_item_data',
-                'service_booking_date',
-                'service_schedule_time',
                 'customer',
-                'item_type',
-                'service_type',
-                'selected_item_row_index',
-                'selected_item_row_type'
+                'pos_items',
+                'selected_item_index',
             ];
 
             for (const item of itemsToRemove) {
@@ -825,14 +629,14 @@
         }
 
         function retrieveCartItems() {
-            let storage_pos_item_data = localStorage.getItem('pos_item_data');
-            if (storage_pos_item_data !== null && storage_pos_item_data !== '[]') {
-                let decoded_pos_item_data = JSON.parse(storage_pos_item_data);
+            let storage_pos_items = localStorage.getItem('pos_items');
+            if (storage_pos_items !== null && storage_pos_items !== '[]') {
+                let decoded_pos_items = JSON.parse(storage_pos_items);
 
                 let item_row = '';
                 let invoice_total = 0;
                 let total_item_discount_cost = 0;
-                $.each(decoded_pos_item_data, function (index, decoded_service) {
+                $.each(decoded_pos_items, function (index, decoded_service) {
                     let final_cost = decoded_service.final_cost;
                     let price = decoded_service.price;
 
@@ -866,7 +670,7 @@
                 $(document).find('#customer_bookings').html(item_row);
                 $(document).find('#customer_bookings_footers').html(footer_row);
             } else {
-                localStorage.removeItem('pos_item_data');
+                localStorage.removeItem('pos_items');
                 $(document).find('#customer_bookings').html('<tr><td colspan="7">No record found</td></tr>');
                 $(document).find('#customer_bookings_footers').html('');
             }
@@ -889,7 +693,7 @@
                 },
                 success: function (response) {
                     $('#booking_id').val(booking_id);
-                    localStorage.setItem('pos_item_data', JSON.stringify(response.data.item_data));
+                    localStorage.setItem('pos_items', JSON.stringify(response.data.item_data));
                     $('.pos_invoice_number').html(response.data.booking_data.invoice_number)
                     retrieveCartItems();
                 }
@@ -947,7 +751,6 @@
             let paymentTypeAmountsArray = collectPaymentTypeAmounts();
             let total_entered_amount = calculateSum(paymentTypeAmountsArray);
             let total_invoice_amount = parseFloat($(document).find('.invoice_amount').text());
-            let item_type = $('input[name="item_type"]:checked').val()
 
             $(document).find('.input_payment_types_value').val(JSON.stringify(paymentTypeAmountsArray));
 
@@ -999,9 +802,6 @@
             $(document).find('#proceed_to_pay').removeClass('disabled');
             let loyalty_amount = $(document).find('#available_loyalty_amount').val();
             let customer_advance_balance = $(document).find('#customer_advance_balance').val();
-            // if (total_entered_amount > 0 && total_entered_amount < total_payable_amount.toFixed(3) && item_type != 'service') {
-            //     $(document).find('#proceed_to_pay').addClass('disabled');
-            // }
             if (invoice_input_redeem > total_invoice_amount ||
                 invoice_input_discount > total_invoice_amount ||
                 invoice_input_voucher_amount > total_invoice_amount || invoice_input_voucher_amount > parseFloat($('.voucher_balance_remaining').html()) ||
@@ -1044,9 +844,9 @@
             let data = {
                 customer_id: $(document).find('#customer_id').val(),
                 booking_id: $(document).find('#booking_id').val(),
-                scheduled_at: $(document).find('.item_booking_date').val(),
+                scheduled_at: $(document).find('.booking_date').val(),
                 invoice_amount: parseFloat($('#invoice_total').html()),
-                booking_data: localStorage.getItem('pos_item_data'),
+                booking_data: localStorage.getItem('pos_items'),
                 coupon_id: $(document).find('.coupon_id').val(),
                 redeem_voucher_code: $(document).find('#redeem_voucher_code').val(),
                 discount_type: document.querySelector('input[name="discount_type"]:checked').value,

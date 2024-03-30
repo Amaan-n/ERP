@@ -16,12 +16,14 @@ class ProductCategoriesTableSeeder extends Seeder
         $product_category = new \App\Models\ProductCategory();
         $product_category->truncate();
 
-        $product_category
-            ->create([
-                'slug'        => strtoupper(substr(md5(uniqid(rand(), true)), 0, 5)),
-                'name'        => 'First Product Category',
-                'description' => 'First Product Category... Description',
-                'is_active'   => 1,
-            ]);
+        for ($i = 1; $i <= 20; $i++) {
+            $product_category
+                ->create([
+                    'slug'        => strtoupper(substr(md5(uniqid(rand(), true)), 0, 5)),
+                    'name'        => $i . ' Product Category',
+                    'description' => $i . ' Product Category... Description',
+                    'is_active'   => 1,
+                ]);
+        }
     }
 }

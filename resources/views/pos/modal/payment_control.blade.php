@@ -28,8 +28,7 @@
                                            onclick="display(2)"/>
                                     <input type="button" class="w-70px h-45px font-size-h5" value="3"
                                            onclick="display(3)"/>
-                                    <input type="button" class="w-70px h-45px font-size-h5" value="Clear"
-                                           onclick="clearScreen()"/>
+                                    <input type="button" class="w-70px h-45px font-size-h5" value="." disabled/>
                                 </div>
                                 <div class="numbers mb-2">
                                     <input type="button" class="w-70px h-45px font-size-h5" value="4"
@@ -75,11 +74,11 @@
 
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label font-weight-bold" for="invoice_cash">Cash</label>
                                     <input type="number" name="cash"
-                                           class="form-control payment-type-input last_focused invoice_cash focused"
+                                           class="form-control payment_type_input last_focused invoice_cash focused"
                                            data-id="invoice_cash"
                                            id="invoice_cash" placeholder="0.000" value="" min="0"
                                            data-class="invoice_input_cash">
@@ -88,167 +87,29 @@
                         </div>
 
                         <div class="row">
-                            <div class="btn-group btn-group-lg mb-5 ml-4" role="group" aria-label="Large button group">
-                                <button type="button" class="btn btn-primary common_selection" id="discount_type_button"
-                                        data-section="discount_section">Discount Type
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row coupon_section hidden main_div_common_selection">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="coupon_code">
-                                        {{__('locale.coupon_code')}}
+                                    <label class="form-label font-weight-bold" for="discount_type">
+                                        Discount Type
                                     </label>
-                                    <input type="text" name="coupon_code" id="coupon_code"
-                                           class="form-control invoice_input_coupon_code" value="">
-                                    <p class="text-danger display_coupon_code_error d-none"></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row voucher_redeem_section hidden main_div_common_selection">
-                            <div class="col-md-12 voucher_code_div">
-                                <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="coupon_code">
-                                        {{__('locale.voucher_code')}}
-                                    </label>
-                                    <input type="text" name="voucher_code" id="voucher_code"
-                                           class="form-control invoice_input_voucher_code" value="">
-                                    <p class="text-danger display_voucher_code_error hidden"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-12 hidden voucher_amount_div">
-                                <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="coupon_code">
-                                        {{__('locale.voucher_amount')}}
-                                    </label>
-                                    <input type="number" name="voucher_amount" id="voucher_amount"
-                                           class="form-control invoice_input_voucher_amount" value="">
-                                    <p class="text-danger display_voucher_amount_error hidden"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-12 voucher_detail_div hidden">
-                                <div class="card card-custom gutter-b bg-light-primary">
-                                    <div class="card-body pb-0">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.balance')}}</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="voucher_balance_remaining">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.expiry')}}</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="voucher_expiry_date">-</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.usage')}}</h6>
-                                                    <div class="discount-box">
-                                                        <span class="voucher_usage_count">-</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row advance_redeem_section hidden main_div_common_selection">
-                            <div class="col-md-12 advance_amount_div">
-                                <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="coupon_code">
-                                        {{__('locale.advance_amount')}}
-                                    </label>
-                                    <input type="number" name="advance_amount" id="advance_amount"
-                                           class="form-control invoice_input_advance_amount" value="">
-                                    <p class="text-danger display_advance_amount_error hidden"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-12 ">
-                                <div class="card card-custom gutter-b bg-light-primary">
-                                    <div class="card-body pb-0">
-                                        <div class="row">
-                                            <div class="col-md-12 align-items">
-                                                <h6>{{__('locale.available_balance')}}</h6>
-                                            </div>
-                                        </div>
-                                        <hr/>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6></h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="advance_balance_remaining">0.000</span><span>&nbsp; KD</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row loyalty_redeem_section hidden main_div_common_selection">
-                            <div class="col-md-12 loyalty_amount_div">
-                                <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="coupon_code">
-                                        {{__('locale.loyalty_amount')}}
-                                    </label>
-                                    <input type="number" name="loyalty_amount" id="loyalty_amount"
-                                           class="form-control invoice_input_loyalty_amount" value="">
-                                    <p class="text-danger display_loyalty_amount_error hidden"></p>
-                                </div>
-                            </div>
-                            <div class="col-md-12 ">
-                                <div class="card card-custom gutter-b bg-light-primary">
-                                    <div class="card-body pb-0">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group" style=" text-align: center;">
-                                                    <h6>{{__('locale.balance')}}</h6>
-                                                    <div class="font-weight-bold">
-                                                        <span class="loyalty_balance_remaining">0.000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row discount_section main_div_common_selection">
-                            <div class="col-md-12">
-                                <div class="form-group">
                                     <div class="radio-inline">
-                                        @php $discountTypes = config('constants.DISCOUNT_TYPES');
-                                             $discountTypes[] = 'coupon';
-                                        @endphp
-                                        @foreach(config('constants.DISCOUNT_TYPES') as $key => $type)
-                                            <label class="radio discount-cls">
+                                        @foreach(config('constants.DISCOUNT_TYPES') as $key => $discount_type)
+                                            <label class="radio radio-outline radio-outline-2x radio-primary">
                                                 <input type="radio" name="discount_type" id="discount_type"
-                                                       value="{{ $type }}" {{ $key == 0 ? 'checked="checked"' : '' }}>
+                                                       value="{{ $discount_type }}" {{ $key == 0 ? 'checked="checked"' : '' }}>
                                                 <span></span>
-                                                {{ ucwords($type) }}
+                                                {{ ucwords($discount_type) }}
                                             </label><br>
                                         @endforeach
-                                        <label>
-                                        </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row discount_section main_div_common_selection">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label font-weight-bold" for="discount_value">
-                                        {{__('locale.discount_value')}}
+                                        Discount Value
                                     </label>
                                     <input type="number" name="discount" id="discount_value"
                                            class="form-control invoice_input_discount discount_value last_focused focused"
@@ -256,22 +117,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row redeem_section hidden main_div_common_selection">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="redeem">
-                                        {{__('locale.redeem_amount')}}
-                                    </label>
-                                    <input type="number" name="redeem" id="redeem"
-                                           class="form-control invoice_input_redeem" value="">
-                                    <p class="text-danger display_redeem_error d-none"></p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <h6>{{__('locale.notes')}}</h6>
+                                    <label class="form-label font-weight-bold" for="notes">
+                                        Notes
+                                    </label>
                                     <div class="font-weight-bold">
                                         <textarea class="form-control notes" name="notes" id="notes"></textarea>
                                     </div>
@@ -288,7 +139,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group" style=" text-align: center;">
-                                            <h6>Invoice</h6>
+                                            <h6>Total Invoice</h6>
                                             <div class="font-weight-bold">
                                                 <span class="invoice_amount">0.000</span>
                                             </div>
@@ -296,7 +147,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group" style=" text-align: center;">
-                                            <h6>Payable</h6>
+                                            <h6>Total Payable</h6>
                                             <div class="font-weight-bold">
                                                 <span class="invoice_payable_amount">0.000</span>
                                             </div>
@@ -304,18 +155,9 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group" style=" text-align: center;">
-                                            <h6>Discount</h6>
+                                            <h6>Total Discount</h6>
                                             <div class="discount-box">
                                                 <span class="invoice_discount_amount">0.000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group" style=" text-align: center;">
-                                            <h6>Due</h6>
-                                            <div class="font-weight-bold rounded"
-                                                 style="background-color: red;color: white;">
-                                                <span class="invoice_due_amount">0.000</span>
                                             </div>
                                         </div>
                                     </div>
