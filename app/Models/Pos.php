@@ -18,10 +18,10 @@ class Pos extends Model
     const PAYMENT_STATUSES = ['pending', 'advance_captured', 'captured'];
     const CREATED_FROM = ['pos', 'admin'];
 
-//    public function customer()
-//    {
-//        return $this->hasOne(Customer::class, 'id', 'customer_id');
-//    }
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'id', 'customer_id');
+    }
 
     public function user()
     {
@@ -31,11 +31,6 @@ class Pos extends Model
     public function updated_by_user()
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany(PosHasTransaction::class, 'pos_id', 'id');
     }
 
     public function products()

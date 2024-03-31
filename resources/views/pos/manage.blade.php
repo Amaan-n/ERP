@@ -150,8 +150,7 @@
                 <div class="card card-custom p-3" style="height: 75vh">
                     <input type="hidden" name="booking_data" id="booking_data" value="">
                     <input type="hidden" name="invoice_number" id="invoice_number" value="MER-000616">
-                    <input type="hidden" name="customer_id" id="customer_id" value="">
-                    <input type="hidden" name="booking_id" id="booking_id" value="0">
+                    <input type="hidden" name="customer_id" class="pos_customer_id" value="">
 
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -163,12 +162,12 @@
                                 <th>Total Price</th>
                             </tr>
                             </thead>
-                            <tbody id="customer_bookings">
+                            <tbody class="customer_bookings">
                             <tr>
                                 <td colspan="4">No record found</td>
                             </tr>
                             </tbody>
-                            <tfoot id="customer_bookings_footers"></tfoot>
+                            <tfoot class="customer_bookings_footer"></tfoot>
                         </table>
                     </div>
                 </div>
@@ -315,7 +314,7 @@
                 $(document).find('.display_customer_div').addClass('d-none');
                 $(document).find('.display_customer_name').text('No Name').attr('href', 'javascript:void(0);');
                 $(document).find('.display_customer_phone').text('No Phone');
-                $(document).find('#customer_id').val('');
+                $(document).find('.pos_customer_id').val('');
                 localStorage.removeItem('customer');
 
                 $(document).find('.display_customer_phone_input').focus();
@@ -374,31 +373,30 @@
             $(document).off('click', '.item_selection');
             $(document).on('click', '.item_selection', function (e) {
                 e.preventDefault();
-                const item_id = $(this).data('item-id');
+                const product_id = $(this).attr('data-product-id');
                 let decoded_pos_items = JSON.parse(localStorage.getItem('pos_items')) || [];
-                const existing_item_index = decoded_pos_items.findIndex(item => item.item_id === item_id);
+                const existing_item_index = decoded_pos_items.findIndex(item => item.product_id === product_id);
 
                 const addItem = (data) => {
                     decoded_pos_items.push({
                         'type': 'product',
-                        'item_id': item_id,
-                        'booking_date': $(document).find('.booking_date').val(),
+                        'product_id': product_id,
                         'quantity': 1,
                         ...data,
                     });
                 };
 
-                const price = $(this).data('price');
+                const per_item_price = $(this).attr('data-per-item-price');
 
                 if (existing_item_index !== -1) {
                     decoded_pos_items[existing_item_index].quantity++;
-                    decoded_pos_items[existing_item_index].price = price;
-                    decoded_pos_items[existing_item_index].final_cost = price * decoded_pos_items[existing_item_index].quantity;
+                    decoded_pos_items[existing_item_index].per_item_price = per_item_price;
+                    decoded_pos_items[existing_item_index].final_price = per_item_price * decoded_pos_items[existing_item_index].quantity;
                 } else {
                     addItem({
-                        'price': price,
-                        'final_cost': (price * 1),
-                        'item_name': $(this).data('name'),
+                        'per_item_price': per_item_price,
+                        'final_price': (per_item_price * 1),
+                        'name': $(this).attr('data-name'),
                     });
                 }
 
@@ -422,7 +420,7 @@
                 modal_selector.modal('show');
                 modal_selector.find('.edit_item_submit_button').attr('data-index', index);
                 modal_selector.find('.item_quantity').val(individual_item.quantity);
-                modal_selector.find('.per_item_price').val(individual_item.price);
+                modal_selector.find('.per_item_price').val(individual_item.per_item_price);
                 setTimeout(function () {
                     modal_selector.find('.item_quantity').focus();
                 }, 500)
@@ -435,7 +433,7 @@
                 let modal_selector = $(this).closest('.edit_item_model');
                 let entered_quantity = modal_selector.find('.item_quantity').val();
                 let entered_price = modal_selector.find('.per_item_price').val();
-                let entered_final_cost = entered_price * entered_quantity;
+                let entered_final_price = entered_price * entered_quantity;
 
                 if (isNaN(entered_quantity) || entered_quantity < 1) {
                     swal('Error...', 'Quantity should be greater than or equal to 1.', 'error');
@@ -455,9 +453,9 @@
                     return false;
                 }
 
-                individual_item.price = entered_price;
+                individual_item.per_item_price = entered_price;
                 individual_item.quantity = entered_quantity;
-                individual_item.final_cost = entered_final_cost;
+                individual_item.final_price = entered_final_price;
                 decoded_items[index] = individual_item;
                 localStorage.setItem('pos_items', JSON.stringify(decoded_items));
 
@@ -483,36 +481,12 @@
                 $(this).addClass('clicked');
             });
 
-            $(document).off('click', '.print_invoice');
-            $(document).on('click', '.print_invoice', function (e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Please enter invoice number to print.',
-                    icon: "info",
-                    html: `<input type="text" class="form-control mb-2" id="invoice_number" placeholder="Enter Invoice Number">`,
-                    confirmButtonText: 'Submit',
-                    showCancelButton: true,
-                    focusConfirm: false,
-                    preConfirm: () => {
-                        return {
-                            invoice_number: Swal.getPopup().querySelector('#invoice_number').value,
-                        }
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        alert('Under Maintenance.');
-                        // printInvoice(result.value.invoice_number, 1)
-                    }
-                });
-            });
-
             $(document).off('click', '.payment_popup_button');
             $(document).on('click', '.payment_popup_button', function () {
-                // Todo: Add a code to get system generated customer
-                // let customer_id = $(document).find('#customer_id').val();
-                // if (!customer_id) {
-                    // getCustomerByPhone('');
-                // }
+                let customer_id = $(document).find('.pos_customer_id').val();
+                if (!customer_id) {
+                    getCustomerByPhone('65643177');
+                }
 
                 let validation_message = '';
                 let storage_pos_items = localStorage.getItem('pos_items');
@@ -531,33 +505,52 @@
                     document.getElementById(last_focused).focus();
                 }, 500);
 
-                $(document).find('.invoice_amount').html(parseFloat($('#invoice_total').html()).toFixed(3));
+                let invoice_total = parseFloat($('.total_invoice_amount').html()).toFixed(3);
+                $(document).find('.invoice_amount').html(invoice_total);
+                $(document).find('.invoice_payable_amount').html(invoice_total);
 
-                $('input[type="radio"][name="discount_type"]').filter('[value="fixed"]').trigger('click');
-
-                let invoice_total = $(document).find('#invoice_total').text();
-                $(document).find('.invoice_payable_amount').html(parseFloat(invoice_total).toFixed(3));
-
-                calculateAddedAmounts();
+                calculateEnteredAmount();
             });
 
             $('.payment_type_input').on('input', function () {
-                calculateAddedAmounts();
+                calculateEnteredAmount();
             });
 
-            $(document).off('click', '#discount_type');
-            $(document).on('click', '#discount_type', function () {
-                calculateAddedAmounts();
+            $(document).off('click', '.invoice_input_discount_type');
+            $(document).on('click', '.invoice_input_discount_type', function () {
+                calculateEnteredAmount();
             });
 
-            $(document).off('keyup', '#discount_value');
-            $(document).on('keyup', '#discount_value', function () {
-                calculateAddedAmounts();
+            $(document).off('keyup', '.invoice_input_discount');
+            $(document).on('keyup', '.invoice_input_discount', function () {
+                calculateEnteredAmount();
             });
 
-            $(document).off('click', '#proceed_to_pay');
-            $(document).on('click', '#proceed_to_pay', function () {
-                proceedToPay();
+            $(document).off('click', '.payment_popup_submit_button');
+            $(document).on('click', '.payment_popup_submit_button', function () {
+                bookAndProceed();
+            });
+
+            $(document).off('click', '.print_invoice');
+            $(document).on('click', '.print_invoice', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Please enter invoice number to print.',
+                    icon: "info",
+                    html: `<input type="text" class="form-control mb-2" id="invoice_number" placeholder="Enter Invoice Number">`,
+                    confirmButtonText: 'Submit',
+                    showCancelButton: true,
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        return {
+                            invoice_number: Swal.getPopup().querySelector('#invoice_number').value,
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        printInvoice(result.value.invoice_number, 1)
+                    }
+                });
             });
         });
 
@@ -589,7 +582,7 @@
                         $(document).find('.display_customer_div').removeClass('d-none');
                         $(document).find('.display_customer_name').text(response.data.customer.name).attr('href', '{{ url('orders/customers') }}/' + response.data.customer.slug);
                         $(document).find('.display_customer_phone').text(response.data.customer.phone);
-                        $(document).find('#customer_id').val(response.data.customer.id);
+                        $(document).find('.pos_customer_id').val(response.data.customer.id);
                     }
 
                     localStorage.setItem('customer', JSON.stringify(response.data.customer));
@@ -629,51 +622,45 @@
         }
 
         function retrieveCartItems() {
-            let storage_pos_items = localStorage.getItem('pos_items');
-            if (storage_pos_items !== null && storage_pos_items !== '[]') {
-                let decoded_pos_items = JSON.parse(storage_pos_items);
+            let decoded_pos_items = JSON.parse(localStorage.getItem('pos_items')) || [];
 
-                let item_row = '';
-                let invoice_total = 0;
-                let total_item_discount_cost = 0;
-                $.each(decoded_pos_items, function (index, decoded_service) {
-                    let final_cost = decoded_service.final_cost;
-                    let price = decoded_service.price;
-
-                    let is_edit = true;
-                    let item_name = decoded_service.item_name;
-                    item_row += '<tr data-index="' + index + '" class="selected_item_row" data-type="' + decoded_service.type + '">';
-                    item_row += '<td class="text-center">' +
-                        '<a href="javascript:void(0);" class="remove_invoice_item border border-danger p-1 px-2 mr-3" data-item-id="' + decoded_service.item_id + '">' +
-                        '<i class="fa fa-times text-danger"> </i>' +
-                        '</a>';
-                    if (is_edit) {
-                        @if($is_root_user == 1 || in_array('pos.edit_service_price', $accesses_urls))
-                            item_row += '<a href="javascript:void(0);" class="edit_invoice_item border border-primary p-1 px-2" data-s-cat-type="service" data-item-id="' + decoded_service.item_id + '">' +
-                            '<i class="fa fa-edit text-primary"> </i>' +
-                            '</a>';
-                        @endif
-                    }
-                    item_row += '</td>';
-                    item_row += '<td class="align-middle">' + decoded_service.quantity + ' x ' + item_name + ' </td>';
-                    item_row += '<td class="align-middle">' + parseFloat(price).toFixed(3) + ' </td>';
-                    item_row += '<td class="align-middle">' + parseFloat(final_cost).toFixed(3) + ' </td>';
-                    item_row += '</tr>';
-
-                    invoice_total += final_cost;
-                });
-
-                let footer_row = '' +
-                    '<tr><td colspan="3" align="right"><strong>Sub Total</strong></td><td id="sub_invoice_total">' + parseFloat(parseFloat(invoice_total) + parseFloat(total_item_discount_cost)).toFixed(3) + '</td></tr>';
-                footer_row += '<tr><td colspan="3" align="right"><strong>Invoice Cost</strong></td><td id="invoice_total">' + parseFloat(invoice_total).toFixed(3) + '</td></tr>';
-
-                $(document).find('#customer_bookings').html(item_row);
-                $(document).find('#customer_bookings_footers').html(footer_row);
-            } else {
+            if (decoded_pos_items.length === 0) {
                 localStorage.removeItem('pos_items');
-                $(document).find('#customer_bookings').html('<tr><td colspan="7">No record found</td></tr>');
-                $(document).find('#customer_bookings_footers').html('');
+                $(document).find('.customer_bookings').html('<tr><td colspan="4">No record found</td></tr>');
+                $(document).find('.customer_bookings_footer').html('');
+                return false;
             }
+
+            let item_row = '';
+            let total_final_cost = 0;
+
+            $.each(decoded_pos_items, function (index, decoded_item) {
+                item_row += `<tr data-index="${index}" class="selected_item_row" data-type="${decoded_item.type}">
+                                <td class="text-center">
+                                    <a href="javascript:void(0);"
+                                        class="remove_invoice_item border border-danger p-1 px-2 mr-3"
+                                        data-product-id="${decoded_item.product_id}">
+                                            <i class="fa fa-times text-danger"> </i>
+                                    </a>
+                                    <a href="javascript:void(0);"
+                                        class="edit_invoice_item border border-primary p-1 px-2"
+                                        data-product-id="${decoded_item.product_id}">
+                                        <i class="fa fa-edit text-primary"> </i>
+                                    </a>
+                                </td>
+                                <td class="align-middle">${decoded_item.quantity} x ${decoded_item.name}</td>
+                                <td class="align-middle">${parseFloat(decoded_item.per_item_price).toFixed(3)}</td>
+                                <td class="align-middle">${parseFloat(decoded_item.final_price).toFixed(3)}</td>
+                            </tr>`;
+
+                total_final_cost += decoded_item.final_price;
+            });
+
+            $(document).find('.customer_bookings').html(item_row);
+            $(document).find('.customer_bookings_footer').html(`<tr>
+                    <td colspan="3" class="font-weight-bold font-size-lg text-right">Total Invoice Amount</td>
+                    <td class="total_invoice_amount">${parseFloat(total_final_cost).toFixed(3)}</td>
+                </tr>`);
         }
 
         function initSelect2() {
@@ -682,45 +669,6 @@
                 allowClear: true,
                 closeOnSelect: false
             });
-        }
-
-        function getCalendarBookingData(booking_id) {
-            $.ajax({
-                type: 'get',
-                url: '{{ route('calendar.booking_data') }}',
-                data: {
-                    booking_id: booking_id
-                },
-                success: function (response) {
-                    $('#booking_id').val(booking_id);
-                    localStorage.setItem('pos_items', JSON.stringify(response.data.item_data));
-                    $('.pos_invoice_number').html(response.data.booking_data.invoice_number)
-                    retrieveCartItems();
-                }
-            });
-        }
-
-        function calculateSum(paymentTypeAmountsArray) {
-            let sum = paymentTypeAmountsArray.reduce((total, payment) => total + payment.amount, 0);
-            return sum;
-        }
-
-        function collectPaymentTypeAmounts() {
-            let paymentTypeAmounts = [];
-
-            $('.payment-type-input').each(function () {
-                let paymentTypeId = $(this).attr('data-id');
-                let paymentTypeName = $(this).attr('name');
-                let paymentTypeAmount = parseFloat($(this).val()) || 0;
-
-                paymentTypeAmounts.push({
-                    payment_type_id: paymentTypeId,
-                    payment_type_name: paymentTypeName,
-                    amount: paymentTypeAmount
-                });
-            });
-
-            return paymentTypeAmounts;
         }
 
         var last_focused = document.querySelector('.focused').getAttribute('id');
@@ -744,133 +692,83 @@
                 $(document).find('.' + last_focused).val(last_focused_value + value);
             }
 
-            calculateAddedAmounts();
+            calculateEnteredAmount();
         }
 
-        function calculateAddedAmounts() {
-            let paymentTypeAmountsArray = collectPaymentTypeAmounts();
-            let total_entered_amount = calculateSum(paymentTypeAmountsArray);
+        function calculateEnteredAmount() {
+            let payment_types = getPaymentTypes();
+            let total_entered_amount = getEnteredAmountByPaymentTypes(payment_types);
             let total_invoice_amount = parseFloat($(document).find('.invoice_amount').text());
 
-            $(document).find('.input_payment_types_value').val(JSON.stringify(paymentTypeAmountsArray));
+            $(document).find('.input_payment_types').val(JSON.stringify(payment_types));
 
             let invoice_input_discount = $(document).find('.invoice_input_discount').val() === '' ? '0.000' : $(document).find('.invoice_input_discount').val();
-            let invoice_input_redeem = $(document).find('.invoice_input_redeem').val() === '' ? '0.000' : $(document).find('.invoice_input_redeem').val();
-            let invoice_input_voucher_amount = $(document).find('.invoice_input_voucher_amount').val() === '' ? '0.000' : $(document).find('.invoice_input_voucher_amount').val();
-            let invoice_input_advance_amount = $(document).find('.invoice_input_advance_amount').val() === '' ? '0.000' : $(document).find('.invoice_input_advance_amount').val();
-            let invoice_input_loyalty_amount = $(document).find('.invoice_input_loyalty_amount').val() === '' ? '0.000' : $(document).find('.invoice_input_loyalty_amount').val();
-
             invoice_input_discount = parseFloat(invoice_input_discount);
-            invoice_input_redeem = parseFloat(invoice_input_redeem);
-            invoice_input_voucher_amount = parseFloat(invoice_input_voucher_amount);
-            invoice_input_advance_amount = parseFloat(invoice_input_advance_amount);
-            invoice_input_loyalty_amount = parseFloat(invoice_input_loyalty_amount);
             if (invoice_input_discount > 0) {
                 let discount_type = document.querySelector('input[name="discount_type"]:checked').value;
-                if (discount_type == 'percentage') {
+                if (discount_type === 'percentage') {
                     invoice_input_discount = (total_invoice_amount * invoice_input_discount) / 100;
                 }
             }
-            let total_discount_amount = total_invoice_amount > invoice_input_discount ? invoice_input_discount : total_invoice_amount;
-            let total_redeem_amount = total_invoice_amount > invoice_input_redeem ? invoice_input_redeem : total_invoice_amount;
-            let total_voucher_amount = total_invoice_amount > invoice_input_voucher_amount ? invoice_input_voucher_amount : total_invoice_amount;
-            let total_advance_amount = total_invoice_amount > invoice_input_advance_amount ? invoice_input_advance_amount : total_invoice_amount;
-            let total_loyalty_amount = total_invoice_amount > invoice_input_loyalty_amount ? invoice_input_loyalty_amount : total_invoice_amount;
-            let total_payable_amount = total_invoice_amount - total_discount_amount - total_redeem_amount - total_voucher_amount - total_advance_amount - total_loyalty_amount;
 
-            // if (total_payable_amount < 0) {
-            //     swal('Error...', 'Payable Amount can not be in Negative.', 'error')
-            //     $(document).find('#proceed_to_pay').addClass('disabled');
-            //     return false;
-            // }
+            let total_discount_amount = total_invoice_amount > invoice_input_discount ? invoice_input_discount : total_invoice_amount;
+            let total_payable_amount = total_invoice_amount - total_discount_amount;
+
+            if (total_payable_amount < 0) {
+                swal('Error...', 'Payable Amount can not be in Negative.', 'error')
+                $(document).find('.payment_popup_submit_button').addClass('disabled');
+                return false;
+            }
 
             let total_due_amount = total_payable_amount - total_entered_amount;
             total_due_amount = total_due_amount < 0 ? 0.000 : total_due_amount;
 
-            let total_change_amount = total_entered_amount - total_payable_amount;
-            total_change_amount = total_change_amount < 0 ? 0.000 : total_change_amount;
-
             $(document).find('.invoice_payable_amount').html(total_payable_amount.toFixed(3));
             $(document).find('.invoice_discount_amount').html(total_discount_amount.toFixed(3));
-            $(document).find('.invoice_redeem_amount').html(total_redeem_amount.toFixed(3));
-            $(document).find('.invoice_voucher_amount').html(total_voucher_amount.toFixed(3));
-            $(document).find('.invoice_advance_amount').html(total_advance_amount.toFixed(3));
-            $(document).find('.invoice_loyalty_amount').html(total_loyalty_amount.toFixed(3));
             $(document).find('.invoice_due_amount').html(total_due_amount.toFixed(3));
-            $(document).find('.invoice_change_amount').html(total_change_amount.toFixed(3));
 
-            $(document).find('#proceed_to_pay').removeClass('disabled');
-            let loyalty_amount = $(document).find('#available_loyalty_amount').val();
-            let customer_advance_balance = $(document).find('#customer_advance_balance').val();
-            if (invoice_input_redeem > total_invoice_amount ||
-                invoice_input_discount > total_invoice_amount ||
-                invoice_input_voucher_amount > total_invoice_amount || invoice_input_voucher_amount > parseFloat($('.voucher_balance_remaining').html()) ||
-                invoice_input_advance_amount > total_invoice_amount ||
-                invoice_input_loyalty_amount > total_invoice_amount || invoice_input_loyalty_amount > parseFloat($('.loyalty_balance_remaining').html())
-            ) {
-                $(document).find('#proceed_to_pay').addClass('disabled');
+            if (total_due_amount > 0 || total_payable_amount < total_entered_amount) {
+                $(document).find('.payment_popup_submit_button').addClass('disabled');
+            } else {
+                $(document).find('.payment_popup_submit_button').removeClass('disabled');
             }
         }
 
-        function proceedToPay() {
-            $(document).find('#proceed_to_pay').attr('disabled', true);
-            $(document).find('#proceed_to_pay').addClass('disabled');
-
-            let paymentTypeAmountsArray = collectPaymentTypeAmounts();
-            const invoicePayableAmount = parseFloat($(document).find('.invoice_payable_amount').html());
-            let is_proceed = true;
-            paymentTypeAmountsArray.forEach((paymentType) => {
-                if (paymentType.payment_type_name != 'cash') {
-                    if (paymentType.amount > invoicePayableAmount) {
-                        swal('Error...', 'You cannot pay more than the payable amount.', 'error');
-                        is_proceed = false;
-                    }
-                }
+        function getPaymentTypes() {
+            let payment_types = [];
+            $(document).find('.payment_type_input').each(function () {
+                payment_types.push({
+                    payment_type: $(this).attr('data-payment-type'),
+                    amount: parseFloat($(this).val()) || 0
+                });
             });
-            if (!is_proceed) {
-                return false;
-            }
-            let total_entered_amount = calculateSum(paymentTypeAmountsArray);
-            const service_type = localStorage.getItem('service_type') ?? $('.service_type option:selected').val();
 
-            let invoice_due_text = parseFloat($(document).find('.invoice_due_amount').text());
-            // let is_partial_pay_enabled = parseFloat($(document).find('.is_partial_pay_enabled').val());
-            // if (total_entered_amount > 0 && invoice_due_text > 0 && is_partial_pay_enabled === 0) {
-            //     swal('Error...', 'Partial payment is not allowed, Please enter full amount.', 'error')
-            //     return false;
-            // }
-            var isChecked = $(".is_balance_transfer").prop("checked");
+            return payment_types;
+        }
+
+        function getEnteredAmountByPaymentTypes(payment_types) {
+            return payment_types.reduce((total, payment) => total + payment.amount, 0);
+        }
+
+        function bookAndProceed() {
+            $(document).find('.payment_popup_submit_button').attr('disabled', true);
+            $(document).find('.payment_popup_submit_button').addClass('disabled');
 
             let data = {
-                customer_id: $(document).find('#customer_id').val(),
-                booking_id: $(document).find('#booking_id').val(),
-                scheduled_at: $(document).find('.booking_date').val(),
-                invoice_amount: parseFloat($('#invoice_total').html()),
-                booking_data: localStorage.getItem('pos_items'),
-                coupon_id: $(document).find('.coupon_id').val(),
-                redeem_voucher_code: $(document).find('#redeem_voucher_code').val(),
-                discount_type: document.querySelector('input[name="discount_type"]:checked').value,
+                customer_id: $(document).find('.pos_customer_id').val(),
+                pos_items: localStorage.getItem('pos_items'),
+                invoice_amount: parseFloat($(document).find('.invoice_amount').html()),
+                discount_type: $(document).find('.invoice_input_discount_type:checked').val(),
                 discount_value: $(document).find('.invoice_input_discount').val(),
+                discount_amount: parseFloat($(document).find('.invoice_discount_amount').html()),
+                final_amount: parseFloat($(document).find('.invoice_payable_amount').html()),
+                payment_types: JSON.stringify(getPaymentTypes()),
                 notes: $(document).find('.notes').val(),
-                discount_price: $(document).find('.invoice_discount_amount').html(),
-                redeem_price: $(document).find('.invoice_redeem_amount').html(),
-                voucher_amount: $(document).find('.invoice_voucher_amount').html(),
-                redeem_from_advance: $(document).find('.invoice_advance_amount').html(),
-                redeem_from_loyalty: $(document).find('.invoice_loyalty_amount').html(),
-                last_focused: last_focused,
-                payment_type: paymentTypeAmountsArray,
-                service_type: service_type,
-                customer_data: localStorage.getItem('customer'),
-                final_price: invoicePayableAmount,
-                change_amount: $(document).find('.invoice_change_amount').html(),
-                remaining_amount: invoice_due_text,
-                is_transfer: isChecked,
-                redeem_service_package_data: localStorage.getItem('redeem_service_package_data'),
             };
 
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             });
 
@@ -883,24 +781,13 @@
                         swal('Error...', response.message, 'error')
                         return false;
                     }
-                    clearLocalStorage();
-                    $(document).find('.payment_control_modal').modal('hide');
 
-                    swal({
-                        title: "Success", icon: 'success', text: 'Invoice Saved Successfully', type:
-                            "success"
-                    }).then(function () {
-                            {{--if ({{$is_invoice_print}} == 1) {--}}
-                            printInvoice(response.data.invoice_number, 1);
-                            // }
-                            // clear_local_storage();
-                            retrieveCartItems();
-                            service_data()
-                            setTimeout(async () => {
-                                window.location.href = "{{ route('pos.create') }}";
-                            }, 1000);
-                        }
-                    );
+                    $(document).find('.payment_control_modal').modal('hide');
+                    clearLocalStorage();
+
+                    setTimeout(async () => {
+                        window.location.href = "{{ route('pos.create') }}";
+                    }, 1000);
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.error('Network/Server Error:', textStatus, errorThrown);
@@ -909,16 +796,38 @@
             });
         }
 
-        function generatePaymentTypeOptions() {
-            {{--            const paymentTypes = {!! json_encode($payment_types) !!};--}}
-
-            let options = '';
-            for (const typeId in paymentTypes) {
-                if (paymentTypes.hasOwnProperty(typeId)) {
-                    options += `<option value="${typeId}">${paymentTypes[typeId]}</option>`;
+        function printInvoice(invoice_number, number_of_invoice_print = 1) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            }
-            return options;
+            });
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('pos.print.invoice') }}',
+                data: {
+                    invoice_number: invoice_number
+                },
+                success: function (response) {
+                    if (!response.success) {
+                        swal('Error...', response.message, 'error')
+                        return false;
+                    }
+
+                    if (response.data) {
+                        let custom_window = window.open('', '', 'height=5000, width=1000');
+                        custom_window.document.write(response.data.html);
+                        custom_window.document.close();
+                        for (let i = 0; i < number_of_invoice_print; i++) {
+                            custom_window.print();
+                        }
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Network/Server Error:', textStatus, errorThrown);
+                    swal('Error...', 'An error occurred while processing your request.', 'error');
+                }
+            });
         }
     </script>
 @stop

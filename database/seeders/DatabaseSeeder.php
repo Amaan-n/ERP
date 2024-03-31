@@ -31,5 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MeasuringUnitsTableSeeder::class);
         $this->call(ProductCategoriesTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
+
+        $this->call(CustomersTableSeeder::class);
     }
 }

@@ -7,6 +7,8 @@
             <th>Customer</th>
             <th>Phone</th>
             <th>Amount</th>
+            <th>Status</th>
+            <th>Created Date</th>
             <th class="noExport">Actions</th>
         </tr>
         </thead>

@@ -230,6 +230,9 @@ if (!function_exists('generate_slug')) {
             case 'products':
                 $modal = new \App\Models\Product();
                 break;
+            case 'pos':
+                $modal = new \App\Models\Pos();
+                break;
             default:
                 break;
         }

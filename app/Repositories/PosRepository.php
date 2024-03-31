@@ -21,7 +21,7 @@ class PosRepository
         $schedule_date = $request->has('date') ? Carbon::parse($request->get('date')) : Carbon::now()->tz('Asia/Kuwait');
 
         return $this->pos
-            ->with('products', 'transactions')
+            ->with('products')
             ->whereDate('created_at', $schedule_date)
             ->orderBy('created_at', 'DESC')
             ->get();
@@ -29,7 +29,7 @@ class PosRepository
 
     public function getBookingBySlug($slug)
     {
-        $booking = $this->pos->with('transactions', 'products.product')->where('slug', $slug)->first();
+        $booking = $this->pos->with('products.product')->where('slug', $slug)->first();
         if (!isset($booking)) {
             throw new \Exception('No query results for model [App\Models\Booking] ' . $slug, 201);
         }
@@ -69,19 +69,17 @@ class PosRepository
 
         $pos = $this->pos->create($data);
 
-        $booking_products = !empty($data['booking_products']) ? json_decode($data['booking_products']) : [];
-        if (!empty($booking_products)) {
-            foreach ($booking_products as $booking_product) {
+        $pos_items = !empty($data['pos_items']) ? json_decode($data['pos_items']) : [];
+        if (!empty($pos_items)) {
+            foreach ($pos_items as $pos_item) {
                 $this->pos_has_product
                     ->create([
-                        'pos_id'          => $pos->id,
-                        'product_id'      => $booking_product->product_id,
-                        'quantity'        => $booking_product->quantity ?? 1,
-                        'amount'          => $booking_product->amount ?? 0,
-                        'discount_type'   => $booking_product->product_discount_type ?? 'fixed',
-                        'discount_value'  => (float)($booking_product->product_discount_value ?? 0),
-                        'discount_amount' => (float)($booking_product->item_discount_amount ?? 0),
-                        'final_amount'    => $booking_product->final_amount ?? 0,
+                        'pos_id'         => $pos->id,
+                        'product_id'     => $pos_item->product_id,
+                        'quantity'       => $pos_item->quantity ?? 1,
+                        'per_item_price' => $pos_item->per_item_price ?? 0,
+                        'final_price'    => $pos_item->final_price ?? 0,
+                        'product_data'   => json_encode($pos_item)
                     ]);
             }
         }

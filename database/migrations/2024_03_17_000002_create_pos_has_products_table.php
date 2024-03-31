@@ -18,11 +18,8 @@ class CreatePosHasProductsTable extends Migration
             $table->unsignedBigInteger('pos_id')->default(0);
             $table->unsignedBigInteger('product_id')->default(0);
             $table->integer('quantity')->default(1);
-            $table->double('amount')->default(0);
-            $table->string('discount_type')->comment('fixed, percentage')->nullable();
-            $table->double('discount_value')->default(0);
-            $table->double('discount_amount')->default(0);
-            $table->double('final_amount')->default(0);
+            $table->double('per_item_price')->default(0);
+            $table->double('final_price')->default(0);
             $table->longText('product_data')->nullable();
             $table->timestamps();
         });

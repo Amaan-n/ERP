@@ -14,11 +14,7 @@
                 <div class="row mb-10">
                     <div class="col-md-6 text-center">
                         <div class="form-group">
-                            <input type="hidden" id="input_payment_types_value" class="input_payment_types_value"
-                                   value=""/>
-                            <input type="hidden" id="coupon_id" class="coupon_id" value=""/>
-                            <input type="hidden" id="coupon_discount_type" class="coupon_discount_type" value=""/>
-                            <input type="hidden" id="coupon_discount_value" class="coupon_discount_value" value=""/>
+                            <input type="hidden" class="input_payment_types" value=""/>
 
                             <div class="d-flex flex-column">
                                 <div class="numbers mb-2">
@@ -74,16 +70,19 @@
 
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label font-weight-bold" for="invoice_cash">Cash</label>
-                                    <input type="number" name="cash"
-                                           class="form-control payment_type_input last_focused invoice_cash focused"
-                                           data-id="invoice_cash"
-                                           id="invoice_cash" placeholder="0.000" value="" min="0"
-                                           data-class="invoice_input_cash">
+                            @foreach(config('constants.PAYMENT_TYPES') as $index => $payment_type)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label font-weight-bold" for="invoice_{{ $index }}">
+                                            {{ $payment_type }}
+                                        </label>
+                                        <input type="number" name="{{ $payment_type }}"
+                                               class="form-control payment_type_input last_focused focused"
+                                               data-payment-type="{{ $payment_type }}" id="invoice_{{ $index }}"
+                                               placeholder="0.000" value="" min="0">
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
 
                         <div class="row">
@@ -96,6 +95,7 @@
                                         @foreach(config('constants.DISCOUNT_TYPES') as $key => $discount_type)
                                             <label class="radio radio-outline radio-outline-2x radio-primary">
                                                 <input type="radio" name="discount_type" id="discount_type"
+                                                       class="invoice_input_discount_type"
                                                        value="{{ $discount_type }}" {{ $key == 0 ? 'checked="checked"' : '' }}>
                                                 <span></span>
                                                 {{ ucwords($discount_type) }}
@@ -163,9 +163,9 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group" style=" text-align: center;">
-                                            <h6>Change</h6>
+                                            <h6>Total Due</h6>
                                             <div class="font-weight-bold">
-                                                <span class="invoice_change_amount">0.000</span>
+                                                <span class="invoice_due_amount">0.000</span>
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +177,8 @@
             </div>
 
             <div class="modal-footer">
-                <a href="javascript:void(0)" id="proceed_to_pay" class="btn btn-primary font-size-h5 font-weight-bold">
+                <a href="javascript:void(0)"
+                   class="btn btn-primary font-size-h5 font-weight-bold payment_popup_submit_button">
                     Book & Proceed
                 </a>
 

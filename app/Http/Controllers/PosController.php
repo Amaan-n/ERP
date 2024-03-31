@@ -38,8 +38,6 @@ class PosController extends Controller
 
     public function getBookings(Request $request)
     {
-        $organization = $this->organization->where('id', session()->get('organization_id'))->first();
-        $user_group   = auth()->user()->group->name;
         if ($request->ajax()) {
             $data = $this->pos_repository->getBookings($request);
             return DataTables::of($data)
@@ -47,61 +45,30 @@ class PosController extends Controller
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->tz('Asia/Kuwait')->format('d F, Y h:i A');
                 })
-                ->addColumn('paid', function ($row) {
-                    if ($row->status == 'canceled') {
-                        return 0.000;
-                    }
-                    return number_format((float)($row->final_amount - $row->remaining_amount), 3, '.', '');
+                ->addColumn('customer_name', function ($row) {
+                    return $row->customer->name ?? '';
                 })
-                ->addColumn('customer_phone', function ($row) use ($organization, $user_group) {
-                    return $user_group == 'Workers' && $organization->is_phone_display ? $row->customer->phone : ($user_group == 'Workers' && !$organization->is_phone_display ? '*******' : $row->customer->phone);
+                ->addColumn('customer_phone', function ($row) {
+                    return $row->customer->phone ?? '';
                 })
-                ->addColumn('remaining_amount', function ($row) {
-                    if ($row->status == 'canceled') {
-                        return 0.000;
-                    }
-                    return number_format((float)$row->remaining_amount, 3, '.', '');
-                })
-                ->editColumn('final_amount', function ($row) {
-                    return number_format((float)($row->final_amount), 3, '.', '');
+                ->editColumn('invoice_amount', function ($row) {
+                    return number_format((float)($row->invoice_amount), 3, '.', '');
                 })
                 ->addColumn('action', function ($row) {
-                    $output = '
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Actions
-                            </button>
-                            <div class="dropdown-menu actions_button" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="' . route('pos.show', [$row->slug]) . '">
-                                    <i class="fa fa-eye"></i> &nbsp; ' . __("locale.show") . '
-                                </a>
-                                <a class="dropdown-item print_invoice" href="javascript:void(0);" data-booking-slug="' . $row->invoice_number . '">
-                                    <i class="fa fa-file-invoice"></i> &nbsp;  ' . __("locale.print_invoice") . '
-                                </a>';
-
-                    if ($row->status !== 'canceled' && $row->remaining_amount > 0) {
-                        $title  = 'Remaining Amount: <br><br> KD ' . number_format((float)$row->remaining_amount, 3, '.', '');
-                        $output .= '
-                                <a class="dropdown-item receive_payment" href="javascript:void(0);" data-remaining-amount="' . $row->remaining_amount . '" data-title="' . $title . '" data-booking-slug="' . $row->slug . '" data-href="' . route('pos.receive.payment') . '">
-                                    <i class="fa fa-money-bill-alt"></i>&nbsp;  ' . __("locale.receive_payment") . '
-                                </a>';
-                    }
-
-                    if ($row->status !== 'canceled') {
-                        $output .= '
-                                <a class="dropdown-item cancel_booking" href="javascript:void(0);" data-final-amount="' . ($row->final_amount - $row->remaining_amount) . '" data-booking-slug="' . $row->invoice_number . '" data-href="' . route('pos.cancel_booking') . '" data-password-href="' . route('users.check_cancel_invoice_password') . '">
-                                    <i class="fa fa-times"></i>&nbsp;  ' . __("locale.cancel_booking") . '
-                                </a>
-                                <a class="dropdown-item update_status" href="javascript:void(0);" data-booking-slug="' . $row->slug . '" data-booking-status="' . $row->status . '" data-href="' . route('pos.update_status') . '">
-                                    <i class="fa fa-sync"></i>&nbsp;  ' . __("locale.update_status") . '
-                                </a>';
-                    }
-
-                    $output .= '
-                            </div>
-                        </div>';
-
-                    return $output;
+                    return '<div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions
+                                            </button>
+                                            <div class="dropdown-menu actions_button" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="' . route('pos.show', [$row->slug]) . '">
+                                                <i class="fa fa-eye mr-3"></i> Show
+                                            </a>
+                                            <a class="dropdown-item print_invoice" href="javascript:void(0);" data-booking-slug="' . $row->invoice_number . '">
+                                                <i class="fa fa-file-invoice mr-3"></i> Print Invoice
+                                            </a>
+                                        </div>
+                                    </div>';
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
@@ -123,12 +90,8 @@ class PosController extends Controller
             if ($validator->fails()) {
                 throw new \Exception($validator->getMessageBag()->first(), 201);
             }
-            $data['created_from'] = 'pos';
-            if ($data['booking_id'] > 0) {
-                $pos_response = $this->pos_repository->update($data);
-            } else {
-                $pos_response = $this->pos_repository->store($data);
-            }
+
+            $pos_response = $this->pos_repository->store($data);
 
             DB::commit();
             return response()
@@ -152,9 +115,8 @@ class PosController extends Controller
     public function show($slug)
     {
         try {
-            $booking_data  = $this->pos_repository->getBookingBySlug($slug);
-            $payment_types = $this->payment_type->where('organization_id', session()->get('organization_id'))->where('is_active', 1)->pluck('name', 'id')->toArray();
-            return view('pos.show', compact('booking_data', 'payment_types'));
+            $booking = $this->pos_repository->getBookingBySlug($slug);
+            return view('pos.show', compact('booking'));
         } catch (\Exception $e) {
             $notification = prepare_notification_array('danger', $e->getMessage());
             return redirect()
@@ -346,59 +308,6 @@ class PosController extends Controller
                 'success' => true,
                 'code'    => 200,
                 'message' => 'Booking has been updated.'
-            ]);
-    }
-
-    public function getCalendarBookingData(Request $request)
-    {
-        $booking_id   = $request->get('booking_id', 0);
-        $booking_data = $this->pos_repository->getBookingById($booking_id);
-
-        $final_array = [];
-        foreach ($booking_data->items as $key => $value) {
-            $commission_data = [];
-            foreach ($value->staff as $staff_value) {
-                $commission_data[] = [
-                    'worker_id'           => $staff_value->worker_id,
-                    'worker_name'         => $staff_value->worker->name,
-                    'worker_commission'   => $staff_value->commission_amount,
-                    'is_supporting_staff' => $staff_value->is_supporting_staff
-                ];
-            }
-            $final_array[] = [
-                'type'                 => 'service',
-                'item_id'              => $value->itemable_id,
-                'quantity'             => $value->quantity,
-                'price'                => $value->per_item_cost,
-                'expiry_days'          => 0,
-                'final_cost'           => $value->final_cost ?? 0,
-                'item_name'            => $value->itemable->name ?? '-',
-                'item_discount_type'   => 'fixed',
-                'item_discount_value'  => 0,
-                'item_discount_cost'   => 0,
-                'item_discount_cost'   => 0,
-                'service_type'         => $value->pos->service_type,
-                'schedule_date'        => $value->schedule_date,
-                'schedule_time'        => $value->schedule_time,
-                'voucher_value'        => 0,
-                'selected_worker_id'   => $value->worker_id,
-                'selected_worker_name' => $value->worker->name,
-                'is_package'           => 0,
-                'package_id'           => 0,
-                'package_id'           => 0,
-                'notes'                => null,
-                'commission_data'      => $commission_data
-            ];
-        }
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Booking details have been retrieved.',
-                'data'    => [
-                    'item_data'    => $final_array,
-                    'booking_data' => $booking_data
-                ]
             ]);
     }
 }

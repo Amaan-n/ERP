@@ -6,5 +6,6 @@ return [
         'asset_url' => env('APP_URL')
     ],
 
-    'DISCOUNT_TYPES' => ['fixed', 'percentage']
+    'DISCOUNT_TYPES' => ['fixed', 'percentage'],
+    'PAYMENT_TYPES' => ['Cash', 'K-Net']
 ];

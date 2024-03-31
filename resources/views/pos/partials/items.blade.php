@@ -3,7 +3,7 @@
         <div
             class="d-flex justify-content-between align-items-center cursor-pointer item_selection bg-light-primary p-3 mb-3"
             style="border-radius: 10px; width: 49%; max-height: 120px;"
-            data-item-id="{{ $item->id }}" data-name="{{ $item->name }}" data-price="{{ $item->price }}"
+            data-product-id="{{ $item->id }}" data-name="{{ $item->name }}" data-per-item-price="{{ $item->price }}"
         >
             <img src="{{ asset($item->attachment) }}" alt="" class="img-thumbnail"
                  style="width:110px">

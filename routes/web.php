@@ -122,7 +122,6 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
 
         Route::post('update/payment_type', 'PosController@updatePaymentType')->name('pos.update_payment_type');
         Route::post('pos/update_status', 'PosController@updateBookingStatus')->name('pos.update_status');
-        Route::get('calendar_booking_data', 'PosController@getCalendarBookingData')->name('calendar.booking_data');
         Route::post('store', 'PosController@store')->name('pos.store');
         Route::post('cancel', 'PosController@cancelBooking')->name('pos.cancel_booking');
         Route::post('receive/payment', 'PosController@receivePayment')->name('pos.receive.payment');
