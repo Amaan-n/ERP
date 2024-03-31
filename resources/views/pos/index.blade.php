@@ -133,7 +133,7 @@
             });
             $.ajax({
                 type: 'GET',
-                url: '{{ route('pos.print.invoice') }}',
+                url: '{{ route('pos.print_invoice') }}',
                 data: {
                     invoice_number: invoice_number
                 },

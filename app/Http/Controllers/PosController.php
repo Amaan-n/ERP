@@ -3,25 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\PosRepository;
-use App\Repositories\ProductCategoriesRepository;
 use App\Repositories\ProductsRepository;
-use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class PosController extends Controller
 {
-    protected $pos_repository, $product_categories_repository, $products_repository, $users_repository;
+    protected $pos_repository, $products_repository;
 
     public function __construct()
     {
-        $this->pos_repository                = new PosRepository();
-        $this->product_categories_repository = new ProductCategoriesRepository();
-        $this->products_repository           = new ProductsRepository();
-        $this->users_repository              = new UsersRepository();
+        $this->pos_repository      = new PosRepository();
+        $this->products_repository = new ProductsRepository();
     }
 
     public function index(Request $request)
@@ -153,13 +148,8 @@ class PosController extends Controller
     public function printInvoice(Request $request)
     {
         try {
-            $local_value        = Session::get('locale');
-            $configuration_data = get_configurations_data('invoice_language', session()->get('organization_id'));
-            $config_locale      = $configuration_data['invoice_language'];
-            app()->setLocale($config_locale);
             $booking       = $this->pos_repository->getBookingByInvoiceNumber($request->get('invoice_number'));
-            $rendered_html = view('pos.print.invoice', compact('booking', 'config_locale'))->render();
-            app()->setLocale($local_value);
+            $rendered_html = view('pos.partials.print_invoice', compact('booking'))->render();
             return response()
                 ->json([
                     'success' => true,
@@ -177,137 +167,5 @@ class PosController extends Controller
                     'message' => $e->getMessage()
                 ]);
         }
-    }
-
-    public function cancelBooking(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $this->pos_repository->cancelBooking($request);
-
-            DB::commit();
-            return response()
-                ->json([
-                    'success' => true,
-                    'code'    => 200,
-                    'message' => 'Booking has been canceled.'
-                ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()
-                ->json([
-                    'success' => false,
-                    'code'    => 201,
-                    'message' => $e->getMessage()
-                ]);
-        }
-    }
-
-    public function receivePayment(Request $request)
-    {
-        try {
-            $this->pos_repository->receivePayment($request);
-
-            return response()
-                ->json([
-                    'success' => true,
-                    'code'    => 200,
-                    'message' => 'Payment has been received.'
-                ]);
-        } catch (\Exception $e) {
-            return response()
-                ->json([
-                    'success' => false,
-                    'code'    => 201,
-                    'message' => $e->getMessage()
-                ]);
-        }
-    }
-
-    public function validateCoupon(Request $request)
-    {
-        try {
-            $coupon = $this->pos_repository->validateCoupon($request);
-            return response()->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Coupon has been validated',
-                'data'    => [
-                    'coupon' => [
-                        'type'      => !empty($coupon->type) && in_array($coupon->type, ['percentage', 'absolute']) ? $coupon->type : 'absolute',
-                        'value'     => $coupon->value > 0 ? $coupon->value : 0,
-                        'coupon_id' => isset($coupon->id) ? $coupon->id : 0
-                    ]
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()
-                ->json([
-                    'success' => false,
-                    'code'    => $e->getCode(),
-                    'message' => $e->getMessage()
-                ]);
-        }
-    }
-
-    public function validateVoucher(Request $request)
-    {
-        try {
-            $voucher = $this->pos_repository->validateVoucher($request);
-            return response()->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Voucher has been validated',
-                'data'    => [
-                    'voucher' => $voucher
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()
-                ->json([
-                    'success' => false,
-                    'code'    => $e->getCode(),
-                    'message' => $e->getMessage()
-                ]);
-        }
-    }
-
-    public function updatePaymentType(Request $request)
-    {
-        try {
-            $this->pos_repository->updatePaymentType($request->all());
-            return response()->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Payment type has been updated'
-            ]);
-        } catch (\Exception $e) {
-            return response()
-                ->json([
-                    'success' => false,
-                    'code'    => $e->getCode(),
-                    'message' => $e->getMessage()
-                ]);
-        }
-    }
-
-    public function updateBookingStatus(Request $request)
-    {
-        try {
-            $this->pos_repository->updateBookingStatus($request);
-        } catch (\Exception $e) {
-            return response()
-                ->json([
-                    'success' => false,
-                    'code'    => $e->getCode(),
-                    'message' => $e->getMessage()
-                ]);
-        }
-        return response()
-            ->json([
-                'success' => true,
-                'code'    => 200,
-                'message' => 'Booking has been updated.'
-            ]);
     }
 }

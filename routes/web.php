@@ -113,21 +113,13 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     // =============== ROUTES FOR POS =============== //
     Route::group(['prefix' => 'pos'], function () {
         Route::get('customer_by_phone', 'CustomersController@getCustomerByPhone')->name('pos.customer_by_phone');
-
-        Route::get('create', 'PosController@create')->name('pos.create');
         Route::get('items', 'PosController@getItems')->name('pos.items');
 
+        Route::get('create', 'PosController@create')->name('pos.create');
         Route::get('', 'PosController@index')->name('pos.index');
         Route::get('ajax', 'PosController@getBookings')->name('pos.get_bookings');
-
-        Route::post('update/payment_type', 'PosController@updatePaymentType')->name('pos.update_payment_type');
-        Route::post('pos/update_status', 'PosController@updateBookingStatus')->name('pos.update_status');
         Route::post('store', 'PosController@store')->name('pos.store');
-        Route::post('cancel', 'PosController@cancelBooking')->name('pos.cancel_booking');
-        Route::post('receive/payment', 'PosController@receivePayment')->name('pos.receive.payment');
         Route::get('{booking_slug}', 'PosController@show')->name('pos.show');
-        Route::get('print/invoice', 'PosController@printInvoice')->name('pos.print.invoice');
-        Route::get('coupon/validate', 'PosController@validateCoupon')->name('coupon.validate');
-        Route::get('voucher/validate', 'PosController@validateVoucher')->name('voucher.validate');
+        Route::get('print/invoice', 'PosController@printInvoice')->name('pos.print_invoice');
     });
 });

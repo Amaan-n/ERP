@@ -248,7 +248,8 @@
                     @endif
                 @endif
 
-                @if(!empty(request()->route()->action) && request()->route()->action['prefix'] === '/orders')
+                @if(!empty(request()->route()->action)
+                    && in_array(request()->route()->action['prefix'], ['/orders', '/pos']))
                     @if($is_root_user == 1 || in_array('orders.home', $accesses_urls))
                         <li class="menu-item {{ get_active_class($current, ['orders.home']) }}"
                             aria-haspopup="true">

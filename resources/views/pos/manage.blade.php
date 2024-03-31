@@ -238,11 +238,11 @@
         </div>
     </div>
 
-    @include('pos.modal.customers')
-    @include('pos.modal.create_customer')
-    @include('pos.modal.edit_items')
-    @include('pos.modal.payment_control')
-    @include('pos.modal.categories')
+    @include('pos.modals.customers')
+    @include('pos.modals.create_customer')
+    @include('pos.modals.edit_items')
+    @include('pos.modals.payment_control')
+    @include('pos.modals.categories')
 @stop
 
 @section('page_js')
@@ -804,7 +804,7 @@
             });
             $.ajax({
                 type: 'GET',
-                url: '{{ route('pos.print.invoice') }}',
+                url: '{{ route('pos.print_invoice') }}',
                 data: {
                     invoice_number: invoice_number
                 },

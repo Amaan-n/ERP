@@ -18,7 +18,7 @@ class PosRepository
 
     public function getBookings($request)
     {
-        $schedule_date = $request->has('date') ? Carbon::parse($request->get('date')) : Carbon::now()->tz('Asia/Kuwait');
+        $schedule_date = $request->has('schedule_date') ? Carbon::parse($request->get('schedule_date')) : Carbon::now()->tz('Asia/Kuwait');
 
         return $this->pos
             ->with('products')
@@ -39,7 +39,7 @@ class PosRepository
 
     public function getBookingById($id)
     {
-        $booking = $this->pos->with('transactions', 'products.product')->where('id', $id)->first();
+        $booking = $this->pos->with('products.product')->where('id', $id)->first();
         if (!isset($booking)) {
             throw new \Exception('No query results for model [App\Models\Booking] ' . $id, 201);
         }
@@ -49,7 +49,7 @@ class PosRepository
 
     public function getBookingByInvoiceNumber($invoice_number)
     {
-        $booking = $this->pos->with('transactions', 'products.product')->where('invoice_number', $invoice_number)->first();
+        $booking = $this->pos->with('products.product')->where('invoice_number', $invoice_number)->first();
         if (!isset($booking)) {
             throw new \Exception('No record found for ' . $invoice_number, 201);
         }
@@ -88,32 +88,5 @@ class PosRepository
             'booking_slug'   => $pos->slug,
             'invoice_number' => $pos->invoice_number
         ];
-    }
-
-    public function cancelBooking($request)
-    {
-        $pos = $this->pos
-            ->with('products')
-            ->where('invoice_number', $request->get('invoice_number'))
-            ->first();
-        if (!isset($pos)) {
-            throw new \Exception('No record found for the given invoice number.', 201);
-        }
-
-        if ($pos->status == 'canceled') {
-            throw new \Exception('Invoice has already been canceled.', 201);
-        }
-
-        if ($pos->final_amount < $request->get('amount')) {
-            throw new \Exception('You can not refund more than paid amount', 201);
-        }
-
-        $this->pos
-            ->where('id', $pos->id)
-            ->update([
-                'status'        => 'canceled',
-                'refund_amount' => $request->get('amount'),
-                'updated_by'    => auth()->user()->id
-            ]);
     }
 }
