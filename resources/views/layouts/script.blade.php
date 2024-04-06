@@ -345,7 +345,38 @@
                 'lengthMenu': 'Display _MENU_',
             },
             // order: [[0, 'desc']],
-            order: []
+            order: [],
+            initComplete: function () {
+            $('#min, #max').on('change', function () {
+                $('.data_table').DataTable().draw();
+            });
+        }
         });
     }
+
+    //Activity Logs script
+
+    //Date Range picker
+    $("#kt_daterangepicker_1").daterangepicker();
+    
+    //Creating data table
+    $('.activity_logs_table').DataTable({
+        responsive: true,
+        filter: false,
+        search: false,
+        bSearch: false,
+        dom: `<'row'<'col-sm-12'ftr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+        lengthMenu: [10, 25, 50, 100],
+        pageLength: 25,
+        language: {
+            'lengthMenu': 'Display _MENU_',
+        },
+        order: [],
+        initComplete: function () {
+            $('#min, #max').on('change', function () {
+                $('.data_table').DataTable().draw();
+            });
+        }
+    });
+          
 </script>

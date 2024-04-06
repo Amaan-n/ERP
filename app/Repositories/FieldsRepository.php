@@ -39,8 +39,8 @@ class FieldsRepository
         return $this->field->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->field->findOrFail($id)->delete();
+        return $this->field->where('slug', $slug)->firstOrFail()->delete();
     }
 }

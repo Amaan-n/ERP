@@ -43,9 +43,9 @@ class AssetsRepository
         return $this->asset->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->asset->findOrFail($id)->delete();
+        return $this->asset->where('slug', $slug)->firstOrFail()->delete();
     }
 
     private function prepare_asset_code($data)

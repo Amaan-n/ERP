@@ -39,8 +39,8 @@ class FieldGroupsRepository
         return $this->field_group->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->field_group->findOrFail($id)->delete();
+        return $this->field_group->where('slug', $slug)->firstOrFail()->delete();
     }
 }

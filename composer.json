@@ -10,23 +10,24 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-curl": "*",
+        "ext-dom": "*",
         "ext-json": "*",
-        "bacon/bacon-qr-code": "^2.0",
-        "intervention/image": "^2.7",
         "aws/aws-sdk-php": "^3.255",
+        "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "carlos-meneses/laravel-mpdf": "^2.1",
         "doctrine/dbal": "^3.4",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.7",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.9",
-        "yajra/laravel-datatables-oracle": "^9.18",
-        "ext-dom": "*"
+        "spatie/laravel-activitylog": "^4.8",
+        "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

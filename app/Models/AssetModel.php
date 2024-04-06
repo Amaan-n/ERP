@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Traits\CreateAndUpdateTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class AssetModel extends Model
 {
-    use CreateAndUpdateTrait;
+    use CreateAndUpdateTrait, LogsActivity;
 
     protected $table = 'asset_models';
     protected $primaryKey = 'id';
@@ -31,5 +33,10 @@ class AssetModel extends Model
     public function assets()
     {
         return $this->hasMany(Asset::class, 'asset_model_id', 'id');
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()->logOnlyDirty();
     }
 }

@@ -50,8 +50,8 @@ class ProductsRepository
         return $this->product->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->product->findOrFail($id)->delete();
+        return $this->product->where('slug', $slug)->firstOrFail()->delete();
     }
 }

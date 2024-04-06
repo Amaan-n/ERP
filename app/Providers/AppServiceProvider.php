@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -54,5 +55,10 @@ class AppServiceProvider extends ServiceProvider
 
         require_once app_path() . '/Helpers/helpers.php';
         Schema::defaultStringLength(191);
+
+         //Saving the IPs for all the users who are Performing CRUD 
+         Activity::saving(function (Activity $activity) {
+            $activity->properties = $activity->properties->put('ip', request()->ip());
+        });
     }
 }

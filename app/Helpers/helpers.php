@@ -155,7 +155,7 @@ if (!function_exists('prepare_listing_action_buttons')) {
                 $listing_action_button .= '<span class="cursor-pointer" title="You can not delete default user groups">Delete</span>';
             } else {
                 $listing_action_button .= '<a href="javascript:void(0);" class="delete_item">Delete</a>
-                                    <form class="delete_item_form" action="' . route($module_name . ".destroy", $module->id) . '" method="POST" style="display: none;">
+                                    <form class="delete_item_form" action="' . route($module_name . ".destroy", $module->slug) . '" method="POST" style="display: none;">
                                     <input type="hidden" name="_method" value="DELETE">' . csrf_field() . '</form>';
             }
         }

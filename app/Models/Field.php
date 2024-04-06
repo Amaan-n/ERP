@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Traits\CreateAndUpdateTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Field extends Model
 {
-    use CreateAndUpdateTrait;
+    use CreateAndUpdateTrait,LogsActivity;
 
     protected $table = 'fields';
     protected $primaryKey = 'id';
@@ -18,5 +20,10 @@ class Field extends Model
     public function options()
     {
         return $this->hasMany(FieldHasOption::class, 'field_id', 'id');
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()->logOnlyDirty();
     }
 }

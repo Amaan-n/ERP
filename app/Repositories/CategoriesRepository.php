@@ -39,8 +39,8 @@ class CategoriesRepository
         return $this->category->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->category->findOrFail($id)->delete();
+        return $this->category->where('slug', $slug)->firstOrFail()->delete();
     }
 }

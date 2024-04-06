@@ -39,8 +39,8 @@ class ManufacturersRepository
         return $this->manufacturer->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->manufacturer->findOrFail($id)->delete();
+        return $this->manufacturer->where('slug', $slug)->firstOrFail()->delete();
     }
 }

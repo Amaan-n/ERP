@@ -43,9 +43,9 @@ class AssetModelsRepository
         return $this->asset_model->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->asset_model->findOrFail($id)->delete();
+        return $this->asset_model->where('slug', $slug)->firstOrFail()->delete();
     }
 
     public function getParametersByAssetModel($asset_model_id)

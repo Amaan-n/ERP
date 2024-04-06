@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Traits\CreateAndUpdateTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;  
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Group extends Model
 {
-    use CreateAndUpdateTrait;
+    use CreateAndUpdateTrait , LogsActivity;
 
     protected $table = 'groups';
     protected $primaryKey = 'id';
@@ -21,5 +23,10 @@ class Group extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'group_id', 'id');
+    }
+    public function getActivitylogOptions(): LogOptions
+    { 
+        return LogOptions::defaults()
+            ->logAll()->logOnlyDirty();
     }
 }

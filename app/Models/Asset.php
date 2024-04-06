@@ -6,10 +6,12 @@ use App\Traits\CreateAndUpdateTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Asset extends Model
 {
-    use CreateAndUpdateTrait, SoftDeletes;
+    use CreateAndUpdateTrait, SoftDeletes, LogsActivity;
 
     protected $table = 'assets';
     protected $primaryKey = 'id';
@@ -38,5 +40,10 @@ class Asset extends Model
     public function parameters()
     {
         return $this->hasMany(AssetHasParameter::class, 'asset_id', 'id');
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()->logOnlyDirty();
     }
 }

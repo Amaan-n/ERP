@@ -30,8 +30,8 @@ class NotesRepository
         return $this->note->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->note->findOrFail($id)->delete();
+        return $this->note->where('slug', $slug)->firstOrFail()->delete();
     }
 }

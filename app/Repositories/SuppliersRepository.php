@@ -38,9 +38,8 @@ class SuppliersRepository
     {
         return $this->supplier->findOrFail($id)->update($data);
     }
-
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->supplier->findOrFail($id)->delete();
+        return $this->supplier->where('slug', $slug)->firstOrFail()->delete();
     }
 }

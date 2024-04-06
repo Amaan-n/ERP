@@ -23,6 +23,14 @@
             </div>
         </div>
         <div class="topbar">
+            @if($is_root_user == 1 ||  in_array('activity.log.index', $accesses_urls))
+                <div class="topbar-item mr-3">
+                    <a href="{{ route('activity.logs.index') }}" class="btn btn-outline-primary">
+                        <i class="fa fa-history"></i>
+                        Activity Logs
+                    </a>
+                </div>
+            @endif    
             <div class="topbar-item mr-3">
                 <a href="{{ route('auth.lock') }}" class="btn btn-outline-primary">
                     <i class="fa fa-lock"></i>

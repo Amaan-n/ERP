@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Traits\CreateAndUpdateTrait;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Pos extends Model
 {
-    use CreateAndUpdateTrait;
+    use CreateAndUpdateTrait , LogsActivity;
 
     protected $table = 'pos';
     protected $primaryKey = 'id';
@@ -36,5 +38,10 @@ class Pos extends Model
     public function products()
     {
         return $this->hasMany(PosHasProduct::class, 'pos_id', 'id');
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()->logOnlyDirty();
     }
 }

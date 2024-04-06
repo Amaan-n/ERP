@@ -39,8 +39,8 @@ class DepartmentsRepository
         return $this->department->findOrFail($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete($slug)
     {
-        return $this->department->findOrFail($id)->delete();
+        return $this->department->where('slug', $slug)->firstOrFail()->delete();
     }
 }

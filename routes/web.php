@@ -67,6 +67,8 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
             Route::get('', 'ConfigurationsController@index')->name('configurations');
             Route::post('update', 'ConfigurationsController@update')->name('configurations.update');
         });
+        //====Activity Logs Route======= //
+        Route::any('/activity_logs', 'ActivityLogsController@index')->name('activity.logs.index');
     });
 
     // =============== ROUTES FOR HUMAN RESOURCES =============== //
