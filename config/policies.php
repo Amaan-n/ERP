@@ -18,12 +18,11 @@ return [
         'measuring_unit'   => ['measuring_units.index', 'measuring_units.create', 'measuring_units.show', 'measuring_units.edit', 'measuring_units.delete'],
         'product_category' => ['product_categories.index', 'product_categories.create', 'product_categories.show', 'product_categories.edit', 'product_categories.delete'],
         'product'          => ['products.index', 'products.create', 'products.show', 'products.edit', 'products.delete'],
-        'activity_logs'    => ['activity.logs.index']
     ],
 
     'administrative_links' => [
         'group'         => ['groups.index', 'groups.create', 'groups.show', 'groups.edit', 'groups.delete'],
         'user'          => ['users.index', 'users.create', 'users.show', 'users.edit', 'users.delete'],
-        'miscellaneous' => ['configurations'],
+        'miscellaneous' => ['configurations','activity_logs'],
     ],
 ];

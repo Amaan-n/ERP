@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     Route::get('remove/file', 'HomeController@removeFile')->name('remove.file');
     Route::get('state/update', 'HomeController@updateState')->name('state.update');
     Route::post('reset-password', 'HomeController@resetPassword')->name('reset_password');
+   
 
     Route::post('notes', 'NotesController@store')->name('notes.store');
     Route::get('notes/{id?}', 'NotesController@destroy')->name('notes.destroy');
@@ -59,6 +60,8 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     // =============== ROUTES FOR ADMIN USERS =============== //
     Route::group(['prefix' => 'admin'], function () {
         Route::get('home', 'HomeController@index')->name('home');
+         //=======Activity Logs Route======= //
+        Route::any('/activity_logs', 'HomeController@activity_logs')->name('activity_logs');
 
         Route::resource('groups', 'GroupsController');
         Route::resource('users', 'UsersController');
@@ -67,8 +70,6 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
             Route::get('', 'ConfigurationsController@index')->name('configurations');
             Route::post('update', 'ConfigurationsController@update')->name('configurations.update');
         });
-        //====Activity Logs Route======= //
-        Route::any('/activity_logs', 'ActivityLogsController@index')->name('activity.logs.index');
     });
 
     // =============== ROUTES FOR HUMAN RESOURCES =============== //
