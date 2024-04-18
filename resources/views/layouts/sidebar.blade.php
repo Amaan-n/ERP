@@ -109,6 +109,7 @@
 
                     @if($is_root_user == 1
                         || (in_array('employees.index', $accesses_urls)
+                            || in_array('calendar', $accesses_urls)
                             || in_array('manufacturers.index', $accesses_urls)
                             || in_array('suppliers.index', $accesses_urls)
                             || in_array('departments.index', $accesses_urls)
@@ -125,6 +126,16 @@
                             <h4 class="menu-text">Masters</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                         </li>
+                    @endif
+
+                    @if($is_root_user == 1 || in_array('calendar.show', $accesses_urls))
+                    <li class="menu-item {{ get_active_class($current, ['calendar']) }}"
+                        aria-haspopup="true">
+                        <a href="{{ route('calendar.show') }}" class="menu-link">
+                            <i class="fa fa-calendar mr-5"></i>
+                            <span class="menu-text"> Calendar </span>
+                        </a>
+                    </li>
                     @endif
 
                     @if($is_root_user == 1 || in_array('employees.index', $accesses_urls))
