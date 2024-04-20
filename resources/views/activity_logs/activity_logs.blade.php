@@ -166,7 +166,7 @@
                                                         $user = \App\Models\User::find($filtered_values['updated_by']);
                                                         $filtered_values['updated_by'] = isset($user) ? $user->name : '';
                                                         }
-                                                        if (isset($filtered_values['asset_category_id'])) {
+                                                        if (isset($filtered_values['is_active'])) {
                                                         $filtered_values['is_active'] = ($filtered_values['is_active'] == 1) ? 'Active' : 'Inactive';
                                                         }
                                                         if (isset($filtered_values['group_id'])) {
