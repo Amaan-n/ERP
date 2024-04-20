@@ -35,9 +35,7 @@
             'X-CSRF-TOKEN': "{{csrf_token()}}"
         }
     });
-
     var events = @json($transformed_holidays);
-    console.log(events);
     var KTCalendarBasic = function() 
     {
         return {
@@ -91,24 +89,18 @@
                 });
                 calendar.render();
                 $(document).on('refresh_calendar_events', function(event, event_data) {
-                     var calendar_event = calendar.getEventById(event_data.id);
-                            if (calendar_event) {
-                                var new_end_date = moment(event_data.end).add(1, 'day').toDate();
-                                calendar_event.setProp('title', event_data.title);
-                                calendar_event.setDates(event_data.start, newEndDate);
-                            } else {
                                 calendar.addEvent({
-                                    id: event_data.id,
-                                    title: event_data.title,
-                                    start: event_data.start,
-                                    end: moment(event_data.end).add(1, 'day').toDate(),
+                                    id: event_data.holiday.id,
+                                    title: event_data.holiday.title,
+                                    start: event_data.holiday.start_date,
+                                    end: moment(event_data.holiday.end_date).add(1, 'day').toDate(),
                                     className: 'fc-event-solid-success',
                                     extraInfo: {
-                                        description: event_data.extraInfo.description
+                                        description: event_data.holiday.description
                                     }
                                  });
                             }
-                });
+                );
             }
         };
     }();
@@ -122,7 +114,6 @@
     });
 
      //Show Event Modal
-
      function show_event_modal(event, calendar)
     {
         $('#event_title').text(event.title);
@@ -145,7 +136,6 @@
     }
 
     //Save holiday
-
     $('#save_holiday_button').on('click', function() {
         var form_data = $('#add_holiday_form').serialize();
             $.ajax({
@@ -156,7 +146,7 @@
                     $('#add_holiday_modal').modal('hide');
                     Swal.fire({
                     title: "Success!",
-                    text: "holiday saved successfully!",
+                    text: "Holiday saved successfully!",
                     icon: "success",
                     buttonsStyling: false,
                     confirmButtonText: "OK",
@@ -177,11 +167,9 @@
             });
     });
     
-
     //Edit holiday
-
     function edit_holiday(event, calendar) {
-        $('#holiday_id').val(event.id);
+        $('#edit_holiday_id').val(event.id);
         $('#edit_holiday_name').val(event.title);
         $('#edit_start_date').val(moment(event.start).format('YYYY-MM-DD'));
         $('#edit_end_date').val(moment(event.end).subtract(1, 'days').format('YYYY-MM-DD'));
@@ -189,11 +177,11 @@
         $('#edit_holiday_modal').modal('show');
         $('#edit_holiday_button').off('click').on('click', function(events) {
             events.preventDefault();
-            var formData = $('#edit_holiday_form').serialize();
-            var isValid = true;
+            var form_data = $('#edit_holiday_form').serialize();
+            var is_valid = true;
             $('#edit_holiday_form .form-control[required]').each(function() {
                 if ($(this).val() === '') {
-                    isValid = false;
+                    is_valid = false;
                     $(this).addClass('is-invalid');
                     $(this).next('.invalid-feedback').show();
                 } else {
@@ -201,34 +189,27 @@
                     $(this).next('.invalid-feedback').hide();
                 }
             });
-            if (!isValid) {
+            if (!is_valid) {
                 return;
             }
             $.ajax({
-                url: '{{ route('edit.holiday', ['id' => ':id']) }}'.replace(':id', event.id),
+                url: '{{ route('edit.holiday') }}',
                 method: 'POST',
-                data: formData,
+                data: form_data,
                 success: function(response) {
                     $('#edit_holiday_modal').modal('hide');
                     $('#event_modal').modal('hide');
                     $('#edit_holiday_form').trigger('reset');
-                    var calendarEvent = calendar.getEventById(response.id);
-                    if (calendarEvent) {
-                        var newEndDate = moment(response.end).add(1, 'day').toDate();
-                        calendarEvent.setProp('title', response.title);
-                        calendarEvent.setDates(response.start, newEndDate);
-                        Swal.fire(
+                    var calendar_event = calendar.getEventById(response.holiday.id);
+                    var newEndDate = moment(response.holiday.end_date).add(1, 'day').toDate();
+                        calendar_event.setProp('title', response.holiday.title);
+                        calendar_event.setDates(response.holiday.start_date, newEndDate);
+                        calendar_event.setExtendedProp('description', response.holiday.description);
+                    Swal.fire(
                             'Updated!',
                             'Your event has been updated.',
                             'success'
-                        );
-                    } else {
-                        Swal.fire(
-                            'Error!',
-                            'Failed to update the event: Event not found.',
-                            'error'
-                        );
-                    }
+                    );     
                 },
                 error: function(xhr, status, error) {
                     Swal.fire(
@@ -251,34 +232,37 @@
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!',
             cancelButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '{{ route('delete.holiday', ['id' => ':id']) }}'.replace(':id', event.id),
-                            type: 'DELETE',
-                            success: function(response) {
-                                $('#event_modal').modal('hide');
-                                calendar.getEventById(event.id).remove();
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Your event has been deleted.',
-                                    'success'
-                                    );
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                    Swal.fire(
-                                        'Error!',
-                                        'Failed to delete the event.',
-                                        'error'
-                                    );
-                                }
-                        });
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('delete.holiday') }}',
+                    type: 'DELETE',
+                    data: {
+                        id: event.id
+                    },
+                    success: function(response) {
+                        $('#event_modal').modal('hide');
+                        calendar.getEventById(event.id).remove();
+                        Swal.fire(
+                            'Deleted!',
+                            'Your event has been deleted.',
+                            'success'
+                        );
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'Failed to delete the event.',
+                            'error'
+                        );
                     }
-            });
+                });
+            }
+        });
     }
 
-        //Date pickers
+    //Date pickers
 
         $('#kt_start_date').datepicker({
                 rtl: KTUtil.isRTL(),

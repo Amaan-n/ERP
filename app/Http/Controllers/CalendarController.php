@@ -35,77 +35,56 @@ class CalendarController extends Controller
         try {
             $data = $request->all();
             $validator = Validator::make($data, array(
-                'holiday_name' => 'required',
-                'holiday_start_date' => 'required',
-                'holiday_end_date' => 'required',
-                'holiday_description' => 'required',
+                'title' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
+                'description' => 'required',
             ));
         
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
-            $holiday = new Holiday();
-            $holiday->title = $request->holiday_name;
-            $holiday->start_date = $request->holiday_start_date;
-            $holiday->end_date = $request->holiday_end_date;
-            $holiday->description = $request->holiday_description;
-            $holiday->save();
+            $holiday = Holiday::create($request->all());
             DB::commit();
-            return response()->json(['message' => 'Holiday updated successfully',
-                'id' => $holiday->id, 
-                'title' => $holiday->title, 
-                'start' => $holiday->start_date, 
-                'end' => $holiday->end_date,
-                'extraInfo' => [
-                    'description' => $holiday->description,
-                ]], 200);
+            return response()->json(['message' => 'Holiday updated successfully', 'holiday' => $holiday,], 200);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function edit_holiday(Request $request, $id)
+    public function edit_holiday(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'holiday_name' => 'required',
-            'holiday_start_date' => 'required',
-            'holiday_end_date' => 'required',
-            'holiday_description' => 'required',
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
         try {
+            $validator = Validator::make($request->all(), [
+                'title' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
+                'description' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+    
             DB::beginTransaction(); 
-            $holiday = Holiday::findOrFail($id);
-            $holiday->title = $request->holiday_name;
-            $holiday->start_date =  $request->holiday_start_date;
-            $holiday->end_date = $request->holiday_end_date;
-            $holiday->description = $request->input('holiday_description');
-            $holiday->save();
+            $holiday = Holiday::findOrFail($request->id);
+            $holiday->update($request->all());
             DB::commit();
-
-            return response()->json(['message' => 'Event updated successfully',
-             'id' => $holiday->id, 
-             'title' => $holiday->title, 
-             'start' => $holiday->start_date, 
-             'end' => $holiday->end_date,
-             'extraInfo' => [
-                'description' => $holiday->description,
-            ]], 200);
+    
+            return response()->json([
+                'message' => 'Holiday updated successfully','holiday' => $holiday,], 200);
         } catch (\Exception $e) {
             DB::rollback(); 
-            return response()->json(['error is undefined' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    public function delete_holiday($id)
+    public function delete_holiday(Request $request)
     {
         try {
             DB::beginTransaction(); 
-            $event = Holiday::findOrFail($id);
-            $event->delete();
+            $holiday = Holiday::findOrFail($request->id);
+            $holiday->delete();
             DB::commit(); 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

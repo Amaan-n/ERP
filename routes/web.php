@@ -80,9 +80,9 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
         Route::any('/calendar', 'CalendarController@show_calendar')->name('calendar.show');
 
         //Holidays
-        Route::post('/calendar/add_holiday', 'CalendarController@add_holiday')->name('calendar.add_holiday');
-        Route::post('/update_holiday/{id}', 'CalendarController@edit_holiday')->name('edit.holiday');
-        Route::delete('/delete_holiday/{id}', 'CalendarController@delete_holiday')->name('delete.holiday');
+        Route::post('/add_holiday', 'CalendarController@add_holiday')->name('calendar.add_holiday');
+        Route::post('/update_holiday', 'CalendarController@edit_holiday')->name('edit.holiday');
+        Route::delete('/delete_holiday', 'CalendarController@delete_holiday')->name('delete.holiday');
 
         Route::get('asset_model/parameters', 'AssetModelsController@getParametersByAssetModel')->name('asset_model.parameters');
         Route::get('mappings/create', 'MappingsController@create')->name('tags.mapping');
