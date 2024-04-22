@@ -40,7 +40,7 @@
 
 @section('page_js')
     @php
-        $loggedInUserId = Auth::user()->id;
+        $logged_in_user_id = Auth::user()->id;
     @endphp
     <script type="text/javascript">
 
@@ -52,7 +52,7 @@
     
     var events = @json($all_events);
     console.log(events);
-    var loggedInUserId = {{ $loggedInUserId }};
+    var logged_in_user_id = {{ $logged_in_user_id }};
     
     var KTCalendarBasic = function() 
     {
@@ -90,7 +90,7 @@
                     defaultView: 'dayGridMonth',
                     defaultDate: TODAY,
                     eventLimit: true,
-                    navLinks: true,
+                    navLinks: false,
                     displayEventTime: false,
                     events: events,
 
@@ -174,7 +174,7 @@
         $('#event_type').text( extraInfo.type ? extraInfo.type.toUpperCase() : 'HOLIDAY');
         $('#event_modal').modal('show');
 
-        if (loggedInUserId == extraInfo.user_id) {
+        if (logged_in_user_id == extraInfo.user_id && extraInfo.type !== "absent") {
             $('#edit_delete_buttons').html(`
                 <button type="button" class="btn btn-warning mr-2" id="edit_event_btn">
                     <i class="fas fa-edit"></i>
