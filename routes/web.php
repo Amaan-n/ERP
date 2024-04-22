@@ -76,13 +76,18 @@ Route::group(['middleware' => ['auth', 'verified', 'check.access']], function ()
     Route::group(['prefix' => 'hrms'], function () {
         Route::get('home', 'HomeController@humanResourceManagementIndex')->name('hrms.home');
 
-        //Calendar//
+        //////=========Calendar===////////
         Route::any('/calendar', 'CalendarController@show_calendar')->name('calendar.show');
 
-        //Holidays
-        Route::post('/add_holiday', 'CalendarController@add_holiday')->name('calendar.add_holiday');
+        //Holidays Routes
+        Route::post('/add_holiday', 'CalendarController@add_holiday')->name('add.holiday');
         Route::post('/update_holiday', 'CalendarController@edit_holiday')->name('edit.holiday');
         Route::delete('/delete_holiday', 'CalendarController@delete_holiday')->name('delete.holiday');
+
+        //Attendance Routes
+        Route::post('add_attendance', "CalendarController@add_attendance")->name('add.attendance');
+        Route::post('/update_attendance', 'CalendarController@edit_attendance')->name('edit.attendance');
+        Route::delete('/delete_attendance', 'CalendarController@delete_attendance')->name('delete.attendance');
 
         Route::get('asset_model/parameters', 'AssetModelsController@getParametersByAssetModel')->name('asset_model.parameters');
         Route::get('mappings/create', 'MappingsController@create')->name('tags.mapping');

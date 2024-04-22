@@ -12,16 +12,17 @@
                     @csrf
                     <input type="hidden" id="edit_holiday_id" name="id">
                     <div class="form-group">
-                        <label for="edit_holiday_name">Holiday Name</label>
+                        <label for="edit_holiday_name">Holiday Title</label>
                         <span class="text-danger">*</span>
                         <input type="text" class="form-control" id="edit_holiday_name" name="title" required>
-                        <span class="invalid-feedback" style="display: none;">Holiday Name is required.</span>
+                        <span class="invalid-feedback" style="display: none;"></span>
                     </div>
                     <div class="form-group">
                         <label for="edit_start_date">Start date</label>
                         <span class="text-danger">*</span>
                         <div class="input-group date">
-                            <input type="text" class="form-control date" readonly id="edit_start_date" placeholder="Select start date" name="start_date" required/>
+                            <input type="text" class="form-control datepicker" readonly id="edit_holiday_start_date" placeholder="Select start date" name="start_date" required/>
+                            <span class="invalid-feedback" style="display: none;"></span>
                             <span class="input-group-text">
                                 <i class="la la-calendar-check-o"></i>
                             </span>
@@ -31,7 +32,8 @@
                         <label for="edit_end_date">End date</label>
                         <span class="text-danger">*</span>
                         <div class="input-group date">
-                            <input type="text" class="form-control date" readonly id="edit_end_date" placeholder="Select end date" name="end_date" required/>
+                            <input type="text" class="form-control datepicker" readonly id="edit_holiday_end_date" placeholder="Select end date" name="end_date" required/>
+                            <span class="invalid-feedback" style="display: none;"></span>
                             <span class="input-group-text">
                                 <i class="la la-calendar-check-o"></i>
                             </span>
@@ -41,7 +43,7 @@
                         <label for="edit_holiday_description">Holiday Description</label>
                         <span class="text-danger">*</span>
                         <textarea class="form-control" id="edit_holiday_description" name="description" rows="3" required></textarea>
-                        <span class="invalid-feedback" style="display: none;">Holiday Description is required.</span>
+                        <span class="invalid-feedback" style="display: none;"></span>
                     </div> 
                     
                 </form>

@@ -11,15 +11,17 @@
                 <form id="add_holiday_form">
                     @csrf
                     <div class="form-group">
-                        <label for="holiday_name">Holiday Name</label>
+                        <label for="holiday_name">Holiday Title</label>
                         <span class="text-danger">*</span>
                         <input type="text" class="form-control" id="holiday_name" name="title" required>
+                        <span class="invalid-feedback" style="display: none;"></span>
                     </div>
                     <div class="form-group">
                         <label for="holiday_start_date">Start date</label>
                         <span class="text-danger">*</span>
                         <div class="input-group date">
-                            <input type="text" class="form-control start" name="start_date" id="kt_start_date" readonly  placeholder="Select start date" required/>
+                            <input type="text" class="form-control datepicker" name="start_date" id="holiday_start_date" readonly  placeholder="Select start date" required/>
+                            <span class="invalid-feedback" style="display: none;"></span>
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="la la-calendar-check-o"></i>
@@ -31,7 +33,8 @@
                         <label for="holiday_end_date">End date</label>
                         <span class="text-danger">*</span>
                         <div class="input-group date">
-                            <input type="text" class="form-control end" readonly name="end_date" id="kt_end_date"  placeholder="Select end date" required/>
+                            <input type="text" class="form-control datepicker" readonly name="end_date" id="holiday_end_date"  placeholder="Select end date" required/>
+                            <span class="invalid-feedback" style="display: none;"></span>
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="la la-calendar-check-o"></i>
@@ -43,6 +46,7 @@
                         <label for="holiday_description">Holiday Description</label>
                         <span class="text-danger">*</span>
                         <textarea class="form-control" id="holiday_description" name="description" rows="3" required></textarea>
+                        <span class="invalid-feedback" style="display: none;"></span>
                     </div> 
                 </form>
             </div>
